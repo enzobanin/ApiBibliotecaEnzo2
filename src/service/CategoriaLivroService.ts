@@ -5,6 +5,6 @@ export class CategoriaLivroService{
     CategoriaLivroRepository : CategoriaLivroRepository = CategoriaLivroRepository.getInstance();
 
     getCategoriaLivros():CategoriaLivro[]{
-        return this.CategoriaLivroRepository.ListaTodasCategorias();
+        return this.CategoriaLivroRepository.ListaTodasCategoriasLivros();
     }
 }

@@ -20,7 +20,7 @@ export class CategoriaLivroRepository{
         return this.instance;
     }
 
-    ListaTodasCategorias():CategoriaLivro[]{
+    ListaTodasCategoriasLivros():CategoriaLivro[]{
         return this.CategoriaLivroLista;
     }
 }

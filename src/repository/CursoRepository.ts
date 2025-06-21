@@ -7,8 +7,8 @@ export class CursoRepository{
     private constructor(){
         this.CursoLista = [
             new Curso(1,"ADS"),
-            new Curso(1,"Pedagogia"),
-            new Curso(1,"Administração"),
+            new Curso(2,"Pedagogia"),
+            new Curso(3,"Administração"),
         ]
     }
 
