@@ -4,7 +4,7 @@ import { CategoriaLivroRepository } from "../repository/CategoriaLivroRepository
 export class CategoriaLivroService{
     CategoriaLivroRepository : CategoriaLivroRepository = CategoriaLivroRepository.getInstance();
 
-    getCategoriaLivros():CategoriaLivro[]|undefined{
+    getCategoriaLivros():CategoriaLivro[]{
         return this.CategoriaLivroRepository.ListaTodasCategorias();
     }
 }

@@ -1,5 +1,6 @@
 import express from "express";
 import { ListaTodasCategorias } from "./controller/CategoriaLivroController";
+import { ListaTodosCurso } from "./controller/CursoController";
 
 const app = express();
 
@@ -12,5 +13,7 @@ function logInfo(){
 //CATÁLOGOS
 //CATEGORIA LIVRO
 app.get("/library/catalogos/categorias-livro", ListaTodasCategorias);
+//CURSOS
+app.get("/library/cursos",ListaTodosCurso);
 
 app.listen(PORT,logInfo);
