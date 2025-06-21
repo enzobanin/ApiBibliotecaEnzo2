@@ -1,0 +1,49 @@
+import { Livro } from "../model/Livro";
+
+export class LivroRepository{
+    private static instance: LivroRepository;
+    private LivroLista: Livro[] = [];
+
+    private constructor(){}
+
+    public static getInstance():LivroRepository{
+        if(!this.instance){
+            this.instance = new LivroRepository;
+        }
+        return this.instance;
+    }
+
+    InsereLivro(livro:Livro){
+        this.LivroLista.push(livro);
+    }
+    MostraTodosLivros():Livro[]{
+        return this.LivroLista;
+    }
+    MostraLivroPorISBN(isbn:string):Livro|undefined{
+        return this.BuscaLivroPorISBN(isbn);
+    }
+    AtualizaLivroPorISBN(isbn: string, livroNovo:Livro):boolean{
+        const livroAntigo = this.BuscaLivroPorISBN(isbn);
+        if(livroAntigo){
+            livroAntigo.autor = livroNovo.autor;
+            livroAntigo.categoria_id = livroNovo.categoria_id;
+            livroAntigo.edicao = livroNovo.edicao;
+            livroAntigo.editora = livroNovo.editora;
+            livroAntigo.titulo = livroNovo.titulo;
+            return true;
+        }
+        return false;
+    }
+    DeletaLivroPorISBN(isbn:string):boolean{
+        const PosISBN = this.LivroLista.findIndex(l=>l.isbn===isbn);
+        if(PosISBN!==-1){
+            this.LivroLista.splice(PosISBN,1);
+            return true;
+        }
+        return false;
+    }
+
+    BuscaLivroPorISBN(isbn:string):Livro|undefined{
+        return this.LivroLista.find(l=>l.isbn===isbn);
+    }
+}
