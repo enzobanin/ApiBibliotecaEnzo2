@@ -12,9 +12,10 @@ export function InserirExemplar(req:Request, res:Response){
     }catch(error:unknown){
         let message:string = "Não foi possível cadastrar o exemplar"
         if(error instanceof Error){
+            console.error("Erro ao cadastrar exemplar", error.message);
             message = error.message;
         }
-         res.status(500).json({ status: "Erro", message })
+         res.status(400).json({ status: "Erro", message })
     }
 }
 

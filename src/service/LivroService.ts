@@ -2,7 +2,17 @@ import { Livro } from "../model/Livro";
 import { LivroRepository } from "../repository/LivroRepository";
 
 export class LivroService{
+    private static instance : LivroService;
     private LivroRepository = LivroRepository.getInstance();
+    
+    private constructor() {}
+
+    public static getInstance(): LivroService {
+        if (!this.instance) {
+            this.instance = new LivroService();
+        }
+        return this.instance;
+    }
 
     CadastrarLivro(data:any):Livro{
         const{id,titulo, autor, editora, edicao,isbn, categoria_id} = data;

@@ -4,7 +4,7 @@ import { LivroService } from "./LivroService";
 
 export class EstoqueService{
     private EstoqueRepository:EstoqueRepository= EstoqueRepository.getInstance();
-    private livroService = new LivroService();
+    private livroService = LivroService.getInstance();
 
     VerificaIdRepetido(id:number):void{
         if(this.EstoqueRepository.ValidaId(id)){

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { LivroService } from "../service/LivroService";
-const livroService = new LivroService();
+const livroService = LivroService.getInstance();
 
 export function CadastrarLivro(req:Request, res:Response){
     try{
