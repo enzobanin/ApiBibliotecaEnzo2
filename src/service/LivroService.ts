@@ -16,7 +16,7 @@ export class LivroService{
     GetLivros():Livro[]{
         return this.LivroRepository.MostraTodosLivros();
     }
-    GetLivrosPorISBN(isbn:string):Livro|undefined{
+    GetLivrosPorISBN(isbn:string):Livro{
         const mostrar = this.LivroRepository.MostraLivroPorISBN(isbn);
         if(!mostrar){
             throw new Error("isbn incorreto");

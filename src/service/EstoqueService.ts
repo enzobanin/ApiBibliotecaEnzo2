@@ -24,8 +24,29 @@ export class EstoqueService{
         if(!livroExistente){
             throw new Error("ISBN inexistente")
         }
-        const novoExemplar = new Estoque(id,livro_id,quantidade+1,quantidade_emprestada,true);
+        const novoExemplar = new Estoque(id,livro_id,quantidade,quantidade_emprestada,true);
         this.EstoqueRepository.InsereExemplar(novoExemplar);
         return novoExemplar;
     }
+
+    GetExemplarComDisponibilidade():Estoque[]{
+        return this.EstoqueRepository.ExibeExemplares()
+        .filter(e => e.quantidade > e.quantidade_emprestada);
+    }
+    
+    GetExemplarPorID(id:number):Estoque|undefined{
+        const listar = this.EstoqueRepository.ExibeExemplarPorId(id);
+        if(!listar){
+            throw new Error("Id não encontrado")
+        }
+        return listar;
+    }
+    DeleteExemplarPorId(id:number):boolean{
+        const deletar = this.EstoqueRepository.RemoveExemplarPorId(id);
+        if(deletar==false){
+            throw new Error ("Exemplar não encontrado");
+        }
+        return deletar;
+    }
+
 }

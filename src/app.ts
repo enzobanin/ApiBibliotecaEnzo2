@@ -6,6 +6,9 @@ import { CadastrarLivro,MostrarTodosLivros,MostrarTodosLivrosPorAutor,
     MostrarTodosLivrosPorCategoria,MostrarTodosLivrosPorEditora,MostrarTodosLivrosPorISBN,
     MostrarTodosLivrosPorTitulo,AtualizaLivro,DeletaLivroPorISBN
  } from "./controller/LivroController";
+import { InserirExemplar,ListaExemplarPorDisponibilidade,
+    ListaExemplarPorId,DeletaExemplarPorId
+ } from "./controller/EstoqueController";
 const app = express();
 
 const PORT = process.env.PORT ?? 3090;
@@ -16,17 +19,16 @@ function logInfo(){
 }
 
 //LIVRO
-//POST
 app.post("/library/livros",CadastrarLivro);
-//GET
 app.get("/library/livros",MostrarTodosLivros);
-//GET PELO ISBN
 app.get("/library/livros/:isbn",MostrarTodosLivrosPorISBN);
-//PUT PELO ISBN
 app.put("/library/livros/:isbn",AtualizaLivro)
-//DELETE PELO ISBN
 app.delete("/library/livros/:isbn",DeletaLivroPorISBN);
-
+//ESTOQUE
+app.post("/library/estoque",InserirExemplar);
+app.get("/library/estoque",ListaExemplarPorDisponibilidade);
+app.get("/library/estoque/:codigo",ListaExemplarPorId);
+app.delete("/library/estoque/:codigo",DeletaExemplarPorId);
 //CATÁLOGOS
 //CATEGORIA USUÁRIO
 app.get("/library/catalogos/categorias-usuario",ListaTodosCategoriasUsuario)
