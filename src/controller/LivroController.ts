@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { LivroService } from "../service/LivroService";
-import { Livro } from "../model/Livro";
 const livroService = new LivroService();
 
 export function CadastrarLivro(req:Request, res:Response){
@@ -15,6 +14,7 @@ export function CadastrarLivro(req:Request, res:Response){
         if(error instanceof Error){
             message = error.message;
         }
+         res.status(500).json({ status: "Erro", message })
     }
 }
 
@@ -33,7 +33,7 @@ export function MostrarTodosLivrosPorISBN(req:Request,res:Response):void{
             res.status(400).json({ status: "Erro", message: "Título Inválido" });
             return;
         }
-        res.status(200).json(livroService.GetLivrosPorIsbn(isbn));
+        res.status(200).json(livroService.GetLivrosPorISBN(isbn));
     }catch(e:unknown){
         res.status(400).json({status:"Erro interno",
             message:(e as Error).message})
@@ -97,7 +97,7 @@ export function MostrarTodosLivrosPorCategoria(req:Request,res:Response):void{
 
 export function AtualizaLivro(req:Request, res:Response):void{
     try{
-        const isbn = req.query.isbn;
+        const isbn = req.params.isbn;
         if (typeof isbn !== 'string' || isbn.trim() === '') {
             res.status(400).json({ status: "Erro", message: "ISBN Inválido" });
             return;
@@ -112,12 +112,16 @@ export function AtualizaLivro(req:Request, res:Response):void{
 
 export function DeletaLivroPorISBN(req:Request, res:Response):void{
     try{
-        const isbn = req.query.isbn;
+        const isbn = req.params.isbn;
         if (typeof isbn !== 'string' || isbn.trim() === '') {
             res.status(400).json({ status: "Erro", message: "ISBN Inválido" });
             return;
         }
-        res.status(200).json(isbn);
+        const resultado = livroService.DeleteLivroPorisbn(isbn);
+        res.status(200).json({
+            status:"Deletado com sucesso",
+            deletado : resultado
+        });
     }catch(e:unknown){
         res.status(400).json({status:"Erro interno",
             message:(e as Error).message})

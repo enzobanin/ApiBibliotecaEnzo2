@@ -5,25 +5,25 @@ export class LivroService{
     private LivroRepository = LivroRepository.getInstance();
 
     CadastrarLivro(data:any):Livro{
-        const{id,titulo, ISBN, autor, editora, edicao, categoria_id} = data;
-        if(!titulo||!ISBN||!autor||!editora||!edicao||categoria_id){
+        const{id,titulo, autor, editora, edicao,isbn, categoria_id} = data;
+        if(!titulo||!autor||!editora||!edicao||!isbn||!categoria_id){
             throw new Error("Informações Incompletas");
         }
-        const NovoLivro = new Livro(id,titulo, ISBN, autor, editora, edicao, categoria_id);
+        const NovoLivro = new Livro(id,titulo, autor, editora, edicao, isbn,categoria_id);
         this.LivroRepository.InsereLivro(NovoLivro);
         return NovoLivro;
     }
     GetLivros():Livro[]{
         return this.LivroRepository.MostraTodosLivros();
     }
-    GetLivrosPorIsbn(isbn:string):Livro|undefined{
+    GetLivrosPorISBN(isbn:string):Livro|undefined{
         const mostrar = this.LivroRepository.MostraLivroPorISBN(isbn);
         if(!mostrar){
-            throw new Error("ISBN incorreto");
+            throw new Error("isbn incorreto");
         }
         return mostrar;
     }
-    GetLivrosPorTitulo(titulo:string):Livro|undefined{
+    GetLivrosPorTitulo(titulo:string):Livro{
         const Livro = this.LivroRepository.MostraLivroPorTitulo(titulo);
         if(!Livro){
             throw new Error("Livro não encontrado");
@@ -51,17 +51,17 @@ export class LivroService{
         }
         return Categoria;
     }
-    PutLivros(isbn:string, LivroAtualizado:Livro):Livro|boolean{
+    PutLivros(isbn:string, LivroAtualizado:Livro):Livro{
         const atualiza = this.LivroRepository.AtualizaLivroPorISBN(isbn,LivroAtualizado);
-        if(atualiza==false){
-            throw new Error("Não foi possível encontrar o ISBN");
+        if(!atualiza){
+            throw new Error("Não foi possível encontrar o isbn");
         }
-        return atualiza;
+        return LivroAtualizado;
     }
-    DeleteLivroPorIsbn(isbn:string):boolean{
-        const deletar = this.DeleteLivroPorIsbn(isbn);
+    DeleteLivroPorisbn(isbn:string):boolean{
+        const deletar = this.LivroRepository.DeletaLivroPorISBN(isbn);
         if(deletar==false){
-            throw new Error("ISBN incorreto");
+            throw new Error("isbn incorreto");
         }
         return deletar;
     }

@@ -13,7 +13,7 @@ export class LivroRepository{
         return this.instance;
     }
 
-    InsereLivro(livro:Livro){
+    InsereLivro(livro:Livro):void{
         this.LivroLista.push(livro);
     }
     MostraTodosLivros():Livro[]{
