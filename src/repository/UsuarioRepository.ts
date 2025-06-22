@@ -40,4 +40,11 @@ export class UsuarioRepository{
         }
         return false;
     }
+    ValidaCpf(cpf:string):boolean{
+        const repetido = this.UsuarioLista.findIndex(u=>u.cpf===cpf);
+        if(repetido!==-1){
+            return true;
+        }
+        return false;
+    }
 }
