@@ -89,5 +89,28 @@ export class UsuarioService{
         return novoUsuario;
     }
 
-    
+    GetTodosUsuarios():Usuario[]{
+        return this.UsuarioRepository.MostraTodosUsuarios();
+    }
+    GetUsuarioPorCpf(cpf:string):Usuario{
+        const valido = this.UsuarioRepository.MostraUsuarioPorCPF(cpf);
+        if(!valido){
+            throw new Error("Usuario com este CPF nao encontrado");
+        }
+        return valido;
+    }
+    PutUsuario(cpf:string, usuarioNovo:Usuario):Usuario{
+        const atualiza = this.UsuarioRepository.AtualizaUsuarioPorCPF(cpf,usuarioNovo);
+        if(!atualiza){
+            throw new Error("Usuario com este CPF nao encontrado");
+        }
+        return usuarioNovo;
+    }
+    DeleteUsuarioPorCpf(cpf:string){
+        const deleta = this.UsuarioRepository.DeletaUsuarioPorCPF(cpf);
+        if(!deleta){
+            throw new Error("Usuario com este CPF nao encontrado");
+        }
+        return deleta;
+    }
 }
