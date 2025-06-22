@@ -22,6 +22,18 @@ export class LivroRepository{
     MostraLivroPorISBN(isbn:string):Livro|undefined{
         return this.BuscaLivroPorISBN(isbn);
     }
+    MostraLivroPorTitulo(titulo:string):Livro|undefined{
+        return this.LivroLista.find(l=>l.titulo === titulo)
+    }
+    MostraLivroPorAutor(autor:string):Livro[]{
+        return this.LivroLista.filter(l=>l.autor === autor);
+    }
+    MostraLivroPorEditora(editora:string):Livro[]{
+        return this.LivroLista.filter(l=>l.editora === editora);
+    }
+    MostraLivroPorCategoria(categoria:number):Livro[]{
+        return this.LivroLista.filter(l=>l.categoria_id === categoria);
+    }
     AtualizaLivroPorISBN(isbn: string, livroNovo:Livro):boolean{
         const livroAntigo = this.BuscaLivroPorISBN(isbn);
         if(livroAntigo){
