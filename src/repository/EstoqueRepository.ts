@@ -40,4 +40,12 @@ export class EstoqueRepository{
         }
         return false;
     }
+
+    ValidaId(id:number):boolean{
+        const repetido = this.EstoqueLista.findIndex(e=>e.id===id);
+        if(repetido!==-1){
+            return true;
+        }
+        return false;
+    }
 }
