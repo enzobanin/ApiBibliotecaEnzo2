@@ -8,7 +8,7 @@ export class LivroRepository{
 
     public static getInstance():LivroRepository{
         if(!this.instance){
-            this.instance = new LivroRepository;
+            this.instance = new LivroRepository();
         }
         return this.instance;
     }
