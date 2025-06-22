@@ -14,9 +14,11 @@ export class EstoqueRepository{
     }
 
     InsereExemplar(exemplar:Estoque){
+        console.log("Inserindo exemplar no repositório:", exemplar);
         this.EstoqueLista.push(exemplar);
     }
-    ExibeExemplares():Estoque[]{
+    ExibeExemplares():Estoque[]{ //esta funcionando
+        console.log("Lista atual de exemplares:", this.EstoqueLista);
         return this.EstoqueLista;
     }
     ExibeExemplarPorId(id:number):Estoque|undefined{

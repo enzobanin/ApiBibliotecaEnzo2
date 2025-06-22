@@ -12,10 +12,9 @@ export class EstoqueService{
         }
         return;
     }
-
     InsereNovoExemplar(data:any):Estoque{
         const{id, livro_id,isbn, quantidade, 
-            quantidade_emprestada, disponivel} = data;
+            quantidade_emprestada} = data;
         if(!livro_id||!isbn){
             throw new Error("Informações Incompletas");
         }
@@ -26,12 +25,13 @@ export class EstoqueService{
         }
         const novoExemplar = new Estoque(id,livro_id,quantidade,quantidade_emprestada,true);
         this.EstoqueRepository.InsereExemplar(novoExemplar);
+        console.log("Exemplar salvo", novoExemplar);
         return novoExemplar;
     }
 
     GetExemplarComDisponibilidade():Estoque[]{
         return this.EstoqueRepository.ExibeExemplares()
-        .filter(e => e.quantidade > e.quantidade_emprestada);
+        .filter(e => e.disponivel === true && e.quantidade > e.quantidade_emprestada);
     }
     
     GetExemplarPorID(id:number):Estoque|undefined{
