@@ -71,9 +71,23 @@ export class EmprestimoService{
         }
         return 0;
     }
-    VerificaLimitesEmprestimos(usuario_id:number){
+    VerificaLimitesEmprestimos(usuario_id:number):void{
+        const usuario = this.usuarioRepository.BuscaUsuarioPorId(usuario_id);
+        const limite = this.LimitePorUsuario(usuario.categoria_id);
 
+        const empAtivo = this.EmprestimoRepository.VerificaEmprestimosAtivosUsuarios(usuario_id);
+        if(empAtivo.length >= limite){
+            throw new Error ("Limite de empréstimos atingidos");
+        }
+        return;
     }
+    LimitePorUsuario(categoria_id:number):number{
+        if(categoria_id === 1){
+            return 5;
+        }
+        return 3;
+    }
+
     InsereEmprestimo(data:any):Emprestimo{
         const {id,usuario_id,cpf,codigo_exemplar,
             estoque_id,data_emprestimo,data_devolucao,
@@ -85,6 +99,7 @@ export class EmprestimoService{
         this.VerificaCPF(cpf); //verifica se o cpf existe e está correto
         this.ValidaUsuario(usuario_id); // verifica se o usuario está ativo
         this.ValidaExemplar(codigo_exemplar);// verifica se o exemplar existe e esta disponível
+        this.VerificaLimitesEmprestimos(usuario_id);
         const hoje = new Date();
         const prazo = this.DiasComLivro(cpf,estoque_id);
         data.data_devolucao =  (hoje.getDate() + prazo);
@@ -98,13 +113,32 @@ export class EmprestimoService{
         return novoEmprestimo;
     } 
 
-    RealizaDevolucao(emprestimo_id:number):void{
+    GetEmprestimos():Emprestimo[]{
+        return this.EmprestimoRepository.MostraTodosOsEmprestimos();
+    }
 
+    RealizaDevolucao(emprestimo_id:number):boolean{
+        const dev = this.EmprestimoRepository.RegistraDevolucao(emprestimo_id);
+        if(!dev){
+            throw new Error("Emprestimo não encontrado");
+        }
+        return true;
     }
     CalculaMulta(emprestimo:Emprestimo):number{
+        if(emprestimo.data_entrega>emprestimo.data_devolucao){
+            const diasAtraso = (emprestimo.data_entrega.getTime() - 
+            emprestimo.data_devolucao.getTime())
+            const diasSuspensao = diasAtraso * 3;
+            const hoje = new Date();
+            hoje.setDate(hoje.getDate() + diasSuspensao);
+            emprestimo.suspensao_ate = hoje;
+            if(diasSuspensao>60){
+              let inativo = this.usuarioRepository.BuscaUsuarioPorId(emprestimo.usuario_id);
+                inativo.ativo = false; //usuario ficara inativo ate regularizacao
+            }
+            return diasSuspensao;
+        }
         return 0;
-        //comparar data_devolucao com data_emprestimo + prazo
-        //emprestimo.suspensao_ate = novaData(baseado no PDF)
     }
 
 }

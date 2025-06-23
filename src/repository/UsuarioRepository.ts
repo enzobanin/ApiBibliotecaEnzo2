@@ -58,4 +58,11 @@ export class UsuarioRepository{
         }
         return false;
     }
+    BuscaUsuarioPorId(id:number):Usuario{
+        const usuario = this.UsuarioLista.find(u=>u.id===id);
+        if(!usuario){
+            throw new Error("Usuário não encontrado");
+        }
+        return usuario;
+    }
 }

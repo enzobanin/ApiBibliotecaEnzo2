@@ -3,7 +3,6 @@ import { Emprestimo } from "../model/Emprestimo";
 export class EmprestimoRepository{
     private static instance: EmprestimoRepository;
     private EmprestimoLista: Emprestimo[] = [];
-
     private constructor(){}
 
     public static getInstance():EmprestimoRepository{
@@ -20,7 +19,7 @@ export class EmprestimoRepository{
     MostraTodosOsEmprestimos():Emprestimo[]{
         return this.EmprestimoLista;
     }
-    RegistraDevolucao(id:number){
+    RegistraDevolucao(id:number):boolean{
         const devolucao = this.EmprestimoLista.find(e=>e.id === id);
         const hoje : Date = new Date();
         if(devolucao){
@@ -30,4 +29,13 @@ export class EmprestimoRepository{
         }
         return false;
     }
+    VerificaEmprestimosAtivosUsuarios(id:number):Emprestimo[]{
+        const data = new Date(0);
+         
+        return this.EmprestimoLista.filter(e=>e.usuario_id === id
+            && e.data_devolucao.getTime() === data.getTime()
+         );
+    }
+
+    
 }
