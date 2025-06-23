@@ -118,16 +118,18 @@ export class EmprestimoService{
     }
 
     RealizaDevolucao(emprestimo_id:number):boolean{
+        const emprestimo = this.EmprestimoRepository.BuscaEmprestimoPorId(emprestimo_id);
+        this.CalculaMulta(emprestimo);
         const dev = this.EmprestimoRepository.RegistraDevolucao(emprestimo_id);
         if(!dev){
-            throw new Error("Emprestimo não encontrado");
+            throw new Error("Não foi possivel registrar devolução");
         }
         return true;
     }
     CalculaMulta(emprestimo:Emprestimo):number{
         if(emprestimo.data_entrega>emprestimo.data_devolucao){
-            const diasAtraso = (emprestimo.data_entrega.getTime() - 
-            emprestimo.data_devolucao.getTime())
+            const diasAtraso = Math.ceil(emprestimo.data_entrega.getTime() - 
+            emprestimo.data_devolucao.getTime())/(1000 * 60 * 60 * 24);
             const diasSuspensao = diasAtraso * 3;
             const hoje = new Date();
             hoje.setDate(hoje.getDate() + diasSuspensao);

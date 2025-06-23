@@ -24,7 +24,6 @@ export class EmprestimoRepository{
         const hoje : Date = new Date();
         if(devolucao){
             devolucao.data_devolucao = hoje; 
-            devolucao.data_entrega = hoje;
             return true;
         }
         return false;
@@ -35,6 +34,13 @@ export class EmprestimoRepository{
         return this.EmprestimoLista.filter(e=>e.usuario_id === id
             && e.data_devolucao.getTime() === data.getTime()
          );
+    }
+    BuscaEmprestimoPorId(id:number):Emprestimo{
+        const emp = this.EmprestimoLista.find(e=>e.id === id);
+        if(!emp){
+            throw new Error("Emprestimo nao encontrado");
+        }
+        return emp;
     }
 
     
