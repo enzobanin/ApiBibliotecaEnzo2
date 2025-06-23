@@ -19,8 +19,7 @@ export class EmprestimoService{
     }
 
     ValidaExemplar(codigo_exemplar:number):void{
-        this.estoqueService.VerificaExemplar(codigo_exemplar);
-        
+        this.estoqueService.VerificaExemplarDisponivel(codigo_exemplar);
     }
     VerificaCPF(cpf:string):void{
         this.usuarioService.ValidaCpf(cpf); //verifica a estrutura
