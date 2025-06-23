@@ -43,9 +43,9 @@ export class EstoqueRepository{
         return false;
     }
 
-    ValidaId(id:number):boolean{
+    VerificaId(id:number):boolean{
         const repetido = this.EstoqueLista.findIndex(e=>e.id===id);
-        if(repetido!==-1){
+        if(repetido){
             return true;
         }
         return false;

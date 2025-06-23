@@ -32,7 +32,7 @@ export class UsuarioService{
         return;
     }
     VerificaCpfRepetido(cpf:string):void{
-        if(this.UsuarioRepository.ValidaCpf(cpf)){
+        if(this.UsuarioRepository.ValidaCpfExistente(cpf)){
             throw new Error("Já existe um usuario com este CPF");
         }
         return;

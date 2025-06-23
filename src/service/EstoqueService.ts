@@ -3,14 +3,24 @@ import { EstoqueRepository } from "../repository/EstoqueRepository";
 import { LivroService } from "./LivroService";
 
 export class EstoqueService{
+    private static instance : EstoqueService;
     private EstoqueRepository:EstoqueRepository= EstoqueRepository.getInstance();
     private livroService = LivroService.getInstance();
 
-    VerificaIdRepetido(id:number):void{
-        if(this.EstoqueRepository.ValidaId(id)){
-            throw new Error("Já existe um livro com este ID");
+    private constructor() {}
+
+    public static getInstance(): EstoqueService {
+        if (!this.instance) {
+            this.instance = new EstoqueService();
         }
-        return;
+        return this.instance;
+    }
+
+    VerificaExemplar(id:number):boolean{
+        if(this.EstoqueRepository.VerificaId(id)){
+            return true;
+        }
+        throw new Error("Não existe um livro com este ID");
     }
     InsereNovoExemplar(data:any):Estoque{
         const{id, livro_id,isbn, quantidade, 
@@ -18,7 +28,7 @@ export class EstoqueService{
         if(!livro_id||!isbn){
             throw new Error("Informações Incompletas");
         }
-        this.VerificaIdRepetido(id);
+        this.VerificaExemplar(id);
         const livroExistente = this.livroService.GetLivrosPorISBN(isbn);
         if(!livroExistente){
             throw new Error("ISBN inexistente")

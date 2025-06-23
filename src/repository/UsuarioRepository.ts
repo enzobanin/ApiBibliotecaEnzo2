@@ -41,9 +41,19 @@ export class UsuarioRepository{
         }
         return false;
     }
-    ValidaCpf(cpf:string):boolean{
+    ValidaCpfExistente(cpf:string):boolean{
         const repetido = this.UsuarioLista.findIndex(u=>u.cpf===cpf);
         if(repetido!==-1){
+            return true;
+        }
+        return false;
+    }
+    UsuarioAtivo(id:number):boolean{
+        const ativo = this.UsuarioLista.find(u=>u.id === id);
+        if(!ativo){
+            throw new Error("Usuario não encontrado");
+        }
+        if(ativo.ativo === true){
             return true;
         }
         return false;

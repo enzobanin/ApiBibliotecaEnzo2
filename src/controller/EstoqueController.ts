@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { EstoqueService} from "../service/EstoqueService";
-const estoqueService = new EstoqueService();
+const estoqueService = EstoqueService.getInstance();
 
 export function InserirExemplar(req:Request, res:Response){
     try{
