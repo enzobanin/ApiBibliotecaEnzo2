@@ -9,6 +9,10 @@ import { CadastrarLivro,MostrarTodosLivros,MostrarTodosLivrosPorAutor,
 import { InserirExemplar,ListaExemplarPorDisponibilidade,
     ListaExemplarPorId,DeletaExemplarPorId
  } from "./controller/EstoqueController";
+ import { InsereUsuario,MostrarTodosOsUsuarios,
+    MostraUsuarioPorCPF,AtualizaUsuarioPorCPF,DeletaUsuarioPorCPF
+  } from "./controller/UsuarioController";
+
 const app = express();
 
 const PORT = process.env.PORT ?? 3090;
@@ -17,7 +21,12 @@ app.use(express.json());
 function logInfo(){
     console.log(`API em execucao no URL: http:localhost: ${PORT}`);
 }
-
+//USUÁRIO
+app.post("/library/usuarios",InsereUsuario);
+app.get("/library/usuarios",MostrarTodosOsUsuarios);
+app.get("/library/usuarios:cpf",MostraUsuarioPorCPF);
+app.put("/library/usuarios:cpf",AtualizaUsuarioPorCPF);
+app.delete("/library/usuarios:cpf",DeletaUsuarioPorCPF);
 //LIVRO
 app.post("/library/livros",CadastrarLivro);
 app.get("/library/livros",MostrarTodosLivros);
