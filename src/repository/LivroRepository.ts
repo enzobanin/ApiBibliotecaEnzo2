@@ -58,4 +58,12 @@ export class LivroRepository{
     BuscaLivroPorISBN(isbn:string):Livro|undefined{
         return this.LivroLista.find(l=>l.isbn===isbn);
     }
+
+    BuscaLivroPorId(id:number):number{
+        const categoria_id = this.LivroLista.find(l=>l.id === id);
+        if(categoria_id){
+            return categoria_id.categoria_id;
+        }
+        return 0;
+    }
 }
