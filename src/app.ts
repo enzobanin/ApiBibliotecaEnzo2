@@ -38,6 +38,8 @@ app.post("/library/estoque",InserirExemplar);
 app.get("/library/estoque",ListaExemplarPorDisponibilidade);
 app.get("/library/estoque/:codigo",ListaExemplarPorId);
 app.delete("/library/estoque/:codigo",DeletaExemplarPorId);
+//EMPRÉSTIMOS
+
 //CATÁLOGOS
 //CATEGORIA USUÁRIO
 app.get("/library/catalogos/categorias-usuario",ListaTodosCategoriasUsuario)

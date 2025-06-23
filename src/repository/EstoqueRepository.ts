@@ -13,7 +13,7 @@ export class EstoqueRepository{
         return this.instance;
     }
 
-    InsereExemplar(exemplar:Estoque){
+    InsereExemplar(exemplar:Estoque):void{
         console.log("Inserindo exemplar no repositório:", exemplar);
         this.EstoqueLista.push(exemplar);
     }
