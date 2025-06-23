@@ -28,6 +28,7 @@ export class UsuarioRepository{
             usuarioAntigo.nome = usuarioNovo.nome;
             usuarioAntigo.categoria_id = usuarioNovo.categoria_id;
             usuarioAntigo.curso_id = usuarioNovo.curso_id;
+            usuarioAntigo.email = usuarioNovo.email;
             return true;
         }
         return false;
