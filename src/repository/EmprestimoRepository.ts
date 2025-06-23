@@ -42,6 +42,9 @@ export class EmprestimoRepository{
         }
         return emp;
     }
+    BuscaEmprestimoPorUsuario(usuario_id:number):Emprestimo[]{
+        return this.EmprestimoLista.filter(e=>e.usuario_id === usuario_id);
+    }
 
     
 }

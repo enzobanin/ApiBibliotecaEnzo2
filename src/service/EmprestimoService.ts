@@ -3,8 +3,6 @@ import { EmprestimoRepository } from "../repository/EmprestimoRepository";
 import { UsuarioService } from "./UsuarioService";
 import { EstoqueService } from "./EstoqueService";
 import { UsuarioRepository } from "../repository/UsuarioRepository";
-import { CategoriaUsuarioRepository } from "../repository/CategoriaUsuarioRepository";
-import { CategoriaLivroRepository } from "../repository/CategoriaLivroRepository";
 import { EstoqueRepository } from "../repository/EstoqueRepository";
 import { LivroRepository } from "../repository/LivroRepository";
 
@@ -13,8 +11,6 @@ export class EmprestimoService{
     private usuarioService = UsuarioService.getInstance();
     private estoqueService = EstoqueService.getInstance();
     private usuarioRepository = UsuarioRepository.getInstance();
-    private categoriaUsuarioRepository = CategoriaUsuarioRepository.getInstance();
-    private categoriaLivroRepository = CategoriaLivroRepository.getInstance();
     private estoqueRepository = EstoqueRepository.getInstance();
     private livroRepository = LivroRepository.getInstance();
 
@@ -22,8 +18,20 @@ export class EmprestimoService{
         const ativo = this.usuarioRepository.UsuarioAtivo(id);
         if(ativo){
             return;
+        }  
+        throw new Error("Usuario não pode pegar livro emprestado, pois está inativo. Regularize a situação!");
+    }
+    VerificaUsuarioSuspenso(usuario_id:number):boolean{
+        const emprestimo= this.EmprestimoRepository.BuscaEmprestimoPorUsuario(usuario_id);
+        const hoje = new Date();
+        const dataInfinita = new Date('3000-12-31');
+        const suspenso = emprestimo.some(e=>e.suspensao_ate.getTime() === dataInfinita.getTime()
+            ||e.suspensao_ate > hoje
+        );
+        if(suspenso){
+            throw new Error ("Usuário suspenso até regularização");
         }
-        throw new Error("Usuario não pode pegar livro emprestado. Regularize a situação!");
+        return true;
     }
 
     ValidaExemplar(codigo_exemplar:number):void{
@@ -98,6 +106,7 @@ export class EmprestimoService{
         }
         this.VerificaCPF(cpf); //verifica se o cpf existe e está correto
         this.ValidaUsuario(usuario_id); // verifica se o usuario está ativo
+        this.VerificaUsuarioSuspenso(usuario_id);
         this.ValidaExemplar(codigo_exemplar);// verifica se o exemplar existe e esta disponível
         this.VerificaLimitesEmprestimos(usuario_id);
         const hoje = new Date();
@@ -128,15 +137,22 @@ export class EmprestimoService{
     }
     CalculaMulta(emprestimo:Emprestimo):number{
         if(emprestimo.data_entrega>emprestimo.data_devolucao){
-            const diasAtraso = Math.ceil(emprestimo.data_entrega.getTime() - 
-            emprestimo.data_devolucao.getTime())/(1000 * 60 * 60 * 24);
+            const emp = emprestimo.data_entrega.getTime() - emprestimo.data_devolucao.getTime();
+            const diasAtraso = Math.ceil(Math.abs(emp)/(1000 * 60 * 60 * 24))
             const diasSuspensao = diasAtraso * 3;
             const hoje = new Date();
             hoje.setDate(hoje.getDate() + diasSuspensao);
             emprestimo.suspensao_ate = hoje;
+            const usuario = this.usuarioRepository.BuscaUsuarioPorId(emprestimo.usuario_id);
+            const dataInfinita = new Date('3000-12-31');
             if(diasSuspensao>60){
-              let inativo = this.usuarioRepository.BuscaUsuarioPorId(emprestimo.usuario_id);
-                inativo.ativo = false; //usuario ficara inativo ate regularizacao
+                emprestimo.suspensao_ate = dataInfinita; // data praticamente infinita até regularização
+            
+            }
+            const qtdEmp = this.EmprestimoRepository.BuscaEmprestimoPorUsuario(usuario.id);
+            const suspensoes = qtdEmp.filter(e=>e.data_devolucao>e.data_entrega);
+            if(suspensoes.length >= 2){
+                usuario.ativo = false;
             }
             return diasSuspensao;
         }
