@@ -7,12 +7,22 @@ import { EstoqueRepository } from "../repository/EstoqueRepository";
 import { LivroRepository } from "../repository/LivroRepository";
 
 export class EmprestimoService{
+    private static instance: EmprestimoService;
     private EmprestimoRepository : EmprestimoRepository = EmprestimoRepository.getInstance();
     private usuarioService = UsuarioService.getInstance();
     private estoqueService = EstoqueService.getInstance();
     private usuarioRepository = UsuarioRepository.getInstance();
     private estoqueRepository = EstoqueRepository.getInstance();
     private livroRepository = LivroRepository.getInstance();
+
+    private constructor() {}
+
+    public static getInstance(): EmprestimoService {
+        if (!this.instance) {
+            this.instance = new EmprestimoService();
+        }
+        return this.instance;
+    }
 
     ValidaUsuario(id:number):void{
         const ativo = this.usuarioRepository.UsuarioAtivo(id);

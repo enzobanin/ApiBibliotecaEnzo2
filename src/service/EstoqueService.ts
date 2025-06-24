@@ -17,7 +17,7 @@ export class EstoqueService{
     }
 
     VerificaExemplar(id:number):boolean{
-        if(this.EstoqueRepository.VerificaId(id)){
+        if(this.EstoqueRepository.ExisteEstoqueId(id)){
             return true;
         }
         throw new Error("Não existe um livro com este ID");
@@ -44,7 +44,14 @@ export class EstoqueService{
         if(!livroExistente){
             throw new Error("ISBN inexistente")
         }
-        const novoExemplar = new Estoque(id,livro_id,quantidade,quantidade_emprestada,true);
+        const estoqueExistente = this.EstoqueRepository.ExibeExemplares()
+        .find(e => e.livro_id === livro_id);
+        if (estoqueExistente) {
+            estoqueExistente.quantidade += quantidade;
+            this.EstoqueRepository.AtualizaDisponibilidadePorId(estoqueExistente.id, estoqueExistente);
+        return estoqueExistente;
+    }
+        const novoExemplar = new Estoque(id,livro_id,quantidade,0,true);
         this.EstoqueRepository.InsereExemplar(novoExemplar);
         console.log("Exemplar salvo", novoExemplar);
         return novoExemplar;
@@ -61,6 +68,24 @@ export class EstoqueService{
             throw new Error("Id não encontrado")
         }
         return listar;
+    }
+    PutDisponibilidade(id:number, emprestimo:boolean){
+        const exemplar = this.EstoqueRepository.ExibeExemplarPorId(id);
+        if(!exemplar){
+            throw new Error ("Exemplar não encontrado")
+        }
+        if(emprestimo){// se estiver emprestando
+            if (exemplar.quantidade <= exemplar.quantidade_emprestada) {
+                throw new Error("Não há exemplares disponíveis para empréstimo");
+            }
+        exemplar.quantidade_emprestada++;
+        } else { // se estiver devolvendo
+                if (exemplar.quantidade_emprestada > 0) {
+                    exemplar.quantidade_emprestada--;
+                }
+        }
+        exemplar.disponivel = exemplar.quantidade > exemplar.quantidade_emprestada;
+        this.EstoqueRepository.AtualizaDisponibilidadePorId(id, exemplar);
     }
     DeleteExemplarPorId(id:number):boolean{
         const deletar = this.EstoqueRepository.RemoveExemplarPorId(id);
