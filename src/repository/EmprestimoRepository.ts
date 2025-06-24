@@ -45,6 +45,11 @@ export class EmprestimoRepository{
     BuscaEmprestimoPorUsuario(usuario_id:number):Emprestimo[]{
         return this.EmprestimoLista.filter(e=>e.usuario_id === usuario_id);
     }
+    ExisteEmprestimoAtivoPorLivro(livro_id: number): boolean {
+        return this.EmprestimoLista.some(e =>
+        e.estoque_id === livro_id && e.data_devolucao.getTime() === new Date(0).getTime()
+        );
+    }
 
     
 }

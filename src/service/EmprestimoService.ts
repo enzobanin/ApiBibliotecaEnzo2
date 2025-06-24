@@ -127,8 +127,11 @@ export class EmprestimoService{
         data.data_entrega = new Date(0);
         data.suspenso_ate = new Date(0);
         const novoEmprestimo = new Emprestimo(id,usuario_id,estoque_id,data_emprestimo,data_devolucao,data_entrega,0,suspensao_ate);
-        data.quantidade = data.quantidade - 1;
-        data.quantidade_emprestada = data.quantidade_emprestada + 1;
+        const exemplar = this.estoqueRepository.ExibeExemplarPorId(estoque_id);
+        if (!exemplar) {
+            throw new Error("Exemplar não encontrado");
+            }
+        exemplar.disponivel = false;
         return novoEmprestimo;
     } 
 
@@ -143,6 +146,14 @@ export class EmprestimoService{
         if(!dev){
             throw new Error("Não foi possivel registrar devolução");
         }
+        const exemplar = this.estoqueRepository.ExibeExemplarPorId(emprestimo.estoque_id);
+        if (exemplar){
+            exemplar.disponivel = true;
+            if (exemplar.quantidade_emprestada > 0) {
+                exemplar.quantidade_emprestada -= 1;
+            }
+        }
+        exemplar.disponivel = exemplar.quantidade_emprestada < exemplar.quantidade;
         return true;
     }
     CalculaMulta(emprestimo:Emprestimo):number{

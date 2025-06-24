@@ -25,13 +25,14 @@ export class EstoqueService{
     VerificaExemplarDisponivel(id:number):boolean{
         this.VerificaExemplar(id);
         const exemplar = this.EstoqueRepository.ExibeExemplarPorId(id);
-        if(exemplar){
-            if(exemplar.disponivel!==true){
-                throw new Error("Livro Indisponível");
+        if(!exemplar){
+            throw new Error("Exemplar não encontrado");
             }
-            return true;
+        exemplar.disponivel = exemplar.quantidade_emprestada < exemplar.quantidade;    
+        if(exemplar.disponivel!==true){
+            throw new Error("Livro Indisponível");
         }
-        return false;
+        return true;
     }
     InsereNovoExemplar(data:any):Estoque{
         const{id, livro_id,isbn, quantidade, 

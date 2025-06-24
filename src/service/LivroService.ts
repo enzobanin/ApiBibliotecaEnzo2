@@ -1,12 +1,13 @@
 import { Livro } from "../model/Livro";
 import { LivroRepository } from "../repository/LivroRepository";
 import { CategoriaLivroRepository } from "../repository/CategoriaLivroRepository";
+import { EmprestimoRepository } from "../repository/EmprestimoRepository";
 
 export class LivroService{
     private static instance : LivroService;
     private LivroRepository = LivroRepository.getInstance();
     private CategoriaLivroRepository = CategoriaLivroRepository.getInstance();
-
+    private EmprestimoRepository = EmprestimoRepository.getInstance();
 
     private constructor() {}
 
@@ -53,11 +54,15 @@ export class LivroService{
         return LivroAtualizado;
     }
     DeleteLivroPorisbn(isbn:string):boolean{
-        const deletar = this.LivroRepository.DeletaLivroPorISBN(isbn);
-        if(deletar==false){
+        const livro = this.LivroRepository.BuscaLivroPorISBN(isbn);
+        if(!livro){
             throw new Error("isbn incorreto");
         }
-        return deletar;
+        const temEmprestimo = this.EmprestimoRepository.ExisteEmprestimoAtivoPorLivro(livro.id);
+        if (temEmprestimo) {
+            throw new Error("Este livro contém empréstimos ativos");
+        }
+        return this.LivroRepository.DeletaLivroPorISBN(isbn);
     }
     GetLivrosFiltrados(query: {titulo?: string; autor?: string;
     editora?: string; categoria_id?: number;}): Livro[] {

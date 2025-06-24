@@ -19,8 +19,12 @@ export class EstoqueRepository{
     ExibeExemplares():Estoque[]{ //esta funcionando
         return this.EstoqueLista;
     }
-    ExibeExemplarPorId(id:number):Estoque|undefined{
-        return this.EstoqueLista.find(e=>e.id === id);
+    ExibeExemplarPorId(id:number):Estoque{
+        const exemplar = this.EstoqueLista.find(e=>e.id === id);
+        if(!exemplar){
+            throw new Error("Exemplar não encontrado")
+        }
+        return exemplar;
     }
     AtualizaDisponibilidadePorId(id:number,ExemplarNovo:Estoque):boolean{
         const ExemplarAntigo = this.EstoqueLista.find(e=>e.id===id);
