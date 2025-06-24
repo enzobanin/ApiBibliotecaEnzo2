@@ -12,27 +12,11 @@ export class LivroRepository{
         }
         return this.instance;
     }
-
     InsereLivro(livro:Livro):void{
         this.LivroLista.push(livro);
     }
-    MostraTodosLivros():Livro[]{
-        return this.LivroLista;
-    }
     MostraLivroPorISBN(isbn:string):Livro|undefined{
         return this.BuscaLivroPorISBN(isbn);
-    }
-    MostraLivroPorTitulo(titulo:string):Livro|undefined{
-        return this.LivroLista.find(l=>l.titulo === titulo)
-    }
-    MostraLivroPorAutor(autor:string):Livro[]{
-        return this.LivroLista.filter(l=>l.autor === autor);
-    }
-    MostraLivroPorEditora(editora:string):Livro[]{
-        return this.LivroLista.filter(l=>l.editora === editora);
-    }
-    MostraLivroPorCategoria(categoria:number):Livro[]{
-        return this.LivroLista.filter(l=>l.categoria_id === categoria);
     }
     AtualizaLivroPorISBN(isbn: string, livroNovo:Livro):boolean{
         const livroAntigo = this.BuscaLivroPorISBN(isbn);
@@ -66,4 +50,14 @@ export class LivroRepository{
         }
         return 0;
     }
+    FiltrarLivros(query: {titulo?: string; autor?: string;
+    editora?: string; categoria_id?: number;}): Livro[] {
+    return this.LivroLista.filter((livro) => {
+      if (query.titulo && !livro.titulo.toLowerCase().includes(query.titulo.toLowerCase())) return false;
+      if (query.autor && !livro.autor.toLowerCase().includes(query.autor.toLowerCase())) return false;
+      if (query.editora && !livro.editora.toLowerCase().includes(query.editora.toLowerCase())) return false;
+      if (query.categoria_id && livro.categoria_id !== query.categoria_id) return false;
+      return true;
+    });
+  }
 }

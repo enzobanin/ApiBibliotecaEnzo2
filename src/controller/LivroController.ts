@@ -18,14 +18,6 @@ export function CadastrarLivro(req:Request, res:Response){
     }
 }
 
-export function MostrarTodosLivros(req:Request,res:Response):void{
-    try{
-        res.status(200).json(livroService.GetLivros());
-    }catch(e:unknown){
-        res.status(400).json({status:"Operação Invalida",
-            message:(e as Error).message})
-    }
-}
 export function MostrarTodosLivrosPorISBN(req:Request,res:Response):void{
     try{
         let isbn = req.params.isbn;
@@ -39,62 +31,23 @@ export function MostrarTodosLivrosPorISBN(req:Request,res:Response):void{
             message:(e as Error).message})
     }
 }
-export function MostrarTodosLivrosPorTitulo(req:Request,res:Response):void{
-    try{
-        const titulo = req.query.titulo;
-        if (typeof titulo !== 'string' || titulo.trim() === '') {
-            res.status(400).json({ status: "Erro", message: "Título Inválido" });
-            return;
-        }
-        const titulos = livroService.GetLivrosPorTitulo(titulo)
-        res.status(200).json(titulos);
-    }catch(e:unknown){
-        res.status(400).json({status:"Erro interno",
-            message:(e as Error).message})
-    }
-}
-export function MostrarTodosLivrosPorAutor(req:Request,res:Response):void{
-    try{
-        const autor = req.query.autor;
-        if (typeof autor !== 'string' || autor.trim() === '') {
-            res.status(400).json({ status: "Erro", message: "Autor Inválido" });
-            return;
-        }
-        const Autor = livroService.GetLivrosPorAutor(autor)
-        res.status(200).json(Autor);
-    }catch(e:unknown){
-        res.status(400).json({status:"Erro interno",
-            message:(e as Error).message})
-    }
-}
-export function MostrarTodosLivrosPorEditora(req:Request,res:Response):void{
-    try{
-        const editora = req.query.editora;
-        if (typeof editora !== 'string' || editora.trim() === '') {
-            res.status(400).json({ status: "Erro", message: "Editora Inválida" });
-            return;
-        }
-        const Editora = livroService.GetLivrosPorEditora(editora)
-        res.status(200).json(Editora);
-    }catch(e:unknown){
-        res.status(400).json({status:"Erro interno",
-            message:(e as Error).message})
-    }
-}
-export function MostrarTodosLivrosPorCategoria(req:Request,res:Response):void{
-    try{
-        const categoria = parseInt(req.params.categoria);
-        if (isNaN(categoria)) {
-            res.status(400).json({ message: "Categoria inválida" });
-            return;
-        }
-        res.status(200).json(livroService.GetLivrosPorCategoria(categoria));
-    }catch(e:unknown){
-        res.status(400).json({status:"Erro interno",
-            message:(e as Error).message})
-    }
-}
+export function MostrarLivrosFiltrados(req: Request, res: Response): void {
+  try {
+    const { titulo, autor, editora, categoria_id } = req.query;
 
+    const query = {
+      titulo: typeof titulo === "string" ? titulo : undefined,
+      autor: typeof autor === "string" ? autor : undefined,
+      editora: typeof editora === "string" ? editora : undefined,
+      categoria_id: categoria_id ? parseInt(categoria_id as string) : undefined,
+    };
+
+    const livros = livroService.GetLivrosFiltrados(query);
+    res.status(200).json(livros);
+  } catch (e: unknown) {
+    res.status(400).json({ status: "Erro interno", message: (e as Error).message });
+  }
+}
 export function AtualizaLivro(req:Request, res:Response):void{
     try{
         const isbn = req.params.isbn;
