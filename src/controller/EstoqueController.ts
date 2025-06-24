@@ -31,7 +31,7 @@ export function ListaExemplarPorDisponibilidade(req:Request,res:Response):void{
 export function ListaExemplarPorId(req:Request, res:Response):void{
     try{
         const id = parseInt(req.params.id);
-        if (isNaN(id)){
+        if(isNaN(id)){
             res.status(404).json({ message: "ID inválido" });
             return;
         }

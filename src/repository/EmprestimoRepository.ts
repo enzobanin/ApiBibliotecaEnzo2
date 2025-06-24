@@ -9,8 +9,6 @@ export class EmprestimoRepository{
         if(!this.instance){
             this.instance = new EmprestimoRepository();
         }
-
-
         return this.instance;
     }
     RegistraEmprestimo(emp:Emprestimo):void{

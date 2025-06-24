@@ -142,7 +142,7 @@ export class EmprestimoService{
             throw new Error("Exemplar não encontrado");
             }
         exemplar.disponivel = false;
-        
+        this.EmprestimoRepository.RegistraEmprestimo(novoEmprestimo);
         return novoEmprestimo;
     } 
 

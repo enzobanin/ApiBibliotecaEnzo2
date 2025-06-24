@@ -20,7 +20,7 @@ export class EstoqueService{
         if(this.EstoqueRepository.ExisteEstoqueId(id)){
             return true;
         }
-        throw new Error("Não existe um livro com este ID");
+        throw new Error("Já existe um livro com este ID");
     }
     VerificaExemplarDisponivel(id:number):boolean{
         const exemplar = this.EstoqueRepository.ExibeExemplarPorId(id);
@@ -34,8 +34,8 @@ export class EstoqueService{
         return true;
     }
     InsereNovoExemplar(data:any):Estoque{
-        const{id, livro_id,isbn, quantidade, 
-            quantidade_emprestada} = data;
+        const{id, livro_id,isbn, quantidade
+            } = data;
         if(!livro_id||!isbn){
             throw new Error("Informações Incompletas");
         }
@@ -62,7 +62,7 @@ export class EstoqueService{
         .filter(e => e.disponivel === true && e.quantidade > e.quantidade_emprestada);
     }
     
-    GetExemplarPorID(id:number):Estoque|undefined{
+    GetExemplarPorID(id:number):Estoque{
         const listar = this.EstoqueRepository.ExibeExemplarPorId(id);
         if(!listar){
             throw new Error("Id não encontrado")
