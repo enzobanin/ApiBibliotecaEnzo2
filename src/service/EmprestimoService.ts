@@ -86,7 +86,7 @@ export class EmprestimoService{
         if (!exemplar) {
             throw new Error("Exemplar não encontrado");
         }
-        const livro = this.livroRepository.BuscaLivroPorId(exemplar.livro_id);
+        const livro = this.livroRepository.BuscaLivroPorId(exemplar.id);
         if (!livro) {
             throw new Error("Livro não encontrado");
         }
