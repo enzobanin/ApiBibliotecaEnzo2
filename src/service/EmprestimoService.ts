@@ -23,9 +23,9 @@ export class EmprestimoService{
         }
         return this.instance;
     }
-
-    ValidaUsuario(id:number):void{
-        const ativo = this.usuarioRepository.UsuarioAtivo(id);
+    
+    ValidaUsuario(cpf:string):void{
+        const ativo = this.usuarioRepository.UsuarioAtivo(cpf);
         if(ativo){
             return;
         }  
@@ -57,10 +57,10 @@ export class EmprestimoService{
         }
     }
 
-    DiasComLivro(cpf:string,estoque_id:number):number{
+    DiasComLivro(cpf:string,codigo_exemplar:number):number{
         const usuario = this.usuarioService.GetUsuarioPorCpf(cpf);
-        const livro = this.VerificaCategoriaLivro(estoque_id);
-        if(livro === 0){
+        const livro = this.VerificaCategoriaLivro(codigo_exemplar);
+        if(!livro){
             throw new Error("Id do estoque não encontrado");
         }
         if(usuario.categoria_id === 1){
@@ -81,13 +81,16 @@ export class EmprestimoService{
         throw new Error("Usuário não pode pegar livro emprestado");
     }
 
-    VerificaCategoriaLivro(estoque_id:number):number{
-        const exemplar = this.estoqueRepository.ExibeExemplarPorId(estoque_id);
-        if(exemplar){
-             const livro = this.livroRepository.BuscaLivroPorId(exemplar.livro_id);
-             return livro;
+    VerificaCategoriaLivro(codigo_exemplar:number):number{
+        const exemplar = this.estoqueRepository.ExibeExemplarPorId(codigo_exemplar);
+        if (!exemplar) {
+            throw new Error("Exemplar não encontrado");
         }
-        return 0;
+        const livro = this.livroRepository.BuscaLivroPorId(exemplar.livro_id);
+        if (!livro) {
+            throw new Error("Livro não encontrado");
+        }
+        return livro.categoria_id;
     }
     VerificaLimitesEmprestimos(usuario_id:number):void{
         const usuario = this.usuarioRepository.BuscaUsuarioPorId(usuario_id);
@@ -107,31 +110,39 @@ export class EmprestimoService{
     }
 
     InsereEmprestimo(data:any):Emprestimo{
-        const {id,usuario_id,cpf,codigo_exemplar,
+        const {id,cpf,codigo_exemplar,
             estoque_id,data_emprestimo,data_devolucao,
             data_entrega,suspensao_ate} = data;
 
         if(!cpf||!codigo_exemplar){
             throw new Error("Informações Incompletas");
         }
+        console.log("CPF recebido:", cpf);
+        console.log("Usuários disponíveis:", this.usuarioRepository.MostraTodosUsuarios());
         this.VerificaCPF(cpf); //verifica se o cpf existe e está correto
-        this.ValidaUsuario(usuario_id); // verifica se o usuario está ativo
+        const usuario = this.usuarioService.GetUsuarioPorCpf(cpf); // 🔥 PEGA o usuário
+        if(!usuario){
+            throw new Error ("Usuario nao encontrado");
+        }
+        const usuario_id = usuario.id;
+        this.ValidaUsuario(cpf); // verifica se o usuario está ativo
         this.VerificaUsuarioSuspenso(usuario_id);
         this.ValidaExemplar(codigo_exemplar);// verifica se o exemplar existe e esta disponível
         this.VerificaLimitesEmprestimos(usuario_id);
         const hoje = new Date();
-        const prazo = this.DiasComLivro(cpf,estoque_id);
+        const prazo = this.DiasComLivro(cpf,codigo_exemplar);
         data.data_devolucao =  (hoje.getDate() + prazo);
         data.data_emprestimo = hoje;
         data.data_devolucao = new Date(0);
         data.data_entrega = new Date(0);
         data.suspenso_ate = new Date(0);
         const novoEmprestimo = new Emprestimo(id,usuario_id,estoque_id,data_emprestimo,data_devolucao,data_entrega,0,suspensao_ate);
-        const exemplar = this.estoqueRepository.ExibeExemplarPorId(estoque_id);
+        const exemplar = this.estoqueRepository.ExibeExemplarPorId(codigo_exemplar);
         if (!exemplar) {
             throw new Error("Exemplar não encontrado");
             }
         exemplar.disponivel = false;
+        
         return novoEmprestimo;
     } 
 

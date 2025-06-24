@@ -48,13 +48,14 @@ export class UsuarioRepository{
         }
         return false;
     }
-    UsuarioAtivo(id:number):boolean{
-        const ativo = this.UsuarioLista.find(u=>u.id === id);
-        if(!ativo){
-            throw new Error("Usuario não encontrado");
-        }
-        if(ativo.ativo === true){
-            return true;
+    UsuarioAtivo(cpf:string):boolean{
+        const ativo = this.UsuarioLista.find(u=>u.cpf === cpf);
+        if(ativo){
+            if(ativo.ativo === true){
+                return true;
+            }
+        }else{
+           throw new Error("Usuario não encontrado");
         }
         return false;
     }

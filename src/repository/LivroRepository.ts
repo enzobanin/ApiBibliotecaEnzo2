@@ -43,12 +43,12 @@ export class LivroRepository{
         return this.LivroLista.find(l=>l.isbn===isbn);
     }
 
-    BuscaLivroPorId(id:number):number{
+    BuscaLivroPorId(id:number):Livro{
         const categoria_id = this.LivroLista.find(l=>l.id === id);
-        if(categoria_id){
-            return categoria_id.categoria_id;
-        }
-        return 0;
+         if (!categoria_id) {
+        throw new Error("Livro não encontrado");
+    }
+    return categoria_id;
     }
     FiltrarLivros(query: {titulo?: string; autor?: string;
     editora?: string; categoria_id?: number;}): Livro[] {

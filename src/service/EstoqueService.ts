@@ -23,7 +23,6 @@ export class EstoqueService{
         throw new Error("Não existe um livro com este ID");
     }
     VerificaExemplarDisponivel(id:number):boolean{
-        this.VerificaExemplar(id);
         const exemplar = this.EstoqueRepository.ExibeExemplarPorId(id);
         if(!exemplar){
             throw new Error("Exemplar não encontrado");
