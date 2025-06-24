@@ -120,7 +120,7 @@ export class EmprestimoService{
         console.log("CPF recebido:", cpf);
         console.log("Usuários disponíveis:", this.usuarioRepository.MostraTodosUsuarios());
         this.VerificaCPF(cpf); //verifica se o cpf existe e está correto
-        const usuario = this.usuarioService.GetUsuarioPorCpf(cpf); // 🔥 PEGA o usuário
+        const usuario = this.usuarioService.GetUsuarioPorCpf(cpf); 
         if(!usuario){
             throw new Error ("Usuario nao encontrado");
         }
