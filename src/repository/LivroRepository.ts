@@ -44,11 +44,11 @@ export class LivroRepository{
     }
 
     BuscaLivroPorId(id:number):Livro{
-        const categoria_id = this.LivroLista.find(l=>l.id === id);
-         if (!categoria_id) {
+        const livro = this.LivroLista.find(l=>l.id === id);
+         if (!livro) {
         throw new Error("Livro não encontrado");
     }
-    return categoria_id;
+    return livro;
     }
     FiltrarLivros(query: {titulo?: string; autor?: string;
     editora?: string; categoria_id?: number;}): Livro[] {
