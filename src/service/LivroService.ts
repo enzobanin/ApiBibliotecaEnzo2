@@ -6,7 +6,8 @@ export class LivroService{
     private static instance : LivroService;
     private LivroRepository = LivroRepository.getInstance();
     private CategoriaLivroRepository = CategoriaLivroRepository.getInstance();
-    
+
+
     private constructor() {}
 
     public static getInstance(): LivroService {
@@ -30,6 +31,9 @@ export class LivroService{
             throw new Error("Informações Incompletas");
         }
         this.VerificaCategoria(categoria_id); //verifica se a categoria inserida é valida
+        if (this.LivroRepository.ExisteLivroCombinacao(autor, editora, edicao)) {
+            throw new Error("Já existe um livro com esta combinação de autor, editora e edição");
+        }
         const NovoLivro = new Livro(id,titulo, autor, editora, edicao, isbn,categoria_id);
         this.LivroRepository.InsereLivro(NovoLivro);
         return NovoLivro;
@@ -58,5 +62,5 @@ export class LivroService{
     GetLivrosFiltrados(query: {titulo?: string; autor?: string;
     editora?: string; categoria_id?: number;}): Livro[] {
     return this.LivroRepository.FiltrarLivros(query);
-  }
+    }
 }

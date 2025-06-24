@@ -60,4 +60,9 @@ export class LivroRepository{
       return true;
     });
   }
+  ExisteLivroCombinacao(autor: string, editora: string, edicao: string): boolean {
+    return this.LivroLista.some(
+        l => l.autor === autor && l.editora === editora && l.edicao === edicao
+    );
+}
 }
