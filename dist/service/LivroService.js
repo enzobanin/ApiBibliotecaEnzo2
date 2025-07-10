@@ -1,23 +1,20 @@
+"use strict";
 // import { Livro } from "../model/Livro";
 // import { LivroRepository } from "../repository/LivroRepository";
 // import { CategoriaLivroRepository } from "../repository/CategoriaLivroRepository";
 // import { EmprestimoRepository } from "../repository/EmprestimoRepository";
-
 // export class LivroService{
 //     private static instance : LivroService;
 //     private LivroRepository = LivroRepository.getInstance();
 //     private CategoriaLivroRepository = CategoriaLivroRepository.getInstance();
 //     private EmprestimoRepository = EmprestimoRepository.getInstance();
-
 //     private constructor() {}
-
 //     public static getInstance(): LivroService {
 //         if (!this.instance) {
 //             this.instance = new LivroService();
 //         }
 //         return this.instance;
 //     }
-    
 //     VerificaCategoria(categoria_id:number):void{
 //         const categoria = this.CategoriaLivroRepository.ListaCategoriaPorId(categoria_id);
 //         if(!categoria){
@@ -25,7 +22,6 @@
 //         }
 //         return;
 //     }
-
 //     CadastrarLivro(data:any):Livro{
 //         const{id,titulo, autor, editora, edicao,isbn, categoria_id} = data;
 //         if(!titulo||!autor||!editora||!edicao||!isbn||!categoria_id){

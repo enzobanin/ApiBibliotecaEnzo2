@@ -1,10 +1,9 @@
+"use strict";
 // import { Emprestimo } from "../model/Emprestimo";
-
 // export class EmprestimoRepository{
 //     private static instance: EmprestimoRepository;
 //     private EmprestimoLista: Emprestimo[] = [];
 //     private constructor(){}
-
 //     public static getInstance():EmprestimoRepository{
 //         if(!this.instance){
 //             this.instance = new EmprestimoRepository();
@@ -28,7 +27,6 @@
 //     }
 //     VerificaEmprestimosAtivosUsuarios(id:number):Emprestimo[]{
 //         const data = new Date(0);
-         
 //         return this.EmprestimoLista.filter(e=>e.usuario_id === id
 //             && e.data_devolucao.getTime() === data.getTime()
 //          );
@@ -48,6 +46,4 @@
 //         e.estoque_id === livro_id && e.data_devolucao.getTime() === new Date(0).getTime()
 //         );
 //     }
-
-    
 // }

@@ -1,3 +1,4 @@
+"use strict";
 // import { Emprestimo } from "../model/Emprestimo";
 // import { EmprestimoRepository } from "../repository/EmprestimoRepository";
 // import { UsuarioService } from "./UsuarioService";
@@ -5,7 +6,6 @@
 // import { UsuarioRepository } from "../repository/UsuarioRepository";
 // import { EstoqueRepository } from "../repository/EstoqueRepository";
 // import { LivroRepository } from "../repository/LivroRepository";
-
 // export class EmprestimoService{
 //     private static instance: EmprestimoService;
 //     private EmprestimoRepository : EmprestimoRepository = EmprestimoRepository.getInstance();
@@ -14,16 +14,13 @@
 //     private usuarioRepository = UsuarioRepository.getInstance();
 //     private estoqueRepository = EstoqueRepository.getInstance();
 //     private livroRepository = LivroRepository.getInstance();
-
 //     private constructor() {}
-
 //     public static getInstance(): EmprestimoService {
 //         if (!this.instance) {
 //             this.instance = new EmprestimoService();
 //         }
 //         return this.instance;
 //     }
-    
 //     ValidaUsuario(cpf:string):void{
 //         const ativo = this.usuarioRepository.UsuarioAtivo(cpf);
 //         if(ativo){
@@ -43,7 +40,6 @@
 //         }
 //         return true;
 //     }
-
 //     ValidaExemplar(codigo_exemplar:number):void{
 //         this.estoqueService.VerificaExemplarDisponivel(codigo_exemplar);
 //     }
@@ -56,7 +52,6 @@
 //             return;
 //         }
 //     }
-
 //     DiasComLivro(cpf:string,codigo_exemplar:number):number{
 //         const usuario = this.usuarioService.GetUsuarioPorCpf(cpf);
 //         const livro = this.VerificaCategoriaLivro(codigo_exemplar);
@@ -80,7 +75,6 @@
 //         }
 //         throw new Error("Usuário não pode pegar livro emprestado");
 //     }
-
 //     VerificaCategoriaLivro(codigo_exemplar:number):number{
 //         const exemplar = this.estoqueRepository.ExibeExemplarPorId(codigo_exemplar);
 //         if (!exemplar) {
@@ -95,7 +89,6 @@
 //     VerificaLimitesEmprestimos(usuario_id:number):void{
 //         const usuario = this.usuarioRepository.BuscaUsuarioPorId(usuario_id);
 //         const limite = this.LimitePorUsuario(usuario.categoria_id);
-
 //         const empAtivo = this.EmprestimoRepository.VerificaEmprestimosAtivosUsuarios(usuario_id);
 //         if(empAtivo.length >= limite){
 //             throw new Error ("Limite de empréstimos atingidos");
@@ -108,12 +101,10 @@
 //         }
 //         return 3;
 //     }
-
 //     InsereEmprestimo(data:any):Emprestimo{
 //         const {id,cpf,codigo_exemplar,
 //             estoque_id,data_emprestimo,data_devolucao,
 //             data_entrega,suspensao_ate} = data;
-
 //         if(!cpf||!codigo_exemplar){
 //             throw new Error("Informações Incompletas");
 //         }
@@ -145,11 +136,9 @@
 //         this.EmprestimoRepository.RegistraEmprestimo(novoEmprestimo);
 //         return novoEmprestimo;
 //     } 
-
 //     GetEmprestimos():Emprestimo[]{
 //         return this.EmprestimoRepository.MostraTodosOsEmprestimos();
 //     }
-
 //     RealizaDevolucao(emprestimo_id:number):boolean{
 //         const emprestimo = this.EmprestimoRepository.BuscaEmprestimoPorId(emprestimo_id);
 //         this.CalculaMulta(emprestimo);
@@ -179,7 +168,6 @@
 //             const dataInfinita = new Date('3000-12-31');
 //             if(diasSuspensao>60){
 //                 emprestimo.suspensao_ate = dataInfinita; // data praticamente infinita até regularização
-            
 //             }
 //             const qtdEmp = this.EmprestimoRepository.BuscaEmprestimoPorUsuario(usuario.id);
 //             const suspensoes = qtdEmp.filter(e=>e.data_devolucao>e.data_entrega);
@@ -190,5 +178,4 @@
 //         }
 //         return 0;
 //     }
-
 // }

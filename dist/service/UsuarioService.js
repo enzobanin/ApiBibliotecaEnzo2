@@ -1,16 +1,14 @@
+"use strict";
 // import { Usuario } from "../model/Usuario";
 // import { UsuarioRepository } from "../repository/UsuarioRepository";
 // import { CursoRepository } from "../repository/CursoRepository";
 // import { CategoriaUsuarioRepository } from "../repository/CategoriaUsuarioRepository";
-
 // export class UsuarioService{
 //     private static instance : UsuarioService;
 //     private UsuarioRepository = UsuarioRepository.getInstance();
 //     private CursoRepository = CursoRepository.getInstance();
 //     private CategoriaUsuarioRepository = CategoriaUsuarioRepository.getInstance();
-    
 //     private constructor() {}
-
 //     public static getInstance(): UsuarioService {
 //         if (!this.instance) {
 //             this.instance = new UsuarioService();
@@ -46,12 +44,10 @@
 //             if(CpfN.every(n=>n == CpfN[0])){
 //                 throw new Error("Este CPF é uma sequência de numeros repetidos");
 //             }
-
 //             const dig10 = this.ValidarOsDigitos(10,CpfN);
 //             const copiaCpf = [...CpfN];
 //             copiaCpf.push(dig10);
 //             const dig11 = this.ValidarOsDigitos(11,copiaCpf);
-
 //             if(dig10 == CpfN[9]&& dig11 == CpfN[10]){
 //                 return true;
 //             }else{
@@ -59,7 +55,6 @@
 //             }
 //         } 
 //     }
-
 //     ValidarOsDigitos(num : number, CpfN: number[]):number{
 //         let soma = 0;
 //         for(let i = 0; i < num - 1 ; i++){
@@ -73,7 +68,6 @@
 //             return 11 - div;
 //         }
 //     }
-
 //     InsereUsuario(data:any):Usuario{
 //         const {id,nome,cpf,email,categoria_id,curso_id} = data;
 //         if(!nome||!cpf||!email||!categoria_id||!curso_id){
@@ -88,7 +82,6 @@
 //         this.UsuarioRepository.InsereUsuario(novoUsuario);
 //         return novoUsuario;
 //     }
-
 //     GetTodosUsuarios():Usuario[]{
 //         return this.UsuarioRepository.MostraTodosUsuarios();
 //     }

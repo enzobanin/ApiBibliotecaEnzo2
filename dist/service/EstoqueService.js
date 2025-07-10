@@ -1,21 +1,18 @@
+"use strict";
 // import { Estoque } from "../model/Estoque";
 // import { EstoqueRepository } from "../repository/EstoqueRepository";
 // import { LivroService } from "./LivroService";
-
 // export class EstoqueService{
 //     private static instance : EstoqueService;
 //     private EstoqueRepository:EstoqueRepository= EstoqueRepository.getInstance();
 //     private livroService = LivroService.getInstance();
-
 //     private constructor() {}
-
 //     public static getInstance(): EstoqueService {
 //         if (!this.instance) {
 //             this.instance = new EstoqueService();
 //         }
 //         return this.instance;
 //     }
-
 //     VerificaExemplar(id:number):boolean{
 //         if(this.EstoqueRepository.ExisteEstoqueId(id)){
 //             return true;
@@ -56,12 +53,10 @@
 //         console.log("Exemplar salvo", novoExemplar);
 //         return novoExemplar;
 //     }
-
 //     GetExemplarComDisponibilidade():Estoque[]{
 //         return this.EstoqueRepository.ExibeExemplares()
 //         .filter(e => e.disponivel === true && e.quantidade > e.quantidade_emprestada);
 //     }
-    
 //     GetExemplarPorID(id:number):Estoque{
 //         const listar = this.EstoqueRepository.ExibeExemplarPorId(id);
 //         if(!listar){
@@ -94,5 +89,4 @@
 //         }
 //         return deletar;
 //     }
-
 // }

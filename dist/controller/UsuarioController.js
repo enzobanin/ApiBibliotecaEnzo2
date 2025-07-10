@@ -1,7 +1,7 @@
+"use strict";
 // import { Request, Response } from "express";
 // import { UsuarioService } from "../service/UsuarioService";
 // const usuarioService = UsuarioService.getInstance();
-
 // export function InsereUsuario(req:Request, res:Response){
 //     try{
 //         const novoUsuario = usuarioService.InsereUsuario(req.body);
@@ -17,7 +17,6 @@
 //          res.status(400).json({ status: "Erro", message })
 //     }
 // }
-
 // export function MostrarTodosOsUsuarios(req:Request, res:Response):void{
 //     try{
 //         res.status(200).json(usuarioService.GetTodosUsuarios());
@@ -26,7 +25,6 @@
 //             message:(e as Error).message})
 //     }
 // }
-
 // export function MostraUsuarioPorCPF(req:Request,res:Response):void{
 //     try{
 //         let cpf = req.params.cpf;
@@ -40,7 +38,6 @@
 //             message:(e as Error).message})
 //     }
 // }
-
 // export function AtualizaUsuarioPorCPF(req:Request, res:Response):void{
 //     try{
 //         const cpf = req.params.cpf;
@@ -55,7 +52,6 @@
 //             message:(e as Error).message})
 //     }
 // }
-
 // export function DeletaUsuarioPorCPF(req:Request, res:Response):void{
 //     try{
 //         const cpf = req.params.cpf;
@@ -73,4 +69,3 @@
 //             message:(e as Error).message})
 //     }
 // }
-

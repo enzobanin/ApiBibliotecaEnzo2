@@ -1,18 +1,15 @@
+"use strict";
 // import { Estoque } from "../model/Estoque";
-
 // export class EstoqueRepository{
 //     private static instance:EstoqueRepository;
 //     private EstoqueLista : Estoque[] = [];
-
 //     private constructor(){}
-
 //     public static getInstance():EstoqueRepository{
 //         if(!this.instance){
 //             this.instance = new EstoqueRepository();
 //         }
 //         return this.instance;
 //     }
-
 //     InsereExemplar(exemplar:Estoque):void{
 //         this.EstoqueLista.push(exemplar);
 //     }
@@ -44,7 +41,6 @@
 //         }
 //         return false;
 //     }
-
 //     ExisteEstoqueId(id:number):boolean{
 //         const repetido = this.EstoqueLista.findIndex(e=>e.id===id);
 //         if(repetido){

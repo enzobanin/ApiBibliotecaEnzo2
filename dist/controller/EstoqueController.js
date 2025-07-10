@@ -1,7 +1,7 @@
+"use strict";
 // import { Request, Response } from "express";
 // import { EstoqueService} from "../service/EstoqueService";
 // const estoqueService = EstoqueService.getInstance();
-
 // export function InserirExemplar(req:Request, res:Response){
 //     try{
 //         const novoExemplar = estoqueService.InsereNovoExemplar(req.body);
@@ -18,7 +18,6 @@
 //          res.status(400).json({ status: "Erro", message })
 //     }
 // }
-
 // export function ListaExemplarPorDisponibilidade(req:Request,res:Response):void{
 //     try{
 //         res.status(200).json(estoqueService.GetExemplarComDisponibilidade());
@@ -27,7 +26,6 @@
 //             message:(e as Error).message})
 //     }
 // }
-
 // export function ListaExemplarPorId(req:Request, res:Response):void{
 //     try{
 //         const id = parseInt(req.params.id);
@@ -41,7 +39,6 @@
 //             message:(e as Error).message})
 //     }
 // }
-
 // export function DeletaExemplarPorId(req:Request, res:Response):void{
 //     try{
 //         const id = parseInt(req.params.id);

@@ -1,11 +1,9 @@
+"use strict";
 // import { Livro } from "../model/Livro";
-
 // export class LivroRepository{
 //     private static instance: LivroRepository;
 //     private LivroLista: Livro[] = [];
-
 //     private constructor(){}
-
 //     public static getInstance():LivroRepository{
 //         if(!this.instance){
 //             this.instance = new LivroRepository();
@@ -38,11 +36,9 @@
 //         }
 //         return false;
 //     }
-
 //     BuscaLivroPorISBN(isbn:string):Livro|undefined{
 //         return this.LivroLista.find(l=>l.isbn===isbn);
 //     }
-
 //     BuscaLivroPorId(id:number):Livro{
 //         const livro = this.LivroLista.find(l=>l.id === id);
 //          if (!livro) {

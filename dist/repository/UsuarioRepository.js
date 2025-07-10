@@ -1,18 +1,15 @@
+"use strict";
 // import { Usuario } from "../model/Usuario";
-
 // export class UsuarioRepository{
 //     private static instance : UsuarioRepository;
 //     private UsuarioLista: Usuario[] = [];
-
 //     private constructor(){}
-
 //     public static getInstance():UsuarioRepository{
 //         if(!this.instance){
 //             this.instance = new UsuarioRepository();
 //         }
 //         return this.instance;
 //     }
-
 //     InsereUsuario(usuario:Usuario):void{
 //         this.UsuarioLista.push(usuario);
 //     }
