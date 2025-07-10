@@ -7,9 +7,7 @@ const express_1 = __importDefault(require("express"));
 const CategoriaLivroController_1 = require("./controller/CategoriaLivroController");
 const CursoController_1 = require("./controller/CursoController");
 const CategoriaUsuarioController_1 = require("./controller/CategoriaUsuarioController");
-// import { CadastrarLivro,MostrarLivrosFiltrados,MostrarTodosLivrosPorISBN,
-//     AtualizaLivro,DeletaLivroPorISBN
-//  } from "./controller/LivroController";
+const LivroController_1 = require("./controller/LivroController");
 // import { InserirExemplar,ListaExemplarPorDisponibilidade,
 //     ListaExemplarPorId,DeletaExemplarPorId
 //  } from "./controller/EstoqueController";
@@ -32,11 +30,11 @@ function logInfo() {
 // app.put("/library/usuarios/:cpf",AtualizaUsuarioPorCPF);
 // app.delete("/library/usuarios/:cpf",DeletaUsuarioPorCPF);
 // //LIVRO
-// app.post("/library/livros",CadastrarLivro);
-// app.get("/library/livros",MostrarLivrosFiltrados);
-// app.get("/library/livros/:isbn",MostrarTodosLivrosPorISBN);
-// app.put("/library/livros/:isbn",AtualizaLivro)
-// app.delete("/library/livros/:isbn",DeletaLivroPorISBN);
+app.post("/library/livros", LivroController_1.CadastrarLivro);
+app.get("/library/livros", LivroController_1.MostrarLivrosFiltrados);
+app.get("/library/livros/:isbn", LivroController_1.MostrarTodosLivrosPorISBN);
+app.put("/library/livros/:isbn", LivroController_1.AtualizaLivro);
+app.delete("/library/livros/:isbn", LivroController_1.DeletaLivroPorISBN);
 // //ESTOQUE
 // app.post("/library/estoque",InserirExemplar);
 // app.get("/library/estoque",ListaExemplarPorDisponibilidade);

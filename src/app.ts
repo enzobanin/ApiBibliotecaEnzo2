@@ -2,9 +2,9 @@ import express from "express";
 import { ListaTodasCategorias } from "./controller/CategoriaLivroController";
 import { ListaTodosCurso } from "./controller/CursoController";
 import { ListaTodosCategoriasUsuario } from "./controller/CategoriaUsuarioController";
-// import { CadastrarLivro,MostrarLivrosFiltrados,MostrarTodosLivrosPorISBN,
-//     AtualizaLivro,DeletaLivroPorISBN
-//  } from "./controller/LivroController";
+import { CadastrarLivro,MostrarLivrosFiltrados,MostrarTodosLivrosPorISBN,
+    AtualizaLivro,DeletaLivroPorISBN
+ } from "./controller/LivroController";
 // import { InserirExemplar,ListaExemplarPorDisponibilidade,
 //     ListaExemplarPorId,DeletaExemplarPorId
 //  } from "./controller/EstoqueController";
@@ -29,11 +29,11 @@ function logInfo(){
 // app.put("/library/usuarios/:cpf",AtualizaUsuarioPorCPF);
 // app.delete("/library/usuarios/:cpf",DeletaUsuarioPorCPF);
 // //LIVRO
-// app.post("/library/livros",CadastrarLivro);
-// app.get("/library/livros",MostrarLivrosFiltrados);
-// app.get("/library/livros/:isbn",MostrarTodosLivrosPorISBN);
-// app.put("/library/livros/:isbn",AtualizaLivro)
-// app.delete("/library/livros/:isbn",DeletaLivroPorISBN);
+app.post("/library/livros",CadastrarLivro);
+app.get("/library/livros",MostrarLivrosFiltrados);
+app.get("/library/livros/:isbn",MostrarTodosLivrosPorISBN);
+app.put("/library/livros/:isbn",AtualizaLivro)
+app.delete("/library/livros/:isbn",DeletaLivroPorISBN);
 // //ESTOQUE
 // app.post("/library/estoque",InserirExemplar);
 // app.get("/library/estoque",ListaExemplarPorDisponibilidade);
