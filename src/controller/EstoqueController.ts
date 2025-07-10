@@ -7,7 +7,7 @@ export function InserirExemplar(req:Request, res:Response){
         const novoExemplar = estoqueService.InsereNovoExemplar(req.body);
         res.status(201).json({
             status:"Exemplar Adicionado com sucesso",
-            Livro: novoExemplar
+            Exemplar: novoExemplar
         });
     }catch(error:unknown){
         let message:string = "Não foi possível cadastrar o exemplar"

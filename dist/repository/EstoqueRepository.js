@@ -22,12 +22,15 @@ class EstoqueRepository {
         if (exemplar) {
             return exemplar;
         }
-        throw new Error("Exemplar não encontrado");
+        return;
     }
     AtualizaDisponibilidadePorId(id, ExemplarNovo) {
         const ExemplarAtual = this.EstoqueLista.find(e => e.id === id);
         if (ExemplarAtual) {
             ExemplarAtual.quantidade = ExemplarNovo.quantidade;
+            if (ExemplarNovo.quantidade < ExemplarNovo.quantidade_emprestada) {
+                throw new Error("Quantidade emprestada não pode ser maior que a quantidade total");
+            }
             ExemplarAtual.quantidade_emprestada = ExemplarNovo.quantidade_emprestada;
             if (ExemplarAtual.quantidade === ExemplarAtual.quantidade_emprestada) {
                 ExemplarAtual.status = 'emprestado';
@@ -42,7 +45,7 @@ class EstoqueRepository {
     RemoveExemplarPorId(id) {
         const deletar = this.EstoqueLista.find(e => e.id === id);
         if (deletar) {
-            if (deletar.status === 'emprestado') {
+            if (deletar.quantidade_emprestada > 0) {
                 throw new Error("Exemplar não pode ser deletado, pois está emprestado");
             }
             return deletar;

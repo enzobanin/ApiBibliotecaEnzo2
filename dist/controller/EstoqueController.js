@@ -12,7 +12,7 @@ function InserirExemplar(req, res) {
         const novoExemplar = estoqueService.InsereNovoExemplar(req.body);
         res.status(201).json({
             status: "Exemplar Adicionado com sucesso",
-            Livro: novoExemplar
+            Exemplar: novoExemplar
         });
     }
     catch (error) {
