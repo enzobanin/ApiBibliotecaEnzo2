@@ -1,7 +1,7 @@
 import { Request,Response } from "express";
 import { CategoriaUsuarioService } from "../service/CategoriaUsuarioService";
 
-const categoriaUsuarioService = new CategoriaUsuarioService();
+const categoriaUsuarioService = CategoriaUsuarioService.getInstance();
 
 export function ListaTodosCategoriasUsuario(req:Request, res:Response){
     try{

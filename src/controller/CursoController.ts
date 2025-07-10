@@ -1,6 +1,6 @@
 import { Request,Response } from "express";
 import { CursoService } from "../service/CursoService";
-const cursoService = new CursoService();
+const cursoService = CursoService.getInstance();
 
 export function ListaTodosCurso (req:Request, res:Response){
     try{

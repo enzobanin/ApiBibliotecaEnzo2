@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ListaTodosCurso = ListaTodosCurso;
 const CursoService_1 = require("../service/CursoService");
-const cursoService = new CursoService_1.CursoService();
+const cursoService = CursoService_1.CursoService.getInstance();
 function ListaTodosCurso(req, res) {
     try {
         res.status(200).json(cursoService.getCursos());

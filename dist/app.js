@@ -9,9 +9,7 @@ const CursoController_1 = require("./controller/CursoController");
 const CategoriaUsuarioController_1 = require("./controller/CategoriaUsuarioController");
 const LivroController_1 = require("./controller/LivroController");
 const EstoqueController_1 = require("./controller/EstoqueController");
-//  import { InsereUsuario,MostrarTodosOsUsuarios,
-//     MostraUsuarioPorCPF,AtualizaUsuarioPorCPF,DeletaUsuarioPorCPF
-//   } from "./controller/UsuarioController";
+const UsuarioController_1 = require("./controller/UsuarioController");
 // import { InsereEmprestimo, MostrarTodosOsEmprestimos,
 //   RegistraDevolucao
 //  } from "./controller/EmprestimoController";
@@ -22,11 +20,11 @@ function logInfo() {
     console.log(`API em execucao no URL: http:localhost: ${PORT}`);
 }
 //USUÁRIO
-// app.post("/library/usuarios",InsereUsuario);
-// app.get("/library/usuarios",MostrarTodosOsUsuarios);
-// app.get("/library/usuarios/:cpf",MostraUsuarioPorCPF);
-// app.put("/library/usuarios/:cpf",AtualizaUsuarioPorCPF);
-// app.delete("/library/usuarios/:cpf",DeletaUsuarioPorCPF);
+app.post("/library/usuarios", UsuarioController_1.InsereUsuario);
+app.get("/library/usuarios", UsuarioController_1.MostrarTodosOsUsuarios);
+app.get("/library/usuarios/:cpf", UsuarioController_1.MostraUsuarioPorCPF);
+app.put("/library/usuarios/:cpf", UsuarioController_1.AtualizaUsuarioPorCPF);
+app.delete("/library/usuarios/:cpf", UsuarioController_1.DeletaUsuarioPorCPF);
 // //LIVRO
 app.post("/library/livros", LivroController_1.CadastrarLivro);
 app.get("/library/livros", LivroController_1.MostrarLivrosFiltrados);

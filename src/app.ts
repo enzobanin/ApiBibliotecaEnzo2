@@ -8,9 +8,9 @@ import { CadastrarLivro,MostrarLivrosFiltrados,MostrarTodosLivrosPorISBN,
 import { InserirExemplar,ListaExemplarPorDisponibilidade,
     ListaExemplarPorId,AtualizaDisponibilidadePorId,DeletaExemplarPorId
  } from "./controller/EstoqueController";
-//  import { InsereUsuario,MostrarTodosOsUsuarios,
-//     MostraUsuarioPorCPF,AtualizaUsuarioPorCPF,DeletaUsuarioPorCPF
-//   } from "./controller/UsuarioController";
+ import { InsereUsuario,MostrarTodosOsUsuarios,
+    MostraUsuarioPorCPF,AtualizaUsuarioPorCPF,DeletaUsuarioPorCPF
+  } from "./controller/UsuarioController";
 // import { InsereEmprestimo, MostrarTodosOsEmprestimos,
 //   RegistraDevolucao
 //  } from "./controller/EmprestimoController";
@@ -23,11 +23,11 @@ function logInfo(){
     console.log(`API em execucao no URL: http:localhost: ${PORT}`);
 }
 //USUÁRIO
-// app.post("/library/usuarios",InsereUsuario);
-// app.get("/library/usuarios",MostrarTodosOsUsuarios);
-// app.get("/library/usuarios/:cpf",MostraUsuarioPorCPF);
-// app.put("/library/usuarios/:cpf",AtualizaUsuarioPorCPF);
-// app.delete("/library/usuarios/:cpf",DeletaUsuarioPorCPF);
+app.post("/library/usuarios",InsereUsuario);
+app.get("/library/usuarios",MostrarTodosOsUsuarios);
+app.get("/library/usuarios/:cpf",MostraUsuarioPorCPF);
+app.put("/library/usuarios/:cpf",AtualizaUsuarioPorCPF);
+app.delete("/library/usuarios/:cpf",DeletaUsuarioPorCPF);
 // //LIVRO
 app.post("/library/livros",CadastrarLivro);
 app.get("/library/livros",MostrarLivrosFiltrados);
