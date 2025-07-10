@@ -8,9 +8,7 @@ const CategoriaLivroController_1 = require("./controller/CategoriaLivroControlle
 const CursoController_1 = require("./controller/CursoController");
 const CategoriaUsuarioController_1 = require("./controller/CategoriaUsuarioController");
 const LivroController_1 = require("./controller/LivroController");
-// import { InserirExemplar,ListaExemplarPorDisponibilidade,
-//     ListaExemplarPorId,DeletaExemplarPorId
-//  } from "./controller/EstoqueController";
+const EstoqueController_1 = require("./controller/EstoqueController");
 //  import { InsereUsuario,MostrarTodosOsUsuarios,
 //     MostraUsuarioPorCPF,AtualizaUsuarioPorCPF,DeletaUsuarioPorCPF
 //   } from "./controller/UsuarioController";
@@ -36,10 +34,11 @@ app.get("/library/livros/:isbn", LivroController_1.MostrarTodosLivrosPorISBN);
 app.put("/library/livros/:isbn", LivroController_1.AtualizaLivro);
 app.delete("/library/livros/:isbn", LivroController_1.DeletaLivroPorISBN);
 // //ESTOQUE
-// app.post("/library/estoque",InserirExemplar);
-// app.get("/library/estoque",ListaExemplarPorDisponibilidade);
-// app.get("/library/estoque/:codigo",ListaExemplarPorId);
-// app.delete("/library/estoque/:codigo",DeletaExemplarPorId);
+app.post("/library/estoque", EstoqueController_1.InserirExemplar);
+app.get("/library/estoque", EstoqueController_1.ListaExemplarPorDisponibilidade);
+app.get("/library/estoque/:id", EstoqueController_1.ListaExemplarPorId);
+app.put("/library/estoque/:id", EstoqueController_1.AtualizaDisponibilidadePorId);
+app.delete("/library/estoque/:id", EstoqueController_1.DeletaExemplarPorId);
 // //EMPRÉSTIMOS
 // app.post("/library/emprestimos",InsereEmprestimo);
 // app.get("/library/emprestimos",MostrarTodosOsEmprestimos);

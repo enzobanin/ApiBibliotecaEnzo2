@@ -5,9 +5,9 @@ import { ListaTodosCategoriasUsuario } from "./controller/CategoriaUsuarioContro
 import { CadastrarLivro,MostrarLivrosFiltrados,MostrarTodosLivrosPorISBN,
     AtualizaLivro,DeletaLivroPorISBN
  } from "./controller/LivroController";
-// import { InserirExemplar,ListaExemplarPorDisponibilidade,
-//     ListaExemplarPorId,DeletaExemplarPorId
-//  } from "./controller/EstoqueController";
+import { InserirExemplar,ListaExemplarPorDisponibilidade,
+    ListaExemplarPorId,AtualizaDisponibilidadePorId,DeletaExemplarPorId
+ } from "./controller/EstoqueController";
 //  import { InsereUsuario,MostrarTodosOsUsuarios,
 //     MostraUsuarioPorCPF,AtualizaUsuarioPorCPF,DeletaUsuarioPorCPF
 //   } from "./controller/UsuarioController";
@@ -35,10 +35,11 @@ app.get("/library/livros/:isbn",MostrarTodosLivrosPorISBN);
 app.put("/library/livros/:isbn",AtualizaLivro)
 app.delete("/library/livros/:isbn",DeletaLivroPorISBN);
 // //ESTOQUE
-// app.post("/library/estoque",InserirExemplar);
-// app.get("/library/estoque",ListaExemplarPorDisponibilidade);
-// app.get("/library/estoque/:codigo",ListaExemplarPorId);
-// app.delete("/library/estoque/:codigo",DeletaExemplarPorId);
+app.post("/library/estoque",InserirExemplar);
+app.get("/library/estoque",ListaExemplarPorDisponibilidade);
+app.get("/library/estoque/:id",ListaExemplarPorId);
+app.put("/library/estoque/:id",AtualizaDisponibilidadePorId);
+app.delete("/library/estoque/:id",DeletaExemplarPorId);
 // //EMPRÉSTIMOS
 // app.post("/library/emprestimos",InsereEmprestimo);
 // app.get("/library/emprestimos",MostrarTodosOsEmprestimos);
