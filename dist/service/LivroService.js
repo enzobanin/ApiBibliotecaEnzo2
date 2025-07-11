@@ -43,17 +43,17 @@ class LivroService {
         this.livroRepository.InsereLivro(NovoLivro);
         return NovoLivro;
     }
-    GetLivrosFiltrados(query) {
+    ListaLivrosFiltrados(query) {
         return this.livroRepository.FiltrarLivros(query);
     }
-    GetLivrosPorISBN(isbn) {
+    ListaLivrosPorISBN(isbn) {
         const livro = this.livroRepository.BuscaLivroPorISBN(isbn);
         if (!livro) {
             throw new Error("Não existe livro com este ISBN");
         }
         return livro;
     }
-    PutLivros(isbn, LivroAtualizado) {
+    AtualizaLivros(isbn, LivroAtualizado) {
         const livro = this.livroRepository.AtualizaLivroPorISBN(isbn, LivroAtualizado);
         if (!livro) {
             throw new Error("Não foi possível encontrar o isbn");

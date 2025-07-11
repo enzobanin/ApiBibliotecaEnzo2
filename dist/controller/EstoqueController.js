@@ -26,7 +26,7 @@ function InserirExemplar(req, res) {
 }
 function ListaExemplarPorDisponibilidade(req, res) {
     try {
-        res.status(200).json(estoqueService.GetExemplarComDisponibilidade());
+        res.status(200).json(estoqueService.ListaExemplarComDisponibilidade());
     }
     catch (e) {
         res.status(400).json({ status: "Operação Invalida",
@@ -40,7 +40,7 @@ function ListaExemplarPorISBN(req, res) {
             res.status(400).json({ status: "Erro", message: "ISBN Inválido" });
             return;
         }
-        res.status(200).json(estoqueService.GetExemplarPorISBN(isbn));
+        res.status(200).json(estoqueService.ListaExemplarPorISBN(isbn));
     }
     catch (e) {
         res.status(400).json({ status: "Erro interno",
@@ -54,7 +54,7 @@ function AtualizaDisponibilidadePorISBN(req, res) {
             res.status(400).json({ status: "Erro", message: "ISBN Inválido" });
             return;
         }
-        const exemplarAtualizado = estoqueService.PutDisponibilidade(isbn, req.body);
+        const exemplarAtualizado = estoqueService.AtualizaDisponibilidade(isbn, req.body);
         res.status(201).json({
             status: "Exemplar Atualizado com sucesso",
             ExemplarAtualizado: exemplarAtualizado

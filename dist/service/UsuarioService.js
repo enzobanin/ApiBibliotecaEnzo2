@@ -62,17 +62,17 @@ class UsuarioService {
         console.log("Usuário salvo", novoUsuario);
         return novoUsuario;
     }
-    GetTodosUsuarios(query) {
+    ListaTodosUsuarios(query) {
         return this.usuarioRepository.MostraTodosUsuariosFiltrados(query);
     }
-    GetUsuarioPorCpf(cpf) {
+    ListaUsuarioPorCpf(cpf) {
         const usuario = this.usuarioRepository.MostraUsuarioPorCPF(cpf);
         if (!usuario) {
             throw new Error("Usuario com este CPF nao encontrado");
         }
         return usuario;
     }
-    PutUsuario(cpf, usuarioNovo) {
+    AtualizaUsuario(cpf, usuarioNovo) {
         const usuario = this.usuarioRepository.AtualizaUsuarioPorCPF(cpf, usuarioNovo);
         if (!usuario) {
             throw new Error("Usuario com este CPF nao encontrado");

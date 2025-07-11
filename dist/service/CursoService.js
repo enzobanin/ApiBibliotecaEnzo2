@@ -12,7 +12,7 @@ class CursoService {
         }
         return this.instance;
     }
-    getCursos() {
+    ListaCursos() {
         return this.cursoRepository.ListaTodosCurso();
     }
     ProcuraCursoPorId(id) {

@@ -5,7 +5,7 @@ const CategoriaLivroService_1 = require("../service/CategoriaLivroService");
 const categoriaLivroService = new CategoriaLivroService_1.CategoriaLivroService();
 function ListaTodasCategorias(req, res) {
     try {
-        res.status(200).json(categoriaLivroService.getCategoriaLivros());
+        res.status(200).json(categoriaLivroService.ListaCategoriaLivros());
     }
     catch (e) {
         res.status(400).json({ status: "Error",

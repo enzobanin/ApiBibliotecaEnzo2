@@ -12,7 +12,7 @@ class CategoriaUsuarioService {
         }
         return this.instance;
     }
-    getCategoriaUsuario() {
+    ListaCategoriaUsuario() {
         return this.categoriaUsuarioRepository.ListaTodosCategoriasUsuario();
     }
     ProcuraCategoriaUsuarioPorId(id) {

@@ -5,7 +5,7 @@ const CategoriaUsuarioService_1 = require("../service/CategoriaUsuarioService");
 const categoriaUsuarioService = CategoriaUsuarioService_1.CategoriaUsuarioService.getInstance();
 function ListaTodosCategoriasUsuario(req, res) {
     try {
-        res.status(200).json(categoriaUsuarioService.getCategoriaUsuario());
+        res.status(200).json(categoriaUsuarioService.ListaCategoriaUsuario());
     }
     catch (e) {
         res.status(400).json({ status: "Error",

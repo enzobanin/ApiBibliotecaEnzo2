@@ -23,7 +23,7 @@ function InsereEmprestimo(req, res) {
 }
 function MostrarTodosOsEmprestimos(req, res) {
     try {
-        res.status(200).json(emprestimoService.GetEmprestimos());
+        res.status(200).json(emprestimoService.ListaEmprestimos());
     }
     catch (e) {
         res.status(400).json({ status: "Operação Invalida",

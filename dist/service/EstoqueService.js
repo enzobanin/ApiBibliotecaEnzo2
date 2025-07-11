@@ -48,7 +48,7 @@ class EstoqueService {
             throw new Error("Informações Incompletas");
         }
         this.VerificaExemplarExistente(livro_isbn); // pra nao inserir repetido
-        this.livroService.GetLivrosPorISBN(livro_isbn); // verifica se o livro existe
+        this.livroService.ListaLivrosPorISBN(livro_isbn); // verifica se o livro existe
         const novoExemplar = new Estoque_1.Estoque(id, livro_isbn, quantidade, quantidade_emprestada);
         this.VerificaQuantidade(quantidade, quantidade_emprestada);
         this.EstoqueRepository.InsereExemplar(novoExemplar);
@@ -58,14 +58,14 @@ class EstoqueService {
         console.log("Exemplar salvo", novoExemplar);
         return novoExemplar;
     }
-    GetExemplarComDisponibilidade() {
+    ListaExemplarComDisponibilidade() {
         return this.EstoqueRepository.ExibeExemplares();
     }
-    GetExemplarPorISBN(isbn) {
+    ListaExemplarPorISBN(isbn) {
         const exemplar = this.EstoqueRepository.ExibeExemplarPorISBN(isbn);
         return exemplar;
     }
-    PutDisponibilidade(isbn, exemplarNovo) {
+    AtualizaDisponibilidade(isbn, exemplarNovo) {
         const exemplar = this.EstoqueRepository.AtualizaDisponibilidadePorISBN(isbn, exemplarNovo);
         if (exemplar) {
             return exemplar;

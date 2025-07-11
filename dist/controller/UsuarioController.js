@@ -34,7 +34,7 @@ function MostrarTodosOsUsuarios(req, res) {
             categoria_id: categoria_id ? parseInt(categoria_id) : undefined,
             curso_id: curso_id ? parseInt(curso_id) : undefined,
         };
-        const usuario = usuarioService.GetTodosUsuarios(query);
+        const usuario = usuarioService.ListaTodosUsuarios(query);
         res.status(200).json(usuario);
     }
     catch (e) {
@@ -49,7 +49,7 @@ function MostraUsuarioPorCPF(req, res) {
             res.status(400).json({ status: "Erro", message: "CPF Inválido" });
             return;
         }
-        res.status(200).json(usuarioService.GetUsuarioPorCpf(cpf));
+        res.status(200).json(usuarioService.ListaUsuarioPorCpf(cpf));
     }
     catch (e) {
         res.status(400).json({ status: "Erro interno",
@@ -63,7 +63,7 @@ function AtualizaUsuarioPorCPF(req, res) {
             res.status(400).json({ status: "Erro", message: "CPF Inválido" });
             return;
         }
-        const usuarioAtualizado = usuarioService.PutUsuario(cpf, req.body);
+        const usuarioAtualizado = usuarioService.AtualizaUsuario(cpf, req.body);
         res.status(200).json({
             status: "Usuario atualizado com sucesso",
             Usuario: usuarioAtualizado
