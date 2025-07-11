@@ -16,9 +16,9 @@ export class EstoqueService{
         return this.instance;
     }
 
-    VerificaExemplarExistente(id:number):boolean{
-        if(this.EstoqueRepository.ExibeExemplarPorId(id)){
-            throw new Error("Já existe um livro com este ID");;
+    VerificaExemplarExistente(isbn:string):boolean{
+        if(this.EstoqueRepository.ExibeExemplarPorISBN(isbn)){
+            throw new Error("Já existe um exemplar com este ISBN");;
         }
         return true;
     }
@@ -49,8 +49,8 @@ export class EstoqueService{
         if(!livro_isbn||!id){
             throw new Error("Informações Incompletas");
         }
-        this.VerificaExemplarExistente(id);
-        this.livroService.GetLivrosPorISBN(livro_isbn); 
+        this.VerificaExemplarExistente(livro_isbn); // pra nao inserir repetido
+        this.livroService.GetLivrosPorISBN(livro_isbn); // verifica se o livro existe
         const novoExemplar = new Estoque(id,livro_isbn,quantidade,quantidade_emprestada);
         this.VerificaQuantidade(quantidade, quantidade_emprestada);
         this.EstoqueRepository.InsereExemplar(novoExemplar);
@@ -65,20 +65,20 @@ export class EstoqueService{
         return this.EstoqueRepository.ExibeExemplares();
     }
     
-    GetExemplarPorID(id:number):Estoque|undefined{
-        const exemplar = this.EstoqueRepository.ExibeExemplarPorId(id);
+    GetExemplarPorISBN(isbn:string):Estoque|undefined{
+        const exemplar = this.EstoqueRepository.ExibeExemplarPorISBN(isbn);
         return exemplar;
     }
-    PutDisponibilidade(id:number, exemplarNovo:Estoque):Estoque|undefined{
-        const exemplar = this.EstoqueRepository.AtualizaDisponibilidadePorId(id,exemplarNovo);
+    PutDisponibilidade(isbn:string, exemplarNovo:Estoque):Estoque|undefined{
+        const exemplar = this.EstoqueRepository.AtualizaDisponibilidadePorISBN(isbn,exemplarNovo);
         if(exemplar){
             return exemplar;
         }
         throw new Error("Exemplar não encontrado");
         
     }
-    DeleteExemplarPorId(id:number):Estoque|undefined{
-        const deletar = this.EstoqueRepository.RemoveExemplarPorId(id);
+    DeleteExemplarPorISBN(isbn:string):Estoque|undefined{
+        const deletar = this.EstoqueRepository.RemoveExemplarPorISBN(isbn);
         if(!deletar){
             throw new Error ("Exemplar não encontrado");
         }

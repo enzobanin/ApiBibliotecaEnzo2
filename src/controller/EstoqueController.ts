@@ -28,28 +28,28 @@ export function ListaExemplarPorDisponibilidade(req:Request,res:Response):void{
     }
 }
 
-export function ListaExemplarPorId(req:Request, res:Response):void{
+export function ListaExemplarPorISBN(req:Request, res:Response):void{
     try{
-        const id = parseInt(req.params.id);
-        if(isNaN(id)){
-            res.status(404).json({ message: "ID inválido" });
+        let isbn = req.params.isbn;
+        if (typeof isbn !== 'string' || isbn.trim() === '') {
+            res.status(400).json({ status: "Erro", message: "ISBN Inválido" });
             return;
         }
-        res.status(200).json(estoqueService.GetExemplarPorID(id));
+        res.status(200).json(estoqueService.GetExemplarPorISBN(isbn));
     }catch(e:unknown){
         res.status(400).json({status:"Erro interno",
             message:(e as Error).message})
     }
 }
 
-export function AtualizaDisponibilidadePorId(req:Request, res:Response):void{
+export function AtualizaDisponibilidadePorISBN(req:Request, res:Response):void{
     try{
-        const id = parseInt(req.params.id);
-        if(isNaN(id)){
-            res.status(400).json({message:"ID inválido"});
+        let isbn = req.params.isbn;
+        if (typeof isbn !== 'string' || isbn.trim() === '') {
+            res.status(400).json({ status: "Erro", message: "ISBN Inválido" });
             return;
         }
-        const exemplarAtualizado =estoqueService.PutDisponibilidade(id,req.body)
+        const exemplarAtualizado =estoqueService.PutDisponibilidade(isbn,req.body)
         res.status(201).json({
             status:"Exemplar Atualizado com sucesso",
             ExemplarAtualizado: exemplarAtualizado
@@ -60,14 +60,14 @@ export function AtualizaDisponibilidadePorId(req:Request, res:Response):void{
     }
 }
 
-export function DeletaExemplarPorId(req:Request, res:Response):void{
+export function DeletaExemplarPorISBN(req:Request, res:Response):void{
     try{
-        const id = parseInt(req.params.id);
-        if(isNaN(id)){
-            res.status(400).json({message:"ID inválido"});
+        let isbn = req.params.isbn;
+        if (typeof isbn !== 'string' || isbn.trim() === '') {
+            res.status(400).json({ status: "Erro", message: "ISBN Inválido" });
             return;
         }
-        const exemplarDeletado = estoqueService.DeleteExemplarPorId(id)
+        const exemplarDeletado = estoqueService.DeleteExemplarPorISBN(isbn)
         res.status(201).json({
             status:"Exemplar Deletado com sucesso",
             ExemplarDeletado: exemplarDeletado

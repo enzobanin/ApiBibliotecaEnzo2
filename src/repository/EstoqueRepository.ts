@@ -19,15 +19,15 @@ export class EstoqueRepository{
     ExibeExemplares():Estoque[]{ 
         return this.EstoqueLista.filter(e => e.status === 'disponivel');
     }
-    ExibeExemplarPorId(id:number):Estoque|undefined{
-        const exemplar = this.EstoqueLista.find(e=>e.id === id);
+    ExibeExemplarPorISBN(isbn:string):Estoque|undefined{
+        const exemplar = this.EstoqueLista.find(e=>e.livro_isbn === isbn);
         if(exemplar){
             return exemplar;
         }
         return;
     }
-    AtualizaDisponibilidadePorId(id:number,ExemplarNovo:Estoque):Estoque|undefined{
-        const ExemplarAtual = this.EstoqueLista.find(e=>e.id===id);
+    AtualizaDisponibilidadePorISBN(isbn:string,ExemplarNovo:Estoque):Estoque|undefined{
+        const ExemplarAtual = this.EstoqueLista.find(e=>e.livro_isbn===isbn);
         if(ExemplarAtual){
             ExemplarAtual.quantidade = ExemplarNovo.quantidade;
             if(ExemplarNovo.quantidade < ExemplarNovo.quantidade_emprestada){
@@ -44,8 +44,8 @@ export class EstoqueRepository{
         }
         return;
     }
-    RemoveExemplarPorId(id:number):Estoque|undefined{
-        const deletar = this.EstoqueLista.find(e=>e.id===id);
+    RemoveExemplarPorISBN(isbn:string):Estoque|undefined{
+        const deletar = this.EstoqueLista.find(e=>e.livro_isbn===isbn);
         if(deletar){
             if(deletar.quantidade_emprestada > 0){
                 throw new Error("Exemplar não pode ser deletado, pois está emprestado");

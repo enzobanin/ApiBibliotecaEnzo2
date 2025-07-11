@@ -1,12 +1,12 @@
 export class Estoque{
     id: number;
-    livro_isbn:number;
+    livro_isbn:string;
     quantidade:number;
     quantidade_emprestada:number;
     status:'disponivel'| 'emprestado';
 
     constructor(id: number,
-    livro_isbn:number,
+    livro_isbn:string,
     quantidade:number,
     quantidade_emprestada:number){
         this.id = id;
