@@ -4,7 +4,7 @@ export class Emprestimo{
     isbn_livro:string;
     data_emprestimo:Date;
     data_devolucao:Date;
-    data_entrega:Date;
+    data_entrega:Date|null;
     dias_atraso:number;
     suspensao_ate:Date;
     
@@ -13,7 +13,7 @@ export class Emprestimo{
     isbn_livro:string,
     data_emprestimo:Date,
     data_devolucao:Date,
-    data_entrega:Date,
+    data_entrega:Date|null,
     dias_atraso:number,
     suspensao_ate:Date){
         this.id = id;

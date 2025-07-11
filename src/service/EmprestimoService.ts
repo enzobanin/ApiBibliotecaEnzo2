@@ -110,16 +110,19 @@ export class EmprestimoService{
         this.StatusUsuario(cpf); // Verifica se está ativo, inativo, suspenso FEITO
         this.VerificaExemplarExistente(isbn_livro);// FEITO
         this.VerificaLimitesEmprestimos(cpf);
+
         const hoje = new Date();
         const prazo = this.DiasComLivro(cpf,isbn_livro);
-        data.data_emprestimo = hoje;
+
+        const dataEmprestimo = hoje;
+
         const dataDevolucao = new Date();
         dataDevolucao.setDate(hoje.getDate() + prazo);
-        data.data_devolucao =dataDevolucao;
-        data.data_entrega = null;
-        data.dias_atraso = 0;
-        data.suspenso_ate = new Date(0);
-        const novoEmprestimo = new Emprestimo(id,cpf,isbn_livro,data_emprestimo,data_devolucao,data_entrega,dias_atraso,suspensao_ate);
+
+        const dataEntrega = null;
+        const diasAtraso = 0;
+        const suspensoAte = new Date(0);
+        const novoEmprestimo = new Emprestimo(id,cpf,isbn_livro,dataEmprestimo,dataDevolucao,dataEntrega,diasAtraso,suspensoAte);
         this.EmprestimoRepository.RegistraEmprestimo(novoEmprestimo);
         this.CalculandoMultaAposDiasDevolucao(novoEmprestimo);
         console.log(`Emprestimo salvo,
@@ -144,7 +147,6 @@ export class EmprestimoService{
             }
             const exemplar = this.estoqueService.GetExemplarPorISBN(emprestimo.isbn_livro);
             if (exemplar){
-                exemplar.quantidade +=1;
                 exemplar.quantidade_emprestada -=1;
                 if(exemplar.quantidade > exemplar.quantidade_emprestada){
                     exemplar.status = 'disponivel';
@@ -156,7 +158,7 @@ export class EmprestimoService{
     }
 
     CalculaMulta(emprestimo:Emprestimo):number{
-            if (emprestimo.data_entrega === null) {
+            if (!emprestimo.data_entrega ||!emprestimo.data_devolucao) {
                 throw new Error("Data de entrega inválida. Não é possível calcular multa.");
             }
             const emp = emprestimo.data_entrega.getTime() - emprestimo.data_devolucao.getTime();
@@ -195,7 +197,6 @@ export class EmprestimoService{
     AtualizandoQuantidadeAutomatica(emprestimo: Emprestimo): void {
         const exemplar = this.estoqueService.GetExemplarPorISBN(emprestimo.isbn_livro);
         if (exemplar) {
-            exemplar.quantidade -= 1;
             exemplar.quantidade_emprestada += 1;
             if (exemplar.quantidade === exemplar.quantidade_emprestada) {
                 exemplar.status = 'emprestado';

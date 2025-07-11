@@ -107,7 +107,7 @@ class EmprestimoService {
         const dataDevolucao = new Date();
         dataDevolucao.setDate(hoje.getDate() + prazo);
         data.data_devolucao = dataDevolucao;
-        data.data_entrega = new Date(0);
+        data.data_entrega = null;
         data.dias_atraso = 0;
         data.suspenso_ate = new Date(0);
         const novoEmprestimo = new Emprestimo_1.Emprestimo(id, cpf, isbn_livro, data_emprestimo, data_devolucao, data_entrega, dias_atraso, suspensao_ate);
@@ -126,12 +126,13 @@ class EmprestimoService {
         // this.CalculaMulta(emprestimo);
         const emprestimo = this.EmprestimoRepository.RegistraDataDevolucao(emprestimo_id);
         if (emprestimo) {
-            if (emprestimo.data_entrega.getTime() > emprestimo.data_devolucao.getTime()) {
-                this.CalculaMulta(emprestimo);
+            if (emprestimo.data_entrega !== null && emprestimo.data_devolucao) {
+                if (emprestimo.data_entrega.getTime() > emprestimo.data_devolucao.getTime()) {
+                    this.CalculaMulta(emprestimo);
+                }
             }
             const exemplar = this.estoqueService.GetExemplarPorISBN(emprestimo.isbn_livro);
             if (exemplar) {
-                exemplar.quantidade += 1;
                 exemplar.quantidade_emprestada -= 1;
                 if (exemplar.quantidade > exemplar.quantidade_emprestada) {
                     exemplar.status = 'disponivel';
@@ -142,6 +143,9 @@ class EmprestimoService {
         return;
     }
     CalculaMulta(emprestimo) {
+        if (emprestimo.data_entrega === null) {
+            throw new Error("Data de entrega inválida. Não é possível calcular multa.");
+        }
         const emp = emprestimo.data_entrega.getTime() - emprestimo.data_devolucao.getTime();
         const diasAtraso = Math.ceil(Math.abs(emp) / (1000 * 60 * 60 * 24));
         const diasSuspensao = diasAtraso * 3;
@@ -153,7 +157,7 @@ class EmprestimoService {
             usuario.ativo = 'suspenso';
         }
         const qtdEmp = this.EmprestimoRepository.BuscaEmprestimoPorUsuario(usuario.cpf);
-        const suspensoes = qtdEmp.filter(e => e.data_devolucao > e.data_entrega);
+        const suspensoes = qtdEmp.filter(e => e.data_entrega !== null && e.data_entrega > e.data_devolucao);
         if (suspensoes.length >= 2) {
             usuario.ativo = 'inativo';
         }
@@ -162,11 +166,11 @@ class EmprestimoService {
     CalculandoMultaAposDiasDevolucao(emprestimo) {
         const interval = setInterval(() => {
             const hoje = new Date();
-            if (!emprestimo.data_entrega && hoje > emprestimo.data_devolucao) {
+            if (emprestimo.data_entrega === null && hoje > emprestimo.data_devolucao) {
                 this.CalculaMulta(emprestimo);
                 clearInterval(interval);
             }
-            if (emprestimo.data_entrega) {
+            if (emprestimo.data_entrega !== null) {
                 clearInterval(interval);
             }
         }, 1000 * 60 * 60 * 24);
@@ -174,7 +178,6 @@ class EmprestimoService {
     AtualizandoQuantidadeAutomatica(emprestimo) {
         const exemplar = this.estoqueService.GetExemplarPorISBN(emprestimo.isbn_livro);
         if (exemplar) {
-            exemplar.quantidade -= 1;
             exemplar.quantidade_emprestada += 1;
             if (exemplar.quantidade === exemplar.quantidade_emprestada) {
                 exemplar.status = 'emprestado';
