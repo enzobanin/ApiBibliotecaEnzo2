@@ -49,7 +49,7 @@ class LivroService {
     GetLivrosPorISBN(isbn) {
         const livro = this.livroRepository.BuscaLivroPorISBN(isbn);
         if (!livro) {
-            throw new Error("isbn incorreto");
+            throw new Error("Não existe livro com este ISBN");
         }
         return livro;
     }

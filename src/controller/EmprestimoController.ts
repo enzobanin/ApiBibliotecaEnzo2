@@ -29,12 +29,21 @@ export function MostrarTodosOsEmprestimos(req:Request, res:Response):void{
 
 export function RegistraDevolucao(req:Request, res:Response):void{
     try{
+        
         const id = parseInt(req.params.id);
         if (isNaN(id)){
             res.status(404).json({ message: "ID inválido" });
             return;
         }
-        res.status(200).json(emprestimoService.RealizaDevolucao(id));
+        const devolucao = emprestimoService.RealizaDevolucao(id)
+        if (!devolucao) {
+            res.status(404).json({ message: "Empréstimo não encontrado" });
+            return;
+        }
+        res.status(200).json({
+            mensagem: "Devolução realizada com sucesso",
+            emprestimo: devolucao
+        });
     }catch(e:unknown){
         res.status(400).json({status:"Erro interno",
             message:(e as Error).message})
