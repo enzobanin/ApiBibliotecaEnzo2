@@ -113,12 +113,15 @@ export class EmprestimoService{
         const hoje = new Date();
         const prazo = this.DiasComLivro(cpf,isbn_livro);
         data.data_emprestimo = hoje;
-        data.data_devolucao =(hoje.getDate() + prazo);
+        const dataDevolucao = new Date();
+        dataDevolucao.setDate(hoje.getDate() + prazo);
+        data.data_devolucao =dataDevolucao;
         data.data_entrega = new Date(0);
         data.dias_atraso = 0;
         data.suspenso_ate = new Date(0);
         const novoEmprestimo = new Emprestimo(id,cpf,isbn_livro,data_emprestimo,data_devolucao,data_entrega,dias_atraso,suspensao_ate);
         this.EmprestimoRepository.RegistraEmprestimo(novoEmprestimo);
+        this.CalculandoMultaAposDiasDevolucao(novoEmprestimo);
         return novoEmprestimo;
     } 
 
@@ -136,9 +139,9 @@ export class EmprestimoService{
             }
             const exemplar = this.estoqueService.GetExemplarPorISBN(emprestimo.isbn_livro);
             if (exemplar){
-                if(exemplar.quantidade === exemplar.quantidade_emprestada){
-                    exemplar.quantidade +=1;
-                    exemplar.quantidade_emprestada -=1;
+                exemplar.quantidade +=1;
+                exemplar.quantidade_emprestada -=1;
+                if(exemplar.quantidade > exemplar.quantidade_emprestada){
                     exemplar.status = 'disponivel';
                 }
             }
@@ -153,36 +156,29 @@ export class EmprestimoService{
             const hoje = new Date();
             hoje.setDate(hoje.getDate() + diasSuspensao);
             emprestimo.suspensao_ate = hoje;
-            const usuario = this.usuarioRepository.BuscaUsuarioPorId(emprestimo.usuario_id);
-            const dataInfinita = new Date('3000-12-31');
+            const usuario = this.usuarioService.GetUsuarioPorCpf(emprestimo.cpf_usuario);
             if(diasSuspensao>60){
-                emprestimo.suspensao_ate = dataInfinita; // data praticamente infinita até regularização
-            
+                usuario.ativo = 'suspenso';
             }
-            const qtdEmp = this.EmprestimoRepository.BuscaEmprestimoPorUsuario(usuario.id);
+            const qtdEmp = this.EmprestimoRepository.BuscaEmprestimoPorUsuario(usuario.cpf);
             const suspensoes = qtdEmp.filter(e=>e.data_devolucao>e.data_entrega);
             if(suspensoes.length >= 2){
-                usuario.ativo = false;
+                usuario.ativo = 'inativo';
             }
             return diasSuspensao;
-        
-        return 0;
     }
 
 
     CalculandoMultaAposDiasDevolucao(emprestimo:Emprestimo){
-        let interval = setInterval(() => {
+        const interval = setInterval(() => {
             const hoje = new Date();
-            if(hoje.getTime() > emprestimo.data_devolucao.getTime()){
+
+            if (!emprestimo.data_entrega && hoje > emprestimo.data_devolucao) {
                 this.CalculaMulta(emprestimo);
+                clearInterval(interval); 
             }
-            else {
-                const devolvido = this.EmprestimoRepository.RegistraDataDevolucao(emprestimo.id);
-                if(devolvido){
-                    if(devolvido.data_devolucao.getTime()> devolvido.data_entrega.getTime()){
-                        clearInterval(interval);
-                    }
-                }
+            if (emprestimo.data_entrega) {
+            clearInterval(interval);
             }
         }, 1000 * 60 * 60 * 24);
     

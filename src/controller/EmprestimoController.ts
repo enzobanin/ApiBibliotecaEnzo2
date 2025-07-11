@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { EmprestimoService } from "../service/EmprestimoService";
-import { Emprestimo } from "../model/Emprestimo";
 const emprestimoService = EmprestimoService.getInstance();
 
 export function InsereEmprestimo(req:Request, res:Response){

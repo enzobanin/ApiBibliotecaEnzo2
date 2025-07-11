@@ -11,9 +11,9 @@ import { InserirExemplar,ListaExemplarPorDisponibilidade,
  import { InsereUsuario,MostrarTodosOsUsuarios,
     MostraUsuarioPorCPF,AtualizaUsuarioPorCPF,DeletaUsuarioPorCPF
   } from "./controller/UsuarioController";
-// import { InsereEmprestimo, MostrarTodosOsEmprestimos,
-//   RegistraDevolucao
-//  } from "./controller/EmprestimoController";
+import { InsereEmprestimo, MostrarTodosOsEmprestimos,
+  RegistraDevolucao
+ } from "./controller/EmprestimoController";
 const app = express();
 
 const PORT = process.env.PORT ?? 3090;
@@ -41,9 +41,9 @@ app.get("/library/estoque/:isbn",ListaExemplarPorISBN);
 app.put("/library/estoque/:isbn",AtualizaDisponibilidadePorISBN);
 app.delete("/library/estoque/:isbn",DeletaExemplarPorISBN);
 // //EMPRÉSTIMOS
-// app.post("/library/emprestimos",InsereEmprestimo);
-// app.get("/library/emprestimos",MostrarTodosOsEmprestimos);
-// app.put("/library/emprestimos/:id/devolucao", RegistraDevolucao);
+app.post("/library/emprestimos",InsereEmprestimo);
+app.get("/library/emprestimos",MostrarTodosOsEmprestimos);
+app.put("/library/emprestimos/:id/devolucao", RegistraDevolucao);
 // //CATÁLOGOS
 // //CATEGORIA USUÁRIO
 app.get("/library/catalogos/categorias-usuario",ListaTodosCategoriasUsuario)
