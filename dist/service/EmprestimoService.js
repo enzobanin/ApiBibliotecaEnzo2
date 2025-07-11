@@ -90,7 +90,10 @@ class EmprestimoService {
         if (categoria_id === 1) {
             return 5;
         }
-        return 3;
+        else if (categoria_id === 2) {
+            return 3;
+        }
+        return 0;
     }
     InsereEmprestimo(data) {
         const { id, cpf, isbn_livro, data_emprestimo, data_devolucao, data_entrega, dias_atraso, suspensao_ate } = data;
@@ -103,18 +106,17 @@ class EmprestimoService {
         this.VerificaLimitesEmprestimos(cpf);
         const hoje = new Date();
         const prazo = this.DiasComLivro(cpf, isbn_livro);
-        data.data_emprestimo = hoje;
+        const dataEmprestimo = hoje;
         const dataDevolucao = new Date();
         dataDevolucao.setDate(hoje.getDate() + prazo);
-        data.data_devolucao = dataDevolucao;
-        data.data_entrega = null;
-        data.dias_atraso = 0;
-        data.suspenso_ate = new Date(0);
-        const novoEmprestimo = new Emprestimo_1.Emprestimo(id, cpf, isbn_livro, data_emprestimo, data_devolucao, data_entrega, dias_atraso, suspensao_ate);
+        const dataEntrega = null;
+        const diasAtraso = 0;
+        const suspensoAte = new Date(0);
+        const novoEmprestimo = new Emprestimo_1.Emprestimo(id, cpf, isbn_livro, dataEmprestimo, dataDevolucao, dataEntrega, diasAtraso, suspensoAte);
         this.EmprestimoRepository.RegistraEmprestimo(novoEmprestimo);
         this.CalculandoMultaAposDiasDevolucao(novoEmprestimo);
         console.log(`Emprestimo salvo,
-            Devolução dia: `, data.data_devolucao);
+            Devolução dia: `, dataDevolucao);
         this.AtualizandoQuantidadeAutomatica(novoEmprestimo);
         return novoEmprestimo;
     }
@@ -143,7 +145,7 @@ class EmprestimoService {
         return;
     }
     CalculaMulta(emprestimo) {
-        if (emprestimo.data_entrega === null) {
+        if (!emprestimo.data_entrega || !emprestimo.data_devolucao) {
             throw new Error("Data de entrega inválida. Não é possível calcular multa.");
         }
         const emp = emprestimo.data_entrega.getTime() - emprestimo.data_devolucao.getTime();

@@ -96,7 +96,10 @@ export class EmprestimoService{
         if(categoria_id === 1){
             return 5;
         }
-        return 3;
+        else if(categoria_id === 2){
+            return 3;
+        }
+        return 0;
     }
 
     InsereEmprestimo(data:any):Emprestimo{
@@ -126,7 +129,7 @@ export class EmprestimoService{
         this.EmprestimoRepository.RegistraEmprestimo(novoEmprestimo);
         this.CalculandoMultaAposDiasDevolucao(novoEmprestimo);
         console.log(`Emprestimo salvo,
-            Devolução dia: `, data.data_devolucao);
+            Devolução dia: `, dataDevolucao);
         this.AtualizandoQuantidadeAutomatica(novoEmprestimo);
         return novoEmprestimo;
     } 

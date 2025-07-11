@@ -29,7 +29,7 @@ class EmprestimoRepository {
     VerificaEmprestimosAtivosUsuarios(cpf) {
         const data = new Date(0);
         return this.EmprestimoLista.filter(e => e.cpf_usuario === cpf
-            && e.data_devolucao.getTime() === data.getTime());
+            && e.data_entrega === null);
     }
     BuscaEmprestimoPorId(id) {
         const emp = this.EmprestimoLista.find(e => e.id === id);
