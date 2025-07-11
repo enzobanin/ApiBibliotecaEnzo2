@@ -64,18 +64,18 @@ export class UsuarioService{
         return novoUsuario;
     }
 
-    GetTodosUsuarios(query:{nome?:string;ativo?:'ativo'|'inativo'|'suspenso';
+    ListaTodosUsuarios(query:{nome?:string;ativo?:'ativo'|'inativo'|'suspenso';
         categoria_id?:number; curso_id?:number;}):Usuario[]{
         return this.usuarioRepository.MostraTodosUsuariosFiltrados(query);
     }
-    GetUsuarioPorCpf(cpf:string):Usuario{
+    ListaUsuarioPorCpf(cpf:string):Usuario{
         const usuario = this.usuarioRepository.MostraUsuarioPorCPF(cpf);
         if(!usuario){
             throw new Error("Usuario com este CPF nao encontrado");
         }
         return usuario;
     }
-    PutUsuario(cpf:string, usuarioNovo:Usuario):Usuario{ 
+    AtualizaUsuario(cpf:string, usuarioNovo:Usuario):Usuario{ 
         const usuario = this.usuarioRepository.AtualizaUsuarioPorCPF(cpf,usuarioNovo);
         if(!usuario){
             throw new Error("Usuario com este CPF nao encontrado");

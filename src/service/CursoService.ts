@@ -14,7 +14,7 @@ export class CursoService{
         return this.instance;
     }
 
-    getCursos():Curso[]{
+    ListaCursos():Curso[]{
         return this.cursoRepository.ListaTodosCurso();
     }
 

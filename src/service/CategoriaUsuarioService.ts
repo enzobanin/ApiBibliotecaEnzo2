@@ -14,7 +14,7 @@ export class CategoriaUsuarioService{
         return this.instance;
     }
 
-    getCategoriaUsuario():CategoriaUsuario[]{
+    ListaCategoriaUsuario():CategoriaUsuario[]{
         return this.categoriaUsuarioRepository.ListaTodosCategoriasUsuario();
     }
 

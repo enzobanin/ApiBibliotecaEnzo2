@@ -25,7 +25,7 @@ export function MostrarTodosLivrosPorISBN(req:Request,res:Response):void{
             res.status(400).json({ status: "Erro", message: "ISBN Inválido" });
             return;
         }
-        res.status(200).json(livroService.GetLivrosPorISBN(isbn));
+        res.status(200).json(livroService.ListaLivrosPorISBN(isbn));
     }catch(e:unknown){
         res.status(400).json({status:"Erro interno",
             message:(e as Error).message})
@@ -42,7 +42,7 @@ export function MostrarLivrosFiltrados(req: Request, res: Response): void {
       categoria_id: categoria_id ? parseInt(categoria_id as string) : undefined,
     };
 
-    const livros = livroService.GetLivrosFiltrados(query);
+    const livros = livroService.ListaLivrosFiltrados(query);
     res.status(200).json(livros);
   } catch (e: unknown) {
     res.status(400).json({ status: "Erro interno", message: (e as Error).message });
@@ -55,7 +55,7 @@ export function AtualizaLivro(req:Request, res:Response):void{
             res.status(400).json({ status: "Erro", message: "ISBN Inválido" });
             return;
         }
-        const LivroAtualizado = livroService.PutLivros(isbn,req.body);
+        const LivroAtualizado = livroService.AtualizaLivros(isbn,req.body);
         res.status(200).json(LivroAtualizado);
     }catch(e:unknown){
         res.status(400).json({status:"Erro interno",

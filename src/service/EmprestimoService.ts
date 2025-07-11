@@ -21,7 +21,7 @@ export class EmprestimoService{
     }
     
     StatusUsuario(cpf:string):void{
-        const usuario = this.usuarioService.GetUsuarioPorCpf(cpf)
+        const usuario = this.usuarioService.ListaUsuarioPorCpf(cpf)
         if(usuario.ativo === 'inativo'){
             throw new Error("Usuario não pode pegar livro emprestado, pois está inativo. Regularize a situação!");
         }
@@ -35,11 +35,11 @@ export class EmprestimoService{
         }
     }    
     VerificaExemplarExistente(isbn:string):void{
-        this.estoqueService.GetExemplarPorISBN(isbn);
+        this.estoqueService.ListaExemplarPorISBN(isbn);
     }
 
     VerificaCPF(cpf:string):void{
-        if(this.usuarioService.GetUsuarioPorCpf(cpf)){
+        if(this.usuarioService.ListaUsuarioPorCpf(cpf)){
             return;
         }
         // this.usuarioService.ValidaCpf(cpf); //verifica a estrutura
@@ -52,7 +52,7 @@ export class EmprestimoService{
     }
 
     DiasComLivro(cpf:string,isbn:string):number{
-        const usuario = this.usuarioService.GetUsuarioPorCpf(cpf);
+        const usuario = this.usuarioService.ListaUsuarioPorCpf(cpf);
         const livro = this.VerificaCategoriaLivro(isbn);
         if(usuario.categoria_id === 1){
             return 40;
@@ -74,16 +74,16 @@ export class EmprestimoService{
     }
 
     VerificaCategoriaLivro(isbn:string):number{
-        const exemplar = this.estoqueService.GetExemplarPorISBN(isbn);
+        const exemplar = this.estoqueService.ListaExemplarPorISBN(isbn);
         if (!exemplar) {
             throw new Error("Exemplar não encontrado");
         }
-        const livro = this.livroService.GetLivrosPorISBN(exemplar.livro_isbn);
+        const livro = this.livroService.ListaLivrosPorISBN(exemplar.livro_isbn);
         return livro.categoria_id;
     }
 
     VerificaLimitesEmprestimos(cpf_usuario:string):void{
-        const usuario = this.usuarioService.GetUsuarioPorCpf(cpf_usuario);
+        const usuario = this.usuarioService.ListaUsuarioPorCpf(cpf_usuario);
         const limite = this.LimitePorUsuario(usuario.categoria_id);
 
         const empAtivo = this.EmprestimoRepository.VerificaEmprestimosAtivosUsuarios(cpf_usuario);
@@ -134,7 +134,7 @@ export class EmprestimoService{
         return novoEmprestimo;
     } 
 
-    GetEmprestimos():Emprestimo[]{
+    ListaEmprestimos():Emprestimo[]{
         return this.EmprestimoRepository.MostraTodosOsEmprestimos();
     }
 
@@ -148,7 +148,7 @@ export class EmprestimoService{
                     this.CalculaMulta(emprestimo);
                 }
             }
-            const exemplar = this.estoqueService.GetExemplarPorISBN(emprestimo.isbn_livro);
+            const exemplar = this.estoqueService.ListaExemplarPorISBN(emprestimo.isbn_livro);
             if (exemplar){
                 exemplar.quantidade_emprestada -=1;
                 if(exemplar.quantidade > exemplar.quantidade_emprestada){
@@ -170,7 +170,7 @@ export class EmprestimoService{
             const hoje = new Date();
             hoje.setDate(hoje.getDate() + diasSuspensao);
             emprestimo.suspensao_ate = hoje;
-            const usuario = this.usuarioService.GetUsuarioPorCpf(emprestimo.cpf_usuario);
+            const usuario = this.usuarioService.ListaUsuarioPorCpf(emprestimo.cpf_usuario);
             if(diasSuspensao>60){
                 usuario.ativo = 'suspenso';
             }
@@ -198,7 +198,7 @@ export class EmprestimoService{
     
     }
     AtualizandoQuantidadeAutomatica(emprestimo: Emprestimo): void {
-        const exemplar = this.estoqueService.GetExemplarPorISBN(emprestimo.isbn_livro);
+        const exemplar = this.estoqueService.ListaExemplarPorISBN(emprestimo.isbn_livro);
         if (exemplar) {
             exemplar.quantidade_emprestada += 1;
             if (exemplar.quantidade === exemplar.quantidade_emprestada) {
@@ -206,7 +206,7 @@ export class EmprestimoService{
             } else {
                 exemplar.status = 'disponivel';
             }
-            this.estoqueService.PutDisponibilidade(emprestimo.isbn_livro, exemplar);
+            this.estoqueService.AtualizaDisponibilidade(emprestimo.isbn_livro, exemplar);
         }
     }
 }   

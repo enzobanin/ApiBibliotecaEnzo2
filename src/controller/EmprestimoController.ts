@@ -20,7 +20,7 @@ export function InsereEmprestimo(req:Request, res:Response){
 
 export function MostrarTodosOsEmprestimos(req:Request, res:Response):void{
     try{
-        res.status(200).json(emprestimoService.GetEmprestimos());
+        res.status(200).json(emprestimoService.ListaEmprestimos());
     }catch(e:unknown){
         res.status(400).json({status:"Operação Invalida",
             message:(e as Error).message})

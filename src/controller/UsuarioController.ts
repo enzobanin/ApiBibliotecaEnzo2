@@ -29,7 +29,7 @@ export function MostrarTodosOsUsuarios(req:Request, res:Response):void{
         categoria_id: categoria_id ? parseInt(categoria_id as string) : undefined,
         curso_id: curso_id ? parseInt(curso_id as string) : undefined,
     };
-    const usuario = usuarioService.GetTodosUsuarios(query);
+    const usuario = usuarioService.ListaTodosUsuarios(query);
         res.status(200).json(usuario);
     }catch(e:unknown){
         res.status(400).json({status:"Operação Invalida",
@@ -44,7 +44,7 @@ export function MostraUsuarioPorCPF(req:Request,res:Response):void{
             res.status(400).json({ status: "Erro", message: "CPF Inválido" });
             return;
         }
-        res.status(200).json(usuarioService.GetUsuarioPorCpf(cpf));
+        res.status(200).json(usuarioService.ListaUsuarioPorCpf(cpf));
     }catch(e:unknown){
         res.status(400).json({status:"Erro interno",
             message:(e as Error).message})
@@ -58,7 +58,7 @@ export function AtualizaUsuarioPorCPF(req:Request, res:Response):void{
             res.status(400).json({ status: "Erro", message: "CPF Inválido" });
             return;
         }
-        const usuarioAtualizado = usuarioService.PutUsuario(cpf,req.body);
+        const usuarioAtualizado = usuarioService.AtualizaUsuario(cpf,req.body);
         res.status(200).json({
             status: "Usuario atualizado com sucesso",
             Usuario: usuarioAtualizado
