@@ -1,14 +1,12 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ListaTodosCurso = ListaTodosCurso;
-const CursoService_1 = require("../service/CursoService");
-const cursoService = CursoService_1.CursoService.getInstance();
-function ListaTodosCurso(req, res) {
-    try {
-        res.status(200).json(cursoService.ListaCursos());
-    }
-    catch (e) {
-        res.status(400).json({ status: "Error",
-            message: e.message });
-    }
-}
+// import { Request,Response } from "express";
+// import { CursoService } from "../service/CursoService";
+// const cursoService = CursoService.getInstance();
+// export function ListaTodosCurso (req:Request, res:Response){
+//     try{
+//         res.status(200).json(cursoService.ListaCursos())
+//     }catch(e:unknown){
+//         res.status(400).json({status:"Error",
+//             message:(e as Error).message})
+//     }
+// }

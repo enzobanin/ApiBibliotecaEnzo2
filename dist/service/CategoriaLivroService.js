@@ -4,8 +4,8 @@ exports.CategoriaLivroService = void 0;
 const CategoriaLivroRepository_1 = require("../repository/CategoriaLivroRepository");
 class CategoriaLivroService {
     categoriaLivroRepository = CategoriaLivroRepository_1.CategoriaLivroRepository.getInstance();
-    ListaCategoriaLivros() {
-        return this.categoriaLivroRepository.ListaTodasCategoriasLivros();
+    async SelectTodasCategoriasLivros() {
+        return this.categoriaLivroRepository.SelectCategoriaLivro();
     }
 }
 exports.CategoriaLivroService = CategoriaLivroService;

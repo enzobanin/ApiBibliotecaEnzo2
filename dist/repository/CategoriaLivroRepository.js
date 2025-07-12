@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CategoriaLivroRepository = void 0;
-const CategoriaLivro_1 = require("../model/CategoriaLivro");
+const CategoriaLivro_1 = require("../model/entidades/CategoriaLivro");
 const mysql_1 = require("../database/mysql");
 class CategoriaLivroRepository {
     static instance;
     constructor() {
-        this.createTableCategoriaLivro();
+        this.CreateTableCategoriaLivro();
         this.InsertCategoriaLivro();
     }
     static getInstance() {
@@ -15,7 +15,7 @@ class CategoriaLivroRepository {
         }
         return this.instance;
     }
-    async createTableCategoriaLivro() {
+    async CreateTableCategoriaLivro() {
         const query = `CREATE TABLE IF NOT EXISTS biblioteca.categoria_livro(
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(255) NOT NULL UNIQUE)`;

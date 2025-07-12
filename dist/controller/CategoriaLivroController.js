@@ -1,14 +1,50 @@
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ListaTodasCategorias = ListaTodasCategorias;
+exports.CategoriaLivroController = void 0;
 const CategoriaLivroService_1 = require("../service/CategoriaLivroService");
-const categoriaLivroService = new CategoriaLivroService_1.CategoriaLivroService();
-function ListaTodasCategorias(req, res) {
-    try {
-        res.status(200).json(categoriaLivroService.ListaCategoriaLivros());
+const tsoa_1 = require("tsoa");
+const BasicResponseDto_1 = require("../model/dto/BasicResponseDto");
+let CategoriaLivroController = class CategoriaLivroController extends tsoa_1.Controller {
+    categoriaLivroService = new CategoriaLivroService_1.CategoriaLivroService();
+    async ListarTodasCategorias(fail, success) {
+        try {
+            return await this.categoriaLivroService.SelectTodasCategoriasLivros();
+        }
+        catch (error) {
+            return fail(400, new BasicResponseDto_1.BasicResponseDto(error.message, undefined));
+        }
     }
-    catch (e) {
-        res.status(400).json({ status: "Error",
-            message: e.message });
-    }
-}
+};
+exports.CategoriaLivroController = CategoriaLivroController;
+__decorate([
+    (0, tsoa_1.Get)(),
+    __param(0, (0, tsoa_1.Res)()),
+    __param(1, (0, tsoa_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Function, Function]),
+    __metadata("design:returntype", Promise)
+], CategoriaLivroController.prototype, "ListarTodasCategorias", null);
+exports.CategoriaLivroController = CategoriaLivroController = __decorate([
+    (0, tsoa_1.Route)("catalogos/categorias_livro"),
+    (0, tsoa_1.Tags)("Categoria Livro")
+], CategoriaLivroController);
+// export function ListaTodasCategorias(req:Request, res:Response){
+//     // try {
+//     //     res.status(200).json(categoriaLivroService.ListaCategoriaLivros());
+//     // }catch(e:unknown){
+//     //     res.status(400).json({status:"Error",
+//     //         message:(e as Error).message})
+//     // }
+// }
