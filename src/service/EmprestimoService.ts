@@ -42,13 +42,6 @@ export class EmprestimoService{
         if(this.usuarioService.ListaUsuarioPorCpf(cpf)){
             return;
         }
-        // this.usuarioService.ValidaCpf(cpf); //verifica a estrutura
-        // const existe = this.usuarioRepository.ValidaCpfExistente(cpf); //verifica se existe
-        // if(!existe){
-        //     throw new Error("Não existe usuário com este CPF");
-        // }else{
-        //     return;
-        // }
     }
 
     DiasComLivro(cpf:string,isbn:string):number{
@@ -108,15 +101,13 @@ export class EmprestimoService{
     }
 
     InsereEmprestimo(data:any):Emprestimo{
-        const {id,cpf,isbn_livro,
-            /*data_emprestimo,data_devolucao,
-            data_entrega,dias_atraso,suspensao_ate*/} = data;
+        const {id,cpf,isbn_livro} = data;
         if(!cpf||!isbn_livro){
             throw new Error("Informações Incompletas");
         }
         this.VerificaCPF(cpf); //verifica se o cpf existe
-        this.StatusUsuario(cpf); // Verifica se está ativo, inativo, suspenso FEITO
-        this.VerificaExemplarExistente(isbn_livro);// FEITO
+        this.StatusUsuario(cpf); // Verifica se está ativo, inativo, suspenso
+        this.VerificaExemplarExistente(isbn_livro);
         this.VerificaLimitesEmprestimos(cpf);
 
         const hoje = new Date();
@@ -144,8 +135,6 @@ export class EmprestimoService{
     }
 
     RealizaDevolucao(emprestimo_id:number):Emprestimo|undefined{
-        // const emprestimo = this.EmprestimoRepository.BuscaEmprestimoPorId(emprestimo_id);
-        // this.CalculaMulta(emprestimo);
         const emprestimo = this.emprestimoRepository.RegistraDataDevolucao(emprestimo_id);
         if(emprestimo){
             if(emprestimo.data_entrega!==null && emprestimo.data_devolucao){

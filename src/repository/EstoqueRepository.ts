@@ -53,12 +53,4 @@ export class EstoqueRepository{
             return deletar;
         }
     }
-
-    // ExisteEstoqueId(id:number):boolean{
-    //     const repetido = this.EstoqueLista.findIndex(e=>e.id===id);
-    //     if(repetido){
-    //         return true;
-    //     }
-    //     return false;
-    // }
 }

@@ -41,11 +41,4 @@ export class EmprestimoRepository{
     BuscaEmprestimoPorUsuario(cpf_usuario:string):Emprestimo[]{
         return this.EmprestimoLista.filter(e=>e.cpf_usuario === cpf_usuario);
     }
-    ExisteEmprestimoAtivoPorLivro(isbn: string):boolean { // nao esta sendo utilizada
-        return this.EmprestimoLista.some(e =>
-        e.isbn_livro === isbn && e.data_devolucao.getTime() === new Date(0).getTime()
-        );
-    }
-
-    
 }
