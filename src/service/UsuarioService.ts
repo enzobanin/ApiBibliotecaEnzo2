@@ -9,7 +9,9 @@ export class UsuarioService{
     private usuarioRepository = UsuarioRepository.getInstance();
     private cursoService = CursoService.getInstance();
     private categoriaUsuarioService = CategoriaUsuarioService.getInstance();
-    private emprestimoService = EmprestimoService.getInstance();
+    private emprestimoService(): EmprestimoService{
+        return EmprestimoService.getInstance();
+    }
 
     private constructor() {}
 
@@ -87,7 +89,7 @@ export class UsuarioService{
     DeleteUsuarioPorCpf(cpf:string){
         const usuario = this.ListaUsuarioPorCpf(cpf);
         if(usuario){
-            if(this.emprestimoService.ListaEmprestimoPorUsuario(cpf)){
+            if(this.emprestimoService().VerificaEmprestimosAtivosPorUsuario(cpf) === 0){
                 return this.usuarioRepository.DeletaUsuarioPorCPF(cpf);
             }
             else{

@@ -27,8 +27,6 @@ export class EmprestimoRepository{
         throw new Error("Emprestimo não encontrado");
     }
     VerificaEmprestimosAtivosUsuarios(cpf:string):Emprestimo[]{ // retorna quantos empréstimos ativos o usuário tem
-        const data = new Date(0);
-         
         return this.EmprestimoLista.filter(e=>e.cpf_usuario === cpf
             && e.data_entrega === null
          );

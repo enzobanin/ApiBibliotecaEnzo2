@@ -86,11 +86,16 @@ export class EmprestimoService{
         const usuario = this.usuarioService.ListaUsuarioPorCpf(cpf_usuario);
         const limite = this.LimitePorUsuario(usuario.categoria_id);
 
-        const empAtivo = this.emprestimoRepository.VerificaEmprestimosAtivosUsuarios(cpf_usuario);
-        if(empAtivo.length >= limite){
+        const empAtivo = this.VerificaEmprestimosAtivosPorUsuario(cpf_usuario);
+        if(empAtivo>= limite){
             throw new Error ("Não é possível realizar o empréstimo. Limite atingido");
         }
         return;
+    }
+
+    VerificaEmprestimosAtivosPorUsuario(cpf:string):number{
+        const empAtivos = this.emprestimoRepository.VerificaEmprestimosAtivosUsuarios(cpf);
+        return empAtivos.length;
     }
     LimitePorUsuario(categoria_id:number):number{
         if(categoria_id === 1){
@@ -136,13 +141,6 @@ export class EmprestimoService{
 
     ListaEmprestimos():Emprestimo[]{
         return this.emprestimoRepository.MostraTodosOsEmprestimos();
-    }
-
-    ListaEmprestimoPorUsuario(cpf:string):boolean{
-        if(!this.emprestimoRepository.BuscaEmprestimoPorUsuario(cpf)){
-            return true;
-        }
-        return false;
     }
 
     RealizaDevolucao(emprestimo_id:number):Emprestimo|undefined{
