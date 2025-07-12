@@ -22,18 +22,6 @@ class EstoqueService {
         }
         return true;
     }
-    // VerificaExemplarDisponivel(id:number):boolean{
-    //     const exemplar = this.EstoqueRepository.ExibeExemplarPorId(id);
-    //     if(!exemplar){
-    //         throw new Error("Exemplar não encontrado");
-    //         } 
-    //     if(exemplar){
-    //         if(exemplar.status = 'emprestado'){
-    //         throw new Error("Todos os exemplares estão emprestados");
-    //         }
-    //     }
-    //     return true;
-    // }
     VerificaQuantidade(quantidade, quantidade_emprestada) {
         if (quantidade < quantidade_emprestada) {
             throw new Error("Quantidade emprestada não pode ser maior que a quantidade total");

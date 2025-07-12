@@ -4,12 +4,10 @@ exports.LivroService = void 0;
 const Livro_1 = require("../model/Livro");
 const LivroRepository_1 = require("../repository/LivroRepository");
 const CategoriaLivroRepository_1 = require("../repository/CategoriaLivroRepository");
-// import { EmprestimoRepository } from "../repository/EmprestimoRepository";
 class LivroService {
     static instance;
     livroRepository = LivroRepository_1.LivroRepository.getInstance();
     CategoriaLivroRepository = CategoriaLivroRepository_1.CategoriaLivroRepository.getInstance();
-    // private EmprestimoRepository = EmprestimoRepository.getInstance();
     constructor() { }
     static getInstance() {
         if (!this.instance) {
@@ -65,10 +63,6 @@ class LivroService {
         if (!livro) {
             throw new Error("isbn incorreto");
         }
-        // const temEmprestimo = this.EmprestimoRepository.ExisteEmprestimoAtivoPorLivro(livro.id);
-        // if (temEmprestimo) {
-        //     throw new Error("Este livro contém empréstimos ativos");
-        // }
         return this.livroRepository.DeletaLivroPorISBN(isbn);
     }
 }

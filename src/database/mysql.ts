@@ -21,3 +21,11 @@ export function executarComandoSQL(query:string, valores:any[]): Promise<any>{
         });
     });
 }
+
+// mysqlConnection.connect((err)=>{
+//     if(err){
+//         console.error('Erro ao conectar ao bando de dados:', err);
+//         throw err;
+//     }
+//     console.log('Conexão bem-sucedida com o bando de dados MySQL');
+// })

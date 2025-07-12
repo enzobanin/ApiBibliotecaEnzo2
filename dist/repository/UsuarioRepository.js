@@ -98,24 +98,6 @@ class UsuarioRepository {
         }
         return false;
     }
-    // UsuarioAtivo(cpf:string):boolean{
-    //     const ativo = this.UsuarioLista.find(u=>u.cpf === cpf);
-    //     if(ativo){
-    //         if(ativo.ativo === true){
-    //             return true;
-    //         }
-    //     }else{
-    //        throw new Error("Usuario não encontrado");
-    //     }
-    //     return false;
-    // }
-    // BuscaUsuarioPorId(id:number):Usuario{
-    //     const usuario = this.UsuarioLista.find(u=>u.id===id);
-    //     if(!usuario){
-    //         throw new Error("Usuário não encontrado");
-    //     }
-    //     return usuario;
-    // }
     ValidaCpf(cpf) {
         if (cpf.length != 11) {
             throw new Error("CPF deve possuir 11 numeros");

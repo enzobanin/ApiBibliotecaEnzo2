@@ -2,16 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CategoriaLivroRepository = void 0;
 const CategoriaLivro_1 = require("../model/CategoriaLivro");
+const mysql_1 = require("../database/mysql");
 class CategoriaLivroRepository {
     static instance;
-    CategoriaLivroLista = [];
     constructor() {
-        this.CategoriaLivroLista = [
-            new CategoriaLivro_1.CategoriaLivro(1, "Romance"),
-            new CategoriaLivro_1.CategoriaLivro(2, "Computação"),
-            new CategoriaLivro_1.CategoriaLivro(3, "Letras"),
-            new CategoriaLivro_1.CategoriaLivro(4, "Gestão"),
-        ];
+        this.createTableCategoriaLivro();
+        this.InsertCategoriaLivro();
     }
     static getInstance() {
         if (!this.instance) {
@@ -19,12 +15,48 @@ class CategoriaLivroRepository {
         }
         return this.instance;
     }
-    ListaTodasCategoriasLivros() {
-        return this.CategoriaLivroLista;
+    async createTableCategoriaLivro() {
+        const query = `CREATE TABLE IF NOT EXISTS biblioteca.categoria_livro(
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(255) NOT NULL UNIQUE)`;
+        try {
+            const resultado = await (0, mysql_1.executarComandoSQL)(query, []);
+            console.log('Tabela categoria_livro criada com sucesso: ', resultado);
+        }
+        catch (err) {
+            console.error('Erro ao criar tabela categoria_livro: ', err);
+        }
     }
-    ListaCategoriaPorId(id) {
-        const categoria = this.CategoriaLivroLista.findIndex(c => c.id === id);
-        if (categoria !== -1) {
+    async InsertCategoriaLivro() {
+        const query = `
+        INSERT IGNORE INTO biblioteca.categoria_livro(name)
+        VALUES
+        (?), (?), (?), (?);
+        `;
+        const valores = ["Romance", "Computação", "Letras", "Gestão"];
+        try {
+            const resultado = await (0, mysql_1.executarComandoSQL)(query, valores);
+            console.log('Categorias inseridas com sucesso', resultado);
+        }
+        catch (err) {
+            console.error('Erro ao inserir categorias', err);
+        }
+    }
+    async SelectCategoriaLivro() {
+        const query = `SELECT * FROM biblioteca.categoria_livro`;
+        try {
+            const resultado = await (0, mysql_1.executarComandoSQL)(query, []);
+            return resultado.map((r) => new CategoriaLivro_1.CategoriaLivro(r.id, r.name));
+        }
+        catch (err) {
+            console.log('Não foi possível exibir as categorias');
+            return [];
+        }
+    }
+    async SelectCategoriaLivroPorId(id) {
+        const query = `SELECT * FROM biblioteca.categoria_livro WHERE id = ?`;
+        const resultado = await (0, mysql_1.executarComandoSQL)(query, [id]);
+        if (resultado.length !== 0) {
             return true;
         }
         return false;
