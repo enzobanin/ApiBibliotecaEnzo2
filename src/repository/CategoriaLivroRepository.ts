@@ -4,7 +4,7 @@ export class CategoriaLivroRepository{
     private static instance: CategoriaLivroRepository;
 
     private constructor(){ // só vai ser colocado as funções que devem ser executadas junto com o repositorio
-        this.createTableCategoriaLivro();
+        this.CreateTableCategoriaLivro();
         this.InsertCategoriaLivro();
     }
 
@@ -14,7 +14,7 @@ export class CategoriaLivroRepository{
         }
         return this.instance;
     }
-    private async createTableCategoriaLivro(){
+    private async CreateTableCategoriaLivro(){
         const query = `CREATE TABLE IF NOT EXISTS biblioteca.categoria_livro(
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(255) NOT NULL UNIQUE)`;
@@ -41,7 +41,7 @@ export class CategoriaLivroRepository{
         }
     }
 
-    private async SelectCategoriaLivro():Promise<CategoriaLivro[]>{
+    async SelectCategoriaLivro():Promise<CategoriaLivro[]>{
         const query = `SELECT * FROM biblioteca.categoria_livro`;
         try{
             const resultado = await executarComandoSQL(query,[]);
@@ -52,7 +52,7 @@ export class CategoriaLivroRepository{
         }
     }
 
-    private async SelectCategoriaLivroPorId(id:number):Promise<boolean>{
+    async SelectCategoriaLivroPorId(id:number):Promise<boolean>{
         const query = `SELECT * FROM biblioteca.categoria_livro WHERE id = ?`;
         const resultado = await executarComandoSQL(query,[id]);
         if(resultado.length !== 0){

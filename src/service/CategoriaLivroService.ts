@@ -4,7 +4,7 @@ import { CategoriaLivroRepository } from "../repository/CategoriaLivroRepository
 export class CategoriaLivroService{
     private categoriaLivroRepository : CategoriaLivroRepository = CategoriaLivroRepository.getInstance();
 
-    ListaCategoriaLivros():CategoriaLivro[]{
-        return this.categoriaLivroRepository.ListaTodasCategoriasLivros();
+    async SelectTodasCategoriasLivros():Promise<CategoriaLivro[]>{
+        return this.categoriaLivroRepository.SelectCategoriaLivro();
     }
 }
