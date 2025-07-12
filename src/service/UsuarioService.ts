@@ -2,13 +2,15 @@ import { Usuario } from "../model/Usuario";
 import { UsuarioRepository } from "../repository/UsuarioRepository";
 import { CursoService } from "./CursoService";
 import { CategoriaUsuarioService } from "./CategoriaUsuarioService";
+import { EmprestimoService } from "./EmprestimoService";
 
 export class UsuarioService{
     private static instance : UsuarioService;
     private usuarioRepository = UsuarioRepository.getInstance();
     private cursoService = CursoService.getInstance();
     private categoriaUsuarioService = CategoriaUsuarioService.getInstance();
-    
+    private emprestimoService = EmprestimoService.getInstance();
+
     private constructor() {}
 
     public static getInstance(): UsuarioService {
@@ -82,11 +84,15 @@ export class UsuarioService{
         }
         return usuarioNovo;
     }
-    DeleteUsuarioPorCpf(cpf:string){ // LEMBRAR DE VERIFICAR OS EMPRÉSTIMOS DO USUÁRIO
-        const deleta = this.usuarioRepository.DeletaUsuarioPorCPF(cpf);
-        if(!deleta){
-            throw new Error("Usuario com este CPF nao encontrado");
+    DeleteUsuarioPorCpf(cpf:string){
+        const usuario = this.ListaUsuarioPorCpf(cpf);
+        if(usuario){
+            if(this.emprestimoService.ListaEmprestimoPorUsuario(cpf)){
+                return this.usuarioRepository.DeletaUsuarioPorCPF(cpf);
+            }
+            else{
+                throw new Error("Não é possível deletar usuário com empréstimos ativos");
+            }
         }
-        return deleta;
     }
 }

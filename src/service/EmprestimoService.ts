@@ -6,7 +6,7 @@ import { LivroService } from "./LivroService";
 
 export class EmprestimoService{
     private static instance: EmprestimoService;
-    private EmprestimoRepository : EmprestimoRepository = EmprestimoRepository.getInstance();
+    private emprestimoRepository : EmprestimoRepository = EmprestimoRepository.getInstance();
     private usuarioService = UsuarioService.getInstance();
     private estoqueService = EstoqueService.getInstance();
     private livroService = LivroService.getInstance();
@@ -86,7 +86,7 @@ export class EmprestimoService{
         const usuario = this.usuarioService.ListaUsuarioPorCpf(cpf_usuario);
         const limite = this.LimitePorUsuario(usuario.categoria_id);
 
-        const empAtivo = this.EmprestimoRepository.VerificaEmprestimosAtivosUsuarios(cpf_usuario);
+        const empAtivo = this.emprestimoRepository.VerificaEmprestimosAtivosUsuarios(cpf_usuario);
         if(empAtivo.length >= limite){
             throw new Error ("Não é possível realizar o empréstimo. Limite atingido");
         }
@@ -104,8 +104,8 @@ export class EmprestimoService{
 
     InsereEmprestimo(data:any):Emprestimo{
         const {id,cpf,isbn_livro,
-            data_emprestimo,data_devolucao,
-            data_entrega,dias_atraso,suspensao_ate} = data;
+            /*data_emprestimo,data_devolucao,
+            data_entrega,dias_atraso,suspensao_ate*/} = data;
         if(!cpf||!isbn_livro){
             throw new Error("Informações Incompletas");
         }
@@ -126,7 +126,7 @@ export class EmprestimoService{
         const diasAtraso = 0;
         const suspensoAte = new Date(0);
         const novoEmprestimo = new Emprestimo(id,cpf,isbn_livro,dataEmprestimo,dataDevolucao,dataEntrega,diasAtraso,suspensoAte);
-        this.EmprestimoRepository.RegistraEmprestimo(novoEmprestimo);
+        this.emprestimoRepository.RegistraEmprestimo(novoEmprestimo);
         this.CalculandoMultaAposDiasDevolucao(novoEmprestimo);
         console.log(`Emprestimo salvo,
             Devolução dia: `, dataDevolucao);
@@ -135,13 +135,20 @@ export class EmprestimoService{
     } 
 
     ListaEmprestimos():Emprestimo[]{
-        return this.EmprestimoRepository.MostraTodosOsEmprestimos();
+        return this.emprestimoRepository.MostraTodosOsEmprestimos();
+    }
+
+    ListaEmprestimoPorUsuario(cpf:string):boolean{
+        if(!this.emprestimoRepository.BuscaEmprestimoPorUsuario(cpf)){
+            return true;
+        }
+        return false;
     }
 
     RealizaDevolucao(emprestimo_id:number):Emprestimo|undefined{
         // const emprestimo = this.EmprestimoRepository.BuscaEmprestimoPorId(emprestimo_id);
         // this.CalculaMulta(emprestimo);
-        const emprestimo = this.EmprestimoRepository.RegistraDataDevolucao(emprestimo_id);
+        const emprestimo = this.emprestimoRepository.RegistraDataDevolucao(emprestimo_id);
         if(emprestimo){
             if(emprestimo.data_entrega!==null && emprestimo.data_devolucao){
                 if(emprestimo.data_entrega.getTime()>emprestimo.data_devolucao.getTime()){
@@ -174,7 +181,7 @@ export class EmprestimoService{
             if(diasSuspensao>60){
                 usuario.ativo = 'suspenso';
             }
-            const qtdEmp = this.EmprestimoRepository.BuscaEmprestimoPorUsuario(usuario.cpf);
+            const qtdEmp = this.emprestimoRepository.BuscaEmprestimoPorUsuario(usuario.cpf);
             const suspensoes = qtdEmp.filter(e=>e.data_entrega !== null && e.data_entrega > e.data_devolucao);
             if(suspensoes.length >= 2){
                 usuario.ativo = 'inativo';
