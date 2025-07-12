@@ -1,4 +1,4 @@
-import { Curso } from "../model/Curso";
+import { Curso } from "../model/entidades/Curso";
 import { CursoRepository } from "../repository/CursoRepository";
 
 export class CursoService{

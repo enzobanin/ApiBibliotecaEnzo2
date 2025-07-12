@@ -1,4 +1,4 @@
-import { Emprestimo } from "../model/Emprestimo";
+import { Emprestimo } from "../model/entidades/Emprestimo";
 
 export class EmprestimoRepository{
     private static instance: EmprestimoRepository;

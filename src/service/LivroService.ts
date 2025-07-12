@@ -1,4 +1,4 @@
-import { Livro } from "../model/Livro";
+import { Livro } from "../model/entidades/Livro";
 import { LivroRepository } from "../repository/LivroRepository";
 import { CategoriaLivroRepository } from "../repository/CategoriaLivroRepository";
 

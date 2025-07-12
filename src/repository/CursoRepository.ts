@@ -1,4 +1,4 @@
-import { Curso } from "../model/Curso";
+import { Curso } from "../model/entidades/Curso";
 
 export class CursoRepository{
     private static instance: CursoRepository;
