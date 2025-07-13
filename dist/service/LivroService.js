@@ -3,10 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.LivroService = void 0;
 const LivroRepository_1 = require("../repository/LivroRepository");
 const CategoriaLivroService_1 = require("./CategoriaLivroService");
+const EstoqueService_1 = require("./EstoqueService");
 class LivroService {
     static instance;
     livroRepository = LivroRepository_1.LivroRepository.getInstance();
     categoriaLivroService = CategoriaLivroService_1.CategoriaLivroService.getInstance();
+    estoqueService = EstoqueService_1.EstoqueService.getInstance();
     constructor() { }
     static getInstance() {
         if (!this.instance) {
@@ -38,7 +40,7 @@ class LivroService {
         if (combinacao) {
             throw new Error("Já existe um livro com esta combinação");
         }
-        return this.livroRepository.InsertLivro(data.titulo, data.autor, data.editora, data.edicao, data.isbn, data.categoria_id);
+        return this.livroRepository.InsertLivro(titulo, autor, editora, edicao, isbn, categoria_id);
     }
     // CadastrarLivro(data:any):Livro{
     //     const{id,titulo, autor, editora, edicao,isbn, categoria_id} = data;
@@ -100,6 +102,10 @@ class LivroService {
     // }
     async DeleteLivroPorISBN(isbn) {
         //não pode deletar o livro se ele possuir exemplares
+        const existeExemp = await this.estoqueService.VerificaExemplarExistente(isbn);
+        if (existeExemp) {
+            throw new Error("Não será possível deletar o livro, pois há exemplar cadastrado");
+        }
         const deleta = await this.livroRepository.DeleteLivroPorISBN(isbn);
         if (!deleta) {
             throw new Error("Não foi possível encontrar o livro com este ISBN");

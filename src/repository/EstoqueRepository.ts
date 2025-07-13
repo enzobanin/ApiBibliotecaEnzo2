@@ -9,7 +9,7 @@ export class EstoqueRepository{
         this.CreateTableEstoque();
     }
 
-    public static getInstance(){
+    static getInstance(){
         if(!this.instance){
             this.instance = new EstoqueRepository();
         }
@@ -65,7 +65,7 @@ export class EstoqueRepository{
     // ExibeExemplares():Estoque[]{ 
     //     return this.EstoqueLista.filter(e => e.status === 'disponivel');
     // }
-    async SelectExemplarPorISBN(livro_isbn:string):Promise<Estoque|boolean>{
+    async SelectExemplarPorISBN(livro_isbn:string):Promise<Estoque>{
         const query = `SELECT * FROM biblioteca.estoque WHERE livro_isbn = ?`
         const resultado = await executarComandoSQL(query,[livro_isbn]);
         if(resultado.length>0){
@@ -74,7 +74,7 @@ export class EstoqueRepository{
                 r.quantidade_emprestada
             )
         }
-        return false;
+        throw new Error("Exemplar não encontrado");
     }
     // ExibeExemplarPorISBN(isbn:string):Estoque|undefined{
     //     const exemplar = this.EstoqueLista.find(e=>e.livro_isbn === isbn);

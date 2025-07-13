@@ -92,6 +92,71 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"EstoqueDto": {
+				"properties": {
+					"livro_isbn": {
+						"type": "string"
+					},
+					"quantidade": {
+						"type": "number",
+						"format": "double"
+					},
+					"quantidade_emprestada": {
+						"type": "number",
+						"format": "double"
+					},
+					"status": {
+						"type": "string",
+						"enum": [
+							"disponivel",
+							"emprestado"
+						]
+					}
+				},
+				"required": [
+					"livro_isbn",
+					"quantidade",
+					"quantidade_emprestada",
+					"status"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Estoque": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"livro_isbn": {
+						"type": "string"
+					},
+					"quantidade": {
+						"type": "number",
+						"format": "double"
+					},
+					"quantidade_emprestada": {
+						"type": "number",
+						"format": "double"
+					},
+					"status": {
+						"type": "string",
+						"enum": [
+							"disponivel",
+							"emprestado"
+						]
+					}
+				},
+				"required": [
+					"id",
+					"livro_isbn",
+					"quantidade",
+					"quantidade_emprestada",
+					"status"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"Curso": {
 				"properties": {
 					"id": {
@@ -426,6 +491,260 @@
 				},
 				"tags": [
 					"Livros"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "isbn",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/estoque": {
+			"post": {
+				"operationId": "CadastrarExemplar",
+				"responses": {
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No content"
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Estoque"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/EstoqueDto"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "ListaExemplarDisponivel",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Estoque"
+									},
+									"type": "array"
+								}
+							}
+						}
+					},
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Estoque"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/estoque/isbn": {
+			"get": {
+				"operationId": "ListaExemplarPorISBN",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/Estoque"
+										},
+										{
+											"type": "boolean"
+										}
+									]
+								}
+							}
+						}
+					},
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Estoque"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "isbn",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "AtualizaExemplarPorISBN",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/Estoque"
+										},
+										{
+											"type": "boolean"
+										}
+									]
+								}
+							}
+						}
+					},
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Estoque"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "isbn",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/EstoqueDto"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeletaExemplarPorISBN",
+				"responses": {
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No content"
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Estoque"
 				],
 				"security": [],
 				"parameters": [

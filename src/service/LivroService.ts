@@ -2,11 +2,13 @@ import { LivroDto } from "../model/dto/LivroDto";
 import { Livro } from "../model/entidades/Livro";
 import { LivroRepository } from "../repository/LivroRepository";
 import { CategoriaLivroService } from "./CategoriaLivroService";
+import { EstoqueService } from "./EstoqueService";
 
 export class LivroService{
     private static instance : LivroService;
     private livroRepository = LivroRepository.getInstance();
     private categoriaLivroService = CategoriaLivroService.getInstance();
+    private estoqueService = EstoqueService.getInstance();
 
     private constructor() {}
 
@@ -42,8 +44,8 @@ export class LivroService{
         if(combinacao){
             throw new Error("Já existe um livro com esta combinação");
         }
-        return this.livroRepository.InsertLivro(data.titulo, data.autor,data.editora,data.edicao,
-            data.isbn, data.categoria_id);
+        return this.livroRepository.InsertLivro(titulo, autor,editora,edicao,
+            isbn, categoria_id);
     }
     // CadastrarLivro(data:any):Livro{
     //     const{id,titulo, autor, editora, edicao,isbn, categoria_id} = data;
@@ -111,6 +113,10 @@ export class LivroService{
     // }
     async DeleteLivroPorISBN(isbn:string):Promise<boolean>{ //lembrar de verificar a exceção do emp 
         //não pode deletar o livro se ele possuir exemplares
+        const existeExemp = await this.estoqueService.VerificaExemplarExistente(isbn);
+        if(existeExemp){
+            throw new Error("Não será possível deletar o livro, pois há exemplar cadastrado")
+        }
         const deleta = await this.livroRepository.DeleteLivroPorISBN(isbn);
         if(!deleta){
             throw new Error("Não foi possível encontrar o livro com este ISBN");

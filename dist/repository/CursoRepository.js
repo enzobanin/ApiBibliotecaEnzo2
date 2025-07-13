@@ -49,7 +49,7 @@ class CursoRepository {
             return resultado.map((r) => new Curso_1.Curso(r.id, r.name));
         }
         catch (err) {
-            console.log('Não foi possível exibir os cursos');
+            console.log('Não foi possível exibir os cursos', err);
             return [];
         }
     }

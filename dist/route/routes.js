@@ -5,6 +5,8 @@ const runtime_1 = require("@tsoa/runtime");
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 const LivroController_1 = require("./../controller/LivroController");
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+const EstoqueController_1 = require("./../controller/EstoqueController");
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 const CursoController_1 = require("./../controller/CursoController");
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 const CategoriaUsuarioController_1 = require("./../controller/CategoriaUsuarioController");
@@ -44,6 +46,29 @@ const models = {
             "edicao": { "dataType": "string", "required": true },
             "isbn": { "dataType": "string", "required": true },
             "categoria_id": { "dataType": "double", "required": true },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "EstoqueDto": {
+        "dataType": "refObject",
+        "properties": {
+            "livro_isbn": { "dataType": "string", "required": true },
+            "quantidade": { "dataType": "double", "required": true },
+            "quantidade_emprestada": { "dataType": "double", "required": true },
+            "status": { "dataType": "union", "subSchemas": [{ "dataType": "enum", "enums": ["disponivel"] }, { "dataType": "enum", "enums": ["emprestado"] }], "required": true },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Estoque": {
+        "dataType": "refObject",
+        "properties": {
+            "id": { "dataType": "double", "required": true },
+            "livro_isbn": { "dataType": "string", "required": true },
+            "quantidade": { "dataType": "double", "required": true },
+            "quantidade_emprestada": { "dataType": "double", "required": true },
+            "status": { "dataType": "union", "subSchemas": [{ "dataType": "enum", "enums": ["disponivel"] }, { "dataType": "enum", "enums": ["emprestado"] }], "required": true },
         },
         "additionalProperties": false,
     },
@@ -200,6 +225,131 @@ function RegisterRoutes(app) {
             const controller = new LivroController_1.LivroController();
             await templateService.apiHandler({
                 methodName: 'DeletaLivroPorISBN',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+            });
+        }
+        catch (err) {
+            return next(err);
+        }
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    const argsEstoqueController_CadastrarExemplar = {
+        dto: { "in": "body", "name": "dto", "required": true, "ref": "EstoqueDto" },
+        fail: { "in": "res", "name": "400", "required": true, "ref": "BasicResponseDto" },
+        success: { "in": "res", "name": "201", "required": true, "ref": "BasicResponseDto" },
+    };
+    app.post('/estoque', ...((0, runtime_1.fetchMiddlewares)(EstoqueController_1.EstoqueController)), ...((0, runtime_1.fetchMiddlewares)(EstoqueController_1.EstoqueController.prototype.CadastrarExemplar)), async function EstoqueController_CadastrarExemplar(request, response, next) {
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        let validatedArgs = [];
+        try {
+            validatedArgs = templateService.getValidatedArgs({ args: argsEstoqueController_CadastrarExemplar, request, response });
+            const controller = new EstoqueController_1.EstoqueController();
+            await templateService.apiHandler({
+                methodName: 'CadastrarExemplar',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+            });
+        }
+        catch (err) {
+            return next(err);
+        }
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    const argsEstoqueController_ListaExemplarDisponivel = {
+        fail: { "in": "res", "name": "400", "required": true, "ref": "BasicResponseDto" },
+        success: { "in": "res", "name": "201", "required": true, "ref": "BasicResponseDto" },
+    };
+    app.get('/estoque', ...((0, runtime_1.fetchMiddlewares)(EstoqueController_1.EstoqueController)), ...((0, runtime_1.fetchMiddlewares)(EstoqueController_1.EstoqueController.prototype.ListaExemplarDisponivel)), async function EstoqueController_ListaExemplarDisponivel(request, response, next) {
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        let validatedArgs = [];
+        try {
+            validatedArgs = templateService.getValidatedArgs({ args: argsEstoqueController_ListaExemplarDisponivel, request, response });
+            const controller = new EstoqueController_1.EstoqueController();
+            await templateService.apiHandler({
+                methodName: 'ListaExemplarDisponivel',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+            });
+        }
+        catch (err) {
+            return next(err);
+        }
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    const argsEstoqueController_ListaExemplarPorISBN = {
+        fail: { "in": "res", "name": "400", "required": true, "ref": "BasicResponseDto" },
+        success: { "in": "res", "name": "201", "required": true, "ref": "BasicResponseDto" },
+        isbn: { "in": "query", "name": "isbn", "required": true, "dataType": "string" },
+    };
+    app.get('/estoque/isbn', ...((0, runtime_1.fetchMiddlewares)(EstoqueController_1.EstoqueController)), ...((0, runtime_1.fetchMiddlewares)(EstoqueController_1.EstoqueController.prototype.ListaExemplarPorISBN)), async function EstoqueController_ListaExemplarPorISBN(request, response, next) {
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        let validatedArgs = [];
+        try {
+            validatedArgs = templateService.getValidatedArgs({ args: argsEstoqueController_ListaExemplarPorISBN, request, response });
+            const controller = new EstoqueController_1.EstoqueController();
+            await templateService.apiHandler({
+                methodName: 'ListaExemplarPorISBN',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+            });
+        }
+        catch (err) {
+            return next(err);
+        }
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    const argsEstoqueController_AtualizaExemplarPorISBN = {
+        fail: { "in": "res", "name": "400", "required": true, "ref": "BasicResponseDto" },
+        success: { "in": "res", "name": "201", "required": true, "ref": "BasicResponseDto" },
+        isbn: { "in": "query", "name": "isbn", "required": true, "dataType": "string" },
+        dto: { "in": "body", "name": "dto", "required": true, "ref": "EstoqueDto" },
+    };
+    app.put('/estoque/isbn', ...((0, runtime_1.fetchMiddlewares)(EstoqueController_1.EstoqueController)), ...((0, runtime_1.fetchMiddlewares)(EstoqueController_1.EstoqueController.prototype.AtualizaExemplarPorISBN)), async function EstoqueController_AtualizaExemplarPorISBN(request, response, next) {
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        let validatedArgs = [];
+        try {
+            validatedArgs = templateService.getValidatedArgs({ args: argsEstoqueController_AtualizaExemplarPorISBN, request, response });
+            const controller = new EstoqueController_1.EstoqueController();
+            await templateService.apiHandler({
+                methodName: 'AtualizaExemplarPorISBN',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+            });
+        }
+        catch (err) {
+            return next(err);
+        }
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    const argsEstoqueController_DeletaExemplarPorISBN = {
+        fail: { "in": "res", "name": "400", "required": true, "ref": "BasicResponseDto" },
+        success: { "in": "res", "name": "201", "required": true, "ref": "BasicResponseDto" },
+        isbn: { "in": "query", "name": "isbn", "required": true, "dataType": "string" },
+    };
+    app.delete('/estoque/isbn', ...((0, runtime_1.fetchMiddlewares)(EstoqueController_1.EstoqueController)), ...((0, runtime_1.fetchMiddlewares)(EstoqueController_1.EstoqueController.prototype.DeletaExemplarPorISBN)), async function EstoqueController_DeletaExemplarPorISBN(request, response, next) {
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        let validatedArgs = [];
+        try {
+            validatedArgs = templateService.getValidatedArgs({ args: argsEstoqueController_DeletaExemplarPorISBN, request, response });
+            const controller = new EstoqueController_1.EstoqueController();
+            await templateService.apiHandler({
+                methodName: 'DeletaExemplarPorISBN',
                 controller,
                 response,
                 next,

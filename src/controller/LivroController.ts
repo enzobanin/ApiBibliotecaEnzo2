@@ -64,7 +64,6 @@ export class LivroController extends Controller{
         @Res()success:TsoaResponse<201,BasicResponseDto>,
         @Query()isbn:string,
         @Body()dto:LivroDto,
-
     ):Promise<Livro|boolean>{
         try{
             const livroAtualizado = await this.livroService.UpdateLivros(isbn,dto);

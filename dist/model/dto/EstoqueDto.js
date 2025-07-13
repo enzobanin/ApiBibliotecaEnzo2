@@ -1,18 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Estoque = void 0;
-class Estoque {
-    id;
+exports.EstoqueDto = void 0;
+class EstoqueDto {
     livro_isbn;
     quantidade;
     quantidade_emprestada;
     status;
-    constructor(id, livro_isbn, quantidade, quantidade_emprestada) {
-        this.id = id || 0;
+    constructor(livro_isbn, quantidade, quantidade_emprestada) {
         this.livro_isbn = livro_isbn || '';
         this.quantidade = quantidade || 0;
         this.quantidade_emprestada = quantidade_emprestada || 0;
         this.status = 'disponivel';
     }
 }
-exports.Estoque = Estoque;
+exports.EstoqueDto = EstoqueDto;
