@@ -81,6 +81,10 @@ class LivroService {
     //     return livro;
     // }
     async UpdateLivros(isbn, livroNovo) {
+        const combinacao = await this.livroRepository.ExisteCombinacaoAutEditEdic(livroNovo?.autor, livroNovo?.editora, livroNovo?.edicao);
+        if (combinacao) {
+            throw new Error("Já existe um livro com esta combinação");
+        }
         const livro = await this.livroRepository.UpdateLivroPorISBN(isbn, livroNovo);
         if (!livro) {
             throw new Error("Livro não encontrado");

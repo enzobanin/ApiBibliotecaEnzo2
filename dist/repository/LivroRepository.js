@@ -62,16 +62,16 @@ class LivroRepository {
         const condicoes = [];
         const valores = [];
         if (filtros.titulo) {
-            condicoes.push(`Lower(titulo)LIKE?`);
-            valores.push(`%{filtros.titulo.toLowerCase()}%`);
+            condicoes.push(`Lower(titulo) LIKE?`);
+            valores.push(`%${filtros.titulo.toLowerCase()}%`);
         }
         if (filtros.autor) {
-            condicoes.push(`Lower(autor)LIKE?`);
-            valores.push(`%{filtros.autor.toLowerCase()}%`);
+            condicoes.push(`Lower(autor) LIKE?`);
+            valores.push(`%${filtros.autor.toLowerCase()}%`);
         }
         if (filtros.editora) {
-            condicoes.push(`Lower(editora)LIKE?`);
-            valores.push(`%{filtros.editora.toLowerCase()}%`);
+            condicoes.push(`Lower(editora) LIKE?`);
+            valores.push(`%${filtros.editora.toLowerCase()}%`);
         }
         if (filtros.categoria_id) {
             condicoes.push(`categoria_id = ?`);
