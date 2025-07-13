@@ -38,6 +38,23 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"CategoriaUsuario": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"nome": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"nome"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"CategoriaLivro": {
 				"properties": {
 					"id": {
