@@ -18,4 +18,11 @@ export class CategoriaLivroService{
         return this.categoriaLivroRepository.SelectCategoriaLivro();
     }
     
+    async SelectCategoriaLivroPorId(id:number):Promise<boolean>{
+        const categoriaExistente = await this.categoriaLivroRepository.SelectCategoriaLivroPorId(id);
+        if(!categoriaExistente){
+            throw new Error("Categoria de Livro com este ID não encontrada");
+        }
+        return true;
+    }
 }

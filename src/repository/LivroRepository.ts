@@ -5,7 +5,7 @@ export class LivroRepository{
     private static instance: LivroRepository;
 
     private constructor(){
-
+        this.CreateTableLivro();
     }
 
     static getInstance(){
@@ -49,7 +49,7 @@ export class LivroRepository{
             categoria_id
         )
     }
-    async SelectLivroPorISBN(isbn:string):Promise<Livro|undefined>{
+    async SelectLivroPorISBN(isbn:string):Promise<Livro|boolean>{
         const query = `SELECT * FROM biblioteca.livro WHERE isbn = ?`;
         const resultado = await executarComandoSQL(query,[isbn]);
         if(resultado.length>0){
@@ -58,7 +58,8 @@ export class LivroRepository{
                 r.isbn, r.categoria_id
             );
         }
-        throw new Error("Livro com este ISBN não encontrado");
+        return false;
+        // throw new Error("Livro com este ISBN não encontrado");
     }
     // BuscaLivroPorISBN(isbn:string):Livro|undefined{ // GET POR ISBN
     //     return this.LivroLista.find(l=>l.isbn===isbn);
