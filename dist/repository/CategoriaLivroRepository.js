@@ -36,14 +36,14 @@ class CategoriaLivroRepository {
         const valores = ["Romance", "Computação", "Letras", "Gestão"];
         try {
             const resultado = await (0, mysql_1.executarComandoSQL)(query, valores);
-            console.log('Categorias inseridas com sucesso', resultado);
+            console.log('Categorias de livro inseridas com sucesso', resultado);
         }
         catch (err) {
             console.error('Erro ao inserir categorias', err);
         }
     }
     async SelectCategoriaLivro() {
-        const query = `SELECT * FROM biblioteca.categoria_livro`;
+        const query = `SELECT * FROM biblioteca.categoria_livro ORDER BY id ASC`;
         try {
             const resultado = await (0, mysql_1.executarComandoSQL)(query, []);
             return resultado.map((r) => new CategoriaLivro_1.CategoriaLivro(r.id, r.name));

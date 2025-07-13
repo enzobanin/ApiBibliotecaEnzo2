@@ -47,6 +47,38 @@
 		"description": "Documentacao da API usando Swagger"
 	},
 	"paths": {
+		"/catalogos/categorias_usuario": {
+			"get": {
+				"operationId": "ListarTodasCategorias",
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Categoria Usuário"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
 		"/catalogos/categorias_livro": {
 			"get": {
 				"operationId": "ListarTodasCategorias",

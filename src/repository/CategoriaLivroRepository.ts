@@ -26,7 +26,7 @@ export class CategoriaLivroRepository{
         }
     }
 
-    async InsertCategoriaLivro(){
+    private async InsertCategoriaLivro(){
         const query = `
         INSERT IGNORE INTO biblioteca.categoria_livro(name)
         VALUES
@@ -35,14 +35,14 @@ export class CategoriaLivroRepository{
         const valores = ["Romance", "Computação", "Letras", "Gestão"];
         try{
             const resultado = await executarComandoSQL(query,valores);
-            console.log('Categorias inseridas com sucesso', resultado);
+            console.log('Categorias de livro inseridas com sucesso', resultado);
         }catch(err){
             console.error('Erro ao inserir categorias', err);
         }
     }
 
     async SelectCategoriaLivro():Promise<CategoriaLivro[]>{
-        const query = `SELECT * FROM biblioteca.categoria_livro`;
+        const query = `SELECT * FROM biblioteca.categoria_livro ORDER BY id ASC`;
         try{
             const resultado = await executarComandoSQL(query,[]);
             return resultado.map((r:any)=> new CategoriaLivro(r.id,r.name));

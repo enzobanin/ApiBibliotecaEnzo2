@@ -1,23 +1,26 @@
 "use strict";
-// import { CategoriaUsuario } from "../model/entidades/CategoriaUsuario";
-// import { CategoriaUsuarioRepository } from "../repository/CategoriaUsuarioRepository";
-// export class CategoriaUsuarioService{
-//     private static instance: CategoriaUsuarioService;
-//     private categoriaUsuarioRepository: CategoriaUsuarioRepository = CategoriaUsuarioRepository.getInstance();
-//     private constructor() {}
-//     public static getInstance(): CategoriaUsuarioService {
-//         if (!this.instance) {
-//             this.instance = new CategoriaUsuarioService();
-//         }
-//         return this.instance;
-//     }
-//     ListaCategoriaUsuario():CategoriaUsuario[]{
-//         return this.categoriaUsuarioRepository.ListaTodosCategoriasUsuario();
-//     }
-//     ProcuraCategoriaUsuarioPorId(id:number):boolean{
-//         if(!this.categoriaUsuarioRepository.ListaCategoriaPorId(id)){
-//             throw new Error("Categoria de Usuário não encontrada");
-//         }
-//         return true;
-//     }
-// }
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CategoriaUsuarioService = void 0;
+const CategoriaUsuarioRepository_1 = require("../repository/CategoriaUsuarioRepository");
+class CategoriaUsuarioService {
+    static instance;
+    categoriaUsuarioRepository = CategoriaUsuarioRepository_1.CategoriaUsuarioRepository.getInstance();
+    constructor() { }
+    static getInstance() {
+        if (!this.instance) {
+            this.instance = new CategoriaUsuarioService();
+        }
+        return this.instance;
+    }
+    async SelectTodasCategoriasUsuarios() {
+        return this.categoriaUsuarioRepository.SelectCategoriaUsuario();
+    }
+    async SelectCategoriaUsuarioPorId(id) {
+        const categoriaExistente = await this.categoriaUsuarioRepository.SelectCategoriaUsuarioPorId(id);
+        if (!categoriaExistente) {
+            throw new Error("Categoria de Usuário não encontrada");
+        }
+        return true;
+    }
+}
+exports.CategoriaUsuarioService = CategoriaUsuarioService;
