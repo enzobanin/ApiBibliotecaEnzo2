@@ -1,4 +1,4 @@
-export class EstoqueDto{
+export class EstoqueSaidaDto{
     livro_isbn:string;
     quantidade:number;
     quantidade_emprestada:number;

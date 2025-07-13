@@ -1,4 +1,5 @@
-import { EstoqueDto } from "../model/dto/EstoqueDto";
+import { EstoqueEntradaDto } from "../model/dto/EstoqueEntradaDto";
+import { EstoqueSaidaDto } from "../model/dto/EstoqueSaidaDto";
 import { Estoque } from "../model/entidades/Estoque";
 import { EstoqueRepository } from "../repository/EstoqueRepository";
 import { LivroService } from "./LivroService";
@@ -23,8 +24,12 @@ export class EstoqueService{
     //     }
     //     return true;
     // }
-    async VerificaExemplarExistente(livro_isbn:string):Promise<Estoque>{
-        return this.estoqueRepository.SelectExemplarPorISBN(livro_isbn);
+    async VerificaExemplarExistente(livro_isbn:string):Promise<EstoqueSaidaDto>{
+        const isbnRepetido = await this.estoqueRepository.SelectExemplarPorISBN(livro_isbn);
+        if(isbnRepetido.livro_isbn === livro_isbn){
+            throw new Error("Já existe um exemplar com este ISBN")
+        }
+        return isbnRepetido;
     }
 
     // VerificaQuantidade(quantidade:number, quantidade_emprestada:number):void{
@@ -62,14 +67,15 @@ export class EstoqueService{
     //     return novoExemplar;
     // }
 
-    async InsertExemplar(data:any):Promise<Estoque>{
-        const {livro_isbn,quantidade,quantidade_emprestada,status} = data;
+    async InsertExemplar(data:EstoqueEntradaDto):Promise<EstoqueSaidaDto>{
+        const {livro_isbn,quantidade,quantidade_emprestada} = data;
         if(!livro_isbn){
             throw new Error("É necessário informar o ISBN do livro");
         }
         await this.VerificaExemplarExistente(livro_isbn);
         await this.livroService.SelectLivroPorISBN(livro_isbn);
         await this.VerificaQuantidade(quantidade,quantidade_emprestada);
+        const status = quantidade === quantidade ? 'emprestado':'disponivel'
         return this.estoqueRepository.InsertEstoque(livro_isbn,quantidade,
             quantidade_emprestada,status
         )
@@ -79,7 +85,7 @@ export class EstoqueService{
     //     return this.EstoqueRepository.ExibeExemplares();
     // }
 
-    async ListaExemplarComDisponibilidae():Promise<Estoque[]>{
+    async ListaExemplarComDisponibilidae():Promise<EstoqueSaidaDto[]>{
         return this.estoqueRepository.SelectEstoqueDisponivel();
     }
     
@@ -88,7 +94,7 @@ export class EstoqueService{
     //     return exemplar;
     // }
 
-    async ListaExemplarPorISBN(livro_isbn:string):Promise<Estoque|boolean>{
+    async ListaExemplarPorISBN(livro_isbn:string):Promise<EstoqueSaidaDto|boolean>{
         const exemplar = await this.estoqueRepository.SelectExemplarPorISBN(livro_isbn);
         if(!exemplar){
             throw new Error("Exemplar não encontrado");
@@ -104,7 +110,7 @@ export class EstoqueService{
         
     // }
 
-    async UpdateEstoque(livro_isbn:string,exemplarNovo:EstoqueDto):Promise<EstoqueDto>{
+    async UpdateEstoque(livro_isbn:string,exemplarNovo:EstoqueEntradaDto):Promise<EstoqueSaidaDto>{
         const exemplar = await this.estoqueRepository.UpdateDisponibilidadePorISBN(livro_isbn,exemplarNovo);
         if(!exemplar){
             throw new Error("Não foi possível atualizar o exemplar");

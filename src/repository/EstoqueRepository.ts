@@ -1,6 +1,7 @@
 import { Estoque } from "../model/entidades/Estoque";
 import { executarComandoSQL } from "../database/mysql";
-import { EstoqueDto } from "../model/dto/EstoqueDto";
+import { EstoqueEntradaDto } from "../model/dto/EstoqueEntradaDto";
+import { EstoqueSaidaDto } from "../model/dto/EstoqueSaidaDto";
 
 export class EstoqueRepository{
     private static instance:EstoqueRepository;
@@ -34,8 +35,8 @@ export class EstoqueRepository{
     //     this.EstoqueLista.push(exemplar);
     // }
     async InsertEstoque(livro_isbn:string,quantidade:number,
-            quantidade_emprestada:number,status:'disponivel'
-        ):Promise<Estoque>{
+            quantidade_emprestada:number,status:'disponivel'|'emprestado'
+        ):Promise<EstoqueSaidaDto>{
             const resultado = await executarComandoSQL(
             `INSERT INTO biblioteca.estoque(livro_isbn,quantidade,
             quantidade_emprestada,status)
@@ -49,12 +50,12 @@ export class EstoqueRepository{
             exemplar.status = status;
             return exemplar;
         }
-    async SelectEstoqueDisponivel():Promise<Estoque[]>{
+    async SelectEstoqueDisponivel():Promise<EstoqueSaidaDto[]>{
         const query = `SELECT * FROM biblioteca.estoque WHERE 
         status = 'disponivel' ORDER BY id ASC`;
         try{
             const resultado = await executarComandoSQL(query,[]);
-            return resultado.map((r:any)=>new Estoque(r.id,r.livro_isbn,
+            return resultado.map((r:any)=>new EstoqueSaidaDto(r.livro_isbn,
                 r.quantidade,r.quantidade_emprestada
             ));
         }catch(err){
@@ -65,16 +66,20 @@ export class EstoqueRepository{
     // ExibeExemplares():Estoque[]{ 
     //     return this.EstoqueLista.filter(e => e.status === 'disponivel');
     // }
-    async SelectExemplarPorISBN(livro_isbn:string):Promise<Estoque>{
+    async SelectExemplarPorISBN(livro_isbn:string):Promise<EstoqueSaidaDto>{
         const query = `SELECT * FROM biblioteca.estoque WHERE livro_isbn = ?`
         const resultado = await executarComandoSQL(query,[livro_isbn]);
         if(resultado.length>0){
             const r = resultado[0];
-            return new Estoque(r.id,r.livro_isbn,r.quantidade,
+            const e = new Estoque(r.id,r.livro_isbn,r.quantidade,
                 r.quantidade_emprestada
-            )
+                );
+            e.status = r.status;
+            return e;
         }
-        throw new Error("Exemplar não encontrado");
+        return resultado;
+        
+        
     }
     // ExibeExemplarPorISBN(isbn:string):Estoque|undefined{
     //     const exemplar = this.EstoqueLista.find(e=>e.livro_isbn === isbn);
@@ -83,7 +88,7 @@ export class EstoqueRepository{
     //     }
     //     return;
     // }
-    async UpdateDisponibilidadePorISBN(livro_isbn:string,exemplarNovo:EstoqueDto):Promise<EstoqueDto|undefined>{
+    async UpdateDisponibilidadePorISBN(livro_isbn:string,exemplarNovo:EstoqueEntradaDto):Promise<EstoqueSaidaDto|undefined>{
         const exemplarAtual = `UPDATE biblioteca.estoque SET
         quantidade = ?, quantidade_emprestada = ?
         WHERE livro_isbn = ?`
@@ -109,7 +114,7 @@ export class EstoqueRepository{
             const livroAtualizado = await executarComandoSQL(exemplar,[livro_isbn]);
             if(livroAtualizado.length>0){
                 const r = livroAtualizado[0];
-                const exemplarAtualizado =new EstoqueDto(r.livro_isbn,
+                const exemplarAtualizado =new EstoqueSaidaDto(r.livro_isbn,
                     r.quantidade,r.quantidade_emprestada
                 )
                 if(exemplarAtualizado.quantidade === exemplarAtualizado.quantidade_emprestada){

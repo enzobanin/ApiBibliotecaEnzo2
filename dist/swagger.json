@@ -92,7 +92,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"EstoqueDto": {
+			"EstoqueEntradaDto": {
 				"properties": {
 					"livro_isbn": {
 						"type": "string"
@@ -104,30 +104,18 @@
 					"quantidade_emprestada": {
 						"type": "number",
 						"format": "double"
-					},
-					"status": {
-						"type": "string",
-						"enum": [
-							"disponivel",
-							"emprestado"
-						]
 					}
 				},
 				"required": [
 					"livro_isbn",
 					"quantidade",
-					"quantidade_emprestada",
-					"status"
+					"quantidade_emprestada"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Estoque": {
+			"EstoqueSaidaDto": {
 				"properties": {
-					"id": {
-						"type": "number",
-						"format": "double"
-					},
 					"livro_isbn": {
 						"type": "string"
 					},
@@ -148,7 +136,6 @@
 					}
 				},
 				"required": [
-					"id",
 					"livro_isbn",
 					"quantidade",
 					"quantidade_emprestada",
@@ -543,7 +530,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/EstoqueDto"
+								"$ref": "#/components/schemas/EstoqueEntradaDto"
 							}
 						}
 					}
@@ -558,7 +545,7 @@
 							"application/json": {
 								"schema": {
 									"items": {
-										"$ref": "#/components/schemas/Estoque"
+										"$ref": "#/components/schemas/EstoqueSaidaDto"
 									},
 									"type": "array"
 								}
@@ -604,7 +591,7 @@
 								"schema": {
 									"anyOf": [
 										{
-											"$ref": "#/components/schemas/Estoque"
+											"$ref": "#/components/schemas/EstoqueSaidaDto"
 										},
 										{
 											"type": "boolean"
@@ -660,7 +647,7 @@
 								"schema": {
 									"anyOf": [
 										{
-											"$ref": "#/components/schemas/Estoque"
+											"$ref": "#/components/schemas/EstoqueSaidaDto"
 										},
 										{
 											"type": "boolean"
@@ -710,7 +697,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/EstoqueDto"
+								"$ref": "#/components/schemas/EstoqueEntradaDto"
 							}
 						}
 					}

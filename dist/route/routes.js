@@ -50,21 +50,19 @@ const models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "EstoqueDto": {
+    "EstoqueEntradaDto": {
         "dataType": "refObject",
         "properties": {
             "livro_isbn": { "dataType": "string", "required": true },
             "quantidade": { "dataType": "double", "required": true },
             "quantidade_emprestada": { "dataType": "double", "required": true },
-            "status": { "dataType": "union", "subSchemas": [{ "dataType": "enum", "enums": ["disponivel"] }, { "dataType": "enum", "enums": ["emprestado"] }], "required": true },
         },
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Estoque": {
+    "EstoqueSaidaDto": {
         "dataType": "refObject",
         "properties": {
-            "id": { "dataType": "double", "required": true },
             "livro_isbn": { "dataType": "string", "required": true },
             "quantidade": { "dataType": "double", "required": true },
             "quantidade_emprestada": { "dataType": "double", "required": true },
@@ -238,7 +236,7 @@ function RegisterRoutes(app) {
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     const argsEstoqueController_CadastrarExemplar = {
-        dto: { "in": "body", "name": "dto", "required": true, "ref": "EstoqueDto" },
+        dto: { "in": "body", "name": "dto", "required": true, "ref": "EstoqueEntradaDto" },
         fail: { "in": "res", "name": "400", "required": true, "ref": "BasicResponseDto" },
         success: { "in": "res", "name": "201", "required": true, "ref": "BasicResponseDto" },
     };
@@ -315,7 +313,7 @@ function RegisterRoutes(app) {
         fail: { "in": "res", "name": "400", "required": true, "ref": "BasicResponseDto" },
         success: { "in": "res", "name": "201", "required": true, "ref": "BasicResponseDto" },
         isbn: { "in": "query", "name": "isbn", "required": true, "dataType": "string" },
-        dto: { "in": "body", "name": "dto", "required": true, "ref": "EstoqueDto" },
+        dto: { "in": "body", "name": "dto", "required": true, "ref": "EstoqueEntradaDto" },
     };
     app.put('/estoque/isbn', ...((0, runtime_1.fetchMiddlewares)(EstoqueController_1.EstoqueController)), ...((0, runtime_1.fetchMiddlewares)(EstoqueController_1.EstoqueController.prototype.AtualizaExemplarPorISBN)), async function EstoqueController_AtualizaExemplarPorISBN(request, response, next) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

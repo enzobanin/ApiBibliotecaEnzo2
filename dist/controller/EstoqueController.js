@@ -16,7 +16,7 @@ exports.EstoqueController = void 0;
 const EstoqueService_1 = require("../service/EstoqueService");
 const tsoa_1 = require("tsoa");
 const BasicResponseDto_1 = require("../model/dto/BasicResponseDto");
-const EstoqueDto_1 = require("../model/dto/EstoqueDto");
+const EstoqueEntradaDto_1 = require("../model/dto/EstoqueEntradaDto");
 let EstoqueController = class EstoqueController extends tsoa_1.Controller {
     estoqueService = EstoqueService_1.EstoqueService.getInstance();
     async CadastrarExemplar(dto, fail, success) {
@@ -72,7 +72,7 @@ __decorate([
     __param(1, (0, tsoa_1.Res)()),
     __param(2, (0, tsoa_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [EstoqueDto_1.EstoqueDto, Function, Function]),
+    __metadata("design:paramtypes", [EstoqueEntradaDto_1.EstoqueEntradaDto, Function, Function]),
     __metadata("design:returntype", Promise)
 ], EstoqueController.prototype, "CadastrarExemplar", null);
 __decorate([
@@ -99,7 +99,7 @@ __decorate([
     __param(2, (0, tsoa_1.Query)()),
     __param(3, (0, tsoa_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Function, Function, String, EstoqueDto_1.EstoqueDto]),
+    __metadata("design:paramtypes", [Function, Function, String, EstoqueEntradaDto_1.EstoqueEntradaDto]),
     __metadata("design:returntype", Promise)
 ], EstoqueController.prototype, "AtualizaExemplarPorISBN", null);
 __decorate([

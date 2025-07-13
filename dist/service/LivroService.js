@@ -8,7 +8,9 @@ class LivroService {
     static instance;
     livroRepository = LivroRepository_1.LivroRepository.getInstance();
     categoriaLivroService = CategoriaLivroService_1.CategoriaLivroService.getInstance();
-    estoqueService = EstoqueService_1.EstoqueService.getInstance();
+    estoqueService() {
+        return EstoqueService_1.EstoqueService.getInstance();
+    }
     constructor() { }
     static getInstance() {
         if (!this.instance) {
@@ -102,7 +104,7 @@ class LivroService {
     // }
     async DeleteLivroPorISBN(isbn) {
         //não pode deletar o livro se ele possuir exemplares
-        const existeExemp = await this.estoqueService.VerificaExemplarExistente(isbn);
+        const existeExemp = await this.estoqueService().VerificaExemplarExistente(isbn);
         if (existeExemp) {
             throw new Error("Não será possível deletar o livro, pois há exemplar cadastrado");
         }

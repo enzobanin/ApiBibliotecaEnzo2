@@ -4,7 +4,8 @@ import { Body,Controller,Delete,Get,Path,Post,Put,Query,Res,
  } from "tsoa";
 import { BasicResponseDto } from "../model/dto/BasicResponseDto";
 import { Estoque } from "../model/entidades/Estoque";
-import { EstoqueDto } from "../model/dto/EstoqueDto";
+import { EstoqueEntradaDto } from "../model/dto/EstoqueEntradaDto";
+import { EstoqueSaidaDto } from "../model/dto/EstoqueSaidaDto";
 @Route("estoque")
 @Tags("Estoque")
 
@@ -13,7 +14,7 @@ export class EstoqueController extends Controller{
 
     @Post()
     async CadastrarExemplar(
-    @Body()dto:EstoqueDto,
+    @Body()dto:EstoqueEntradaDto,
     @Res()fail:TsoaResponse<400,BasicResponseDto>,
     @Res()success:TsoaResponse<201,BasicResponseDto>
     ):Promise<void>{
@@ -28,7 +29,7 @@ export class EstoqueController extends Controller{
     async ListaExemplarDisponivel(
         @Res()fail:TsoaResponse<400,BasicResponseDto>,
         @Res()success:TsoaResponse<201,BasicResponseDto>,
-    ):Promise<Estoque[]>{
+    ):Promise<EstoqueSaidaDto[]>{
         try{
             return await this.estoqueService.ListaExemplarComDisponibilidae();
         }catch(error:any){
@@ -40,7 +41,7 @@ export class EstoqueController extends Controller{
         @Res()fail:TsoaResponse<400,BasicResponseDto>,
         @Res()success:TsoaResponse<201,BasicResponseDto>,
         @Query()isbn:string
-    ):Promise<Estoque|boolean>{
+    ):Promise<EstoqueSaidaDto|boolean>{
         try{
             return await this.estoqueService.ListaExemplarPorISBN(isbn);
         }catch(error:any){
@@ -52,8 +53,8 @@ export class EstoqueController extends Controller{
         @Res()fail:TsoaResponse<400,BasicResponseDto>,
         @Res()success:TsoaResponse<201,BasicResponseDto>,
         @Query()isbn:string,
-        @Body()dto:EstoqueDto,
-    ):Promise<Estoque|boolean>{
+        @Body()dto:EstoqueEntradaDto,
+    ):Promise<EstoqueSaidaDto|boolean>{
         try{
             const exemplarAtualizado = await this.estoqueService.UpdateEstoque(isbn,dto);
             return success(201, new BasicResponseDto("Exemplar atualizado: ", exemplarAtualizado));

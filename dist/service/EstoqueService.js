@@ -21,7 +21,11 @@ class EstoqueService {
     //     return true;
     // }
     async VerificaExemplarExistente(livro_isbn) {
-        return this.estoqueRepository.SelectExemplarPorISBN(livro_isbn);
+        const isbnRepetido = await this.estoqueRepository.SelectExemplarPorISBN(livro_isbn);
+        if (isbnRepetido.livro_isbn === livro_isbn) {
+            throw new Error("Já existe um exemplar com este ISBN");
+        }
+        return isbnRepetido;
     }
     // VerificaQuantidade(quantidade:number, quantidade_emprestada:number):void{
     //     if(quantidade < quantidade_emprestada){
@@ -57,13 +61,14 @@ class EstoqueService {
     //     return novoExemplar;
     // }
     async InsertExemplar(data) {
-        const { livro_isbn, quantidade, quantidade_emprestada, status } = data;
+        const { livro_isbn, quantidade, quantidade_emprestada } = data;
         if (!livro_isbn) {
             throw new Error("É necessário informar o ISBN do livro");
         }
         await this.VerificaExemplarExistente(livro_isbn);
         await this.livroService.SelectLivroPorISBN(livro_isbn);
         await this.VerificaQuantidade(quantidade, quantidade_emprestada);
+        const status = quantidade === quantidade ? 'emprestado' : 'disponivel';
         return this.estoqueRepository.InsertEstoque(livro_isbn, quantidade, quantidade_emprestada, status);
     }
     // ListaExemplarComDisponibilidade():Estoque[]{

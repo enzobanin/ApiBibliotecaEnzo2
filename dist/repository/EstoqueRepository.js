@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.EstoqueRepository = void 0;
 const Estoque_1 = require("../model/entidades/Estoque");
 const mysql_1 = require("../database/mysql");
-const EstoqueDto_1 = require("../model/dto/EstoqueDto");
+const EstoqueSaidaDto_1 = require("../model/dto/EstoqueSaidaDto");
 class EstoqueRepository {
     static instance;
     constructor() {
@@ -50,7 +50,7 @@ class EstoqueRepository {
         status = 'disponivel' ORDER BY id ASC`;
         try {
             const resultado = await (0, mysql_1.executarComandoSQL)(query, []);
-            return resultado.map((r) => new Estoque_1.Estoque(r.id, r.livro_isbn, r.quantidade, r.quantidade_emprestada));
+            return resultado.map((r) => new EstoqueSaidaDto_1.EstoqueSaidaDto(r.livro_isbn, r.quantidade, r.quantidade_emprestada));
         }
         catch (err) {
             console.log('Não foi possível exibir os exemplares disponíveis', err);
@@ -65,9 +65,11 @@ class EstoqueRepository {
         const resultado = await (0, mysql_1.executarComandoSQL)(query, [livro_isbn]);
         if (resultado.length > 0) {
             const r = resultado[0];
-            return new Estoque_1.Estoque(r.id, r.livro_isbn, r.quantidade, r.quantidade_emprestada);
+            const e = new Estoque_1.Estoque(r.id, r.livro_isbn, r.quantidade, r.quantidade_emprestada);
+            e.status = r.status;
+            return e;
         }
-        throw new Error("Exemplar não encontrado");
+        return resultado;
     }
     // ExibeExemplarPorISBN(isbn:string):Estoque|undefined{
     //     const exemplar = this.EstoqueLista.find(e=>e.livro_isbn === isbn);
@@ -102,7 +104,7 @@ class EstoqueRepository {
             const livroAtualizado = await (0, mysql_1.executarComandoSQL)(exemplar, [livro_isbn]);
             if (livroAtualizado.length > 0) {
                 const r = livroAtualizado[0];
-                const exemplarAtualizado = new EstoqueDto_1.EstoqueDto(r.livro_isbn, r.quantidade, r.quantidade_emprestada);
+                const exemplarAtualizado = new EstoqueSaidaDto_1.EstoqueSaidaDto(r.livro_isbn, r.quantidade, r.quantidade_emprestada);
                 if (exemplarAtualizado.quantidade === exemplarAtualizado.quantidade_emprestada) {
                     exemplarAtualizado.status = 'emprestado';
                 }
