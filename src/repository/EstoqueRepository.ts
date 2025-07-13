@@ -35,20 +35,21 @@ export class EstoqueRepository{
     //     this.EstoqueLista.push(exemplar);
     // }
     async InsertEstoque(livro_isbn:string,quantidade:number,
-            quantidade_emprestada:number,status:'disponivel'|'emprestado'
+            quantidade_emprestada:number
         ):Promise<EstoqueSaidaDto>{
+            const status: 'disponivel' | 'emprestado' =
+    quantidade === quantidade_emprestada ? 'emprestado' : 'disponivel';
             const resultado = await executarComandoSQL(
             `INSERT INTO biblioteca.estoque(livro_isbn,quantidade,
             quantidade_emprestada,status)
             VALUES
-            (?, ?, ?, ?);
+            (?, ?, ?, ?);   
             `,
             [livro_isbn,quantidade,quantidade_emprestada,status]);
             console.log('Exemplar inserido com sucesso: ', resultado);
-            const exemplar = new Estoque(resultado.insertId,livro_isbn,quantidade,
-                quantidade_emprestada);
-            exemplar.status = status;
-            return exemplar;
+            return new EstoqueSaidaDto(livro_isbn,quantidade,
+                quantidade_emprestada,status
+            )
         }
     async SelectEstoqueDisponivel():Promise<EstoqueSaidaDto[]>{
         const query = `SELECT * FROM biblioteca.estoque WHERE 
@@ -74,7 +75,13 @@ export class EstoqueRepository{
             const e = new Estoque(r.id,r.livro_isbn,r.quantidade,
                 r.quantidade_emprestada
                 );
-            e.status = r.status;
+            if(r.quantidade === r.quantidade_emprestada){
+                e.status = 'emprestado'
+            }
+            else{
+                e.status = 'disponivel';
+            }
+            
             return e;
         }
         return resultado;

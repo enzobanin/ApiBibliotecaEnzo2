@@ -34,16 +34,15 @@ class EstoqueRepository {
     // InsereExemplar(exemplar:Estoque):void{ 
     //     this.EstoqueLista.push(exemplar);
     // }
-    async InsertEstoque(livro_isbn, quantidade, quantidade_emprestada, status) {
+    async InsertEstoque(livro_isbn, quantidade, quantidade_emprestada) {
+        const status = quantidade === quantidade_emprestada ? 'emprestado' : 'disponivel';
         const resultado = await (0, mysql_1.executarComandoSQL)(`INSERT INTO biblioteca.estoque(livro_isbn,quantidade,
             quantidade_emprestada,status)
             VALUES
-            (?, ?, ?, ?);
+            (?, ?, ?, ?);   
             `, [livro_isbn, quantidade, quantidade_emprestada, status]);
         console.log('Exemplar inserido com sucesso: ', resultado);
-        const exemplar = new Estoque_1.Estoque(resultado.insertId, livro_isbn, quantidade, quantidade_emprestada);
-        exemplar.status = status;
-        return exemplar;
+        return new EstoqueSaidaDto_1.EstoqueSaidaDto(livro_isbn, quantidade, quantidade_emprestada, status);
     }
     async SelectEstoqueDisponivel() {
         const query = `SELECT * FROM biblioteca.estoque WHERE 
@@ -66,7 +65,12 @@ class EstoqueRepository {
         if (resultado.length > 0) {
             const r = resultado[0];
             const e = new Estoque_1.Estoque(r.id, r.livro_isbn, r.quantidade, r.quantidade_emprestada);
-            e.status = r.status;
+            if (r.quantidade === r.quantidade_emprestada) {
+                e.status = 'emprestado';
+            }
+            else {
+                e.status = 'disponivel';
+            }
             return e;
         }
         return resultado;

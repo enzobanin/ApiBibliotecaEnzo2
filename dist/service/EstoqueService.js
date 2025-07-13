@@ -68,8 +68,7 @@ class EstoqueService {
         await this.VerificaExemplarExistente(livro_isbn);
         await this.livroService.SelectLivroPorISBN(livro_isbn);
         await this.VerificaQuantidade(quantidade, quantidade_emprestada);
-        const status = quantidade === quantidade ? 'emprestado' : 'disponivel';
-        return this.estoqueRepository.InsertEstoque(livro_isbn, quantidade, quantidade_emprestada, status);
+        return this.estoqueRepository.InsertEstoque(livro_isbn, quantidade, quantidade_emprestada);
     }
     // ListaExemplarComDisponibilidade():Estoque[]{
     //     return this.EstoqueRepository.ExibeExemplares();
