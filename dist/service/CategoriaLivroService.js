@@ -15,5 +15,12 @@ class CategoriaLivroService {
     async SelectTodasCategoriasLivros() {
         return this.categoriaLivroRepository.SelectCategoriaLivro();
     }
+    async SelectCategoriaLivroPorId(id) {
+        const categoriaExistente = await this.categoriaLivroRepository.SelectCategoriaLivroPorId(id);
+        if (!categoriaExistente) {
+            throw new Error("Categoria de Livro com este ID não encontrada");
+        }
+        return true;
+    }
 }
 exports.CategoriaLivroService = CategoriaLivroService;

@@ -1,3 +1,4 @@
+import { LivroDto } from "../model/dto/LivroDto";
 import { Livro } from "../model/entidades/Livro";
 import { LivroRepository } from "../repository/LivroRepository";
 import { CategoriaLivroService } from "./CategoriaLivroService";
@@ -90,7 +91,7 @@ export class LivroService{
     //     }
     //     return livro;
     // }
-    async UpdateLivros(isbn:string, livroNovo:Livro):Promise<Livro>{
+    async UpdateLivros(isbn:string, livroNovo:LivroDto):Promise<LivroDto>{
         const livro = await this.livroRepository.UpdateLivroPorISBN(isbn,livroNovo);
         if(!livro){
             throw new Error("Livro não encontrado");
@@ -106,7 +107,11 @@ export class LivroService{
     // }
     async DeleteLivroPorISBN(isbn:string):Promise<boolean>{ //lembrar de verificar a exceção do emp 
         //não pode deletar o livro se ele possuir exemplares
-        return this.DeleteLivroPorISBN(isbn);
+        const deleta = await this.livroRepository.DeleteLivroPorISBN(isbn);
+        if(!deleta){
+            throw new Error("Não foi possível encontrar o livro com este ISBN");
+        }
+        return true;
     }
     // DeleteLivroPorisbn(isbn:string):boolean{
     //     const livro = this.livroRepository.BuscaLivroPorISBN(isbn);

@@ -1,5 +1,6 @@
 import { Livro } from "../model/entidades/Livro";
 import { executarComandoSQL } from "../database/mysql";
+import { LivroDto } from "../model/dto/LivroDto";
 
 export class LivroRepository{
     private static instance: LivroRepository;
@@ -22,7 +23,7 @@ export class LivroRepository{
         editora VARCHAR(255) NOT NULL,
         edicao VARCHAR(255) NOT NULL,
         isbn VARCHAR(255) NOT NULL,
-        categoria_id(2)
+        categoria_id INT NOT NULL
         )`;
         try{
             const resultado = await executarComandoSQL(query,[]);
@@ -41,7 +42,7 @@ export class LivroRepository{
         `INSERT INTO biblioteca.livro(titulo,autor,editora,
         edicao,isbn,categoria_id)
         VALUES
-        (?), (?), (?), (?), (?), (?);
+        (?, ?, ?, ?, ?, ?);
         `,
         [titulo,autor,editora,edicao,isbn,categoria_id]);
         console.log('Livro inserido com sucesso: ', resultado);
@@ -94,7 +95,9 @@ export class LivroRepository{
             query+= ` WHERE ` + condicoes.join(" AND ");
         }
         const resultado = await executarComandoSQL(query, valores);
-        return resultado.map((r:any)=> new Livro(r));
+        return resultado.map((r:any)=> new Livro(r.id,
+            r.titulo,r.autor,r.editora,r.edicao,r.isbn,r.categoria_id
+        ));
     }
 //     FiltrarLivros(query: {titulo?: string; autor?: string;
 //     editora?: string; categoria_id?: number;}): Livro[] {
@@ -106,7 +109,7 @@ export class LivroRepository{
 //       return true;
 //     });
 //   }
-    async UpdateLivroPorISBN(isbn:string, livroNovo:Livro):Promise<Livro|undefined>{
+    async UpdateLivroPorISBN(isbn:string, livroNovo:LivroDto):Promise<LivroDto|undefined>{
         const livroAtual= `UPDATE biblioteca.livro SET
         titulo = ?,autor = ?,editora = ?,edicao = ?,
         isbn = ?,categoria_id = ? WHERE isbn = ?` ;
@@ -115,7 +118,7 @@ export class LivroRepository{
             const isbnRepetido = `SELECT * FROM biblioteca.livro WHERE isbn = ?`;
             const resultado = await executarComandoSQL(isbnRepetido,[livroNovo.isbn]);
             if(resultado.length!==0){
-            throw new Error("Já existe um livro com este ID");
+            throw new Error("Já existe um livro com este ISBN");
             }
         }
         const valores = [livroNovo.titulo,livroNovo.autor,livroNovo.editora,
@@ -163,11 +166,9 @@ export class LivroRepository{
         try{
             const resultado = await executarComandoSQL(query, [isbn]);
             if(resultado.length>0){
-                return true;
+                return false;
             }
-            else{
-                throw new Error("Livro com este ISBN não encontrado");
-            }
+            return true;
         }catch(err){
             console.error("Não foi possível deletar livro ", err);
             return false;

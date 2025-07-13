@@ -1,16 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Livro = void 0;
-class Livro {
-    id;
+exports.LivroDto = void 0;
+class LivroDto {
     titulo;
     autor;
     editora;
     edicao;
     isbn;
     categoria_id;
-    constructor(id, titulo, autor, editora, edicao, isbn, categoria_id) {
-        this.id = id || 0;
+    constructor(titulo, autor, editora, edicao, isbn, categoria_id) {
         this.titulo = titulo || '';
         this.autor = autor || '';
         this.editora = editora || '';
@@ -19,4 +17,4 @@ class Livro {
         this.categoria_id = categoria_id || 0;
     }
 }
-exports.Livro = Livro;
+exports.LivroDto = LivroDto;

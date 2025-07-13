@@ -49,7 +49,7 @@ class CategoriaLivroRepository {
             return resultado.map((r) => new CategoriaLivro_1.CategoriaLivro(r.id, r.name));
         }
         catch (err) {
-            console.log('Não foi possível exibir as categorias');
+            console.error('Não foi possível exibir as categorias', err);
             return [];
         }
     }

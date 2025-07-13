@@ -7,19 +7,35 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"Curso": {
+			"LivroDto": {
 				"properties": {
-					"id": {
+					"titulo": {
+						"type": "string"
+					},
+					"autor": {
+						"type": "string"
+					},
+					"editora": {
+						"type": "string"
+					},
+					"edicao": {
+						"type": "string"
+					},
+					"isbn": {
+						"type": "string"
+					},
+					"categoria_id": {
 						"type": "number",
 						"format": "double"
-					},
-					"nome": {
-						"type": "string"
 					}
 				},
 				"required": [
-					"id",
-					"nome"
+					"titulo",
+					"autor",
+					"editora",
+					"edicao",
+					"isbn",
+					"categoria_id"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -34,6 +50,61 @@
 				"required": [
 					"message",
 					"object"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Livro": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"titulo": {
+						"type": "string"
+					},
+					"autor": {
+						"type": "string"
+					},
+					"editora": {
+						"type": "string"
+					},
+					"edicao": {
+						"type": "string"
+					},
+					"isbn": {
+						"type": "string"
+					},
+					"categoria_id": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"id",
+					"titulo",
+					"autor",
+					"editora",
+					"edicao",
+					"isbn",
+					"categoria_id"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Curso": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"nome": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"nome"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -81,6 +152,294 @@
 		"description": "Documentacao da API usando Swagger"
 	},
 	"paths": {
+		"/livros": {
+			"post": {
+				"operationId": "CadastrarLivro",
+				"responses": {
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No content"
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Livros"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/LivroDto"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "ListaTodosLivros",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Livro"
+									},
+									"type": "array"
+								}
+							}
+						}
+					},
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Livros"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "titulo",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "autor",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "editora",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "categoria_id",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/livros/isbn": {
+			"get": {
+				"operationId": "ListaLivroPorISBN",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/Livro"
+										},
+										{
+											"type": "boolean"
+										}
+									]
+								}
+							}
+						}
+					},
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Livros"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "isbn",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "AtualizaLivroPorISBN",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/Livro"
+										},
+										{
+											"type": "boolean"
+										}
+									]
+								}
+							}
+						}
+					},
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Livros"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "isbn",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/LivroDto"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeletaLivroPorISBN",
+				"responses": {
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No content"
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Livros"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "isbn",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
 		"/catalogos/cursos": {
 			"get": {
 				"operationId": "ListarTodasCategorias",
