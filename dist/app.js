@@ -59,7 +59,7 @@ const express_1 = __importDefault(require("express"));
 const routes_1 = require("./route/routes");
 const Swagger_1 = require("./config/Swagger");
 const app = (0, express_1.default)();
-const PORT = 3040;
+const PORT = 3090;
 app.use(express_1.default.json());
 const apiRouter = express_1.default.Router();
 (0, routes_1.RegisterRoutes)(apiRouter);

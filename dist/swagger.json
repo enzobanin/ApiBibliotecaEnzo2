@@ -7,7 +7,7 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"CategoriaLivro": {
+			"Curso": {
 				"properties": {
 					"id": {
 						"type": "number",
@@ -37,6 +37,23 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"CategoriaLivro": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"nome": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"nome"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -47,6 +64,38 @@
 		"description": "Documentacao da API usando Swagger"
 	},
 	"paths": {
+		"/catalogos/cursos": {
+			"get": {
+				"operationId": "ListarTodasCategorias",
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Cursos"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
 		"/catalogos/categorias_usuario": {
 			"get": {
 				"operationId": "ListarTodasCategorias",
@@ -114,7 +163,7 @@
 	},
 	"servers": [
 		{
-			"url": "http://localhost:3040/api",
+			"url": "http://localhost:3090/api",
 			"description": "Servidor de Desenvolvimento"
 		}
 	]

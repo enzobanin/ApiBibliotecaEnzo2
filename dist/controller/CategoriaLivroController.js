@@ -17,7 +17,7 @@ const CategoriaLivroService_1 = require("../service/CategoriaLivroService");
 const tsoa_1 = require("tsoa");
 const BasicResponseDto_1 = require("../model/dto/BasicResponseDto");
 let CategoriaLivroController = class CategoriaLivroController extends tsoa_1.Controller {
-    categoriaLivroService = new CategoriaLivroService_1.CategoriaLivroService();
+    categoriaLivroService = CategoriaLivroService_1.CategoriaLivroService.getInstance();
     async ListarTodasCategorias(fail, success) {
         try {
             return await this.categoriaLivroService.SelectTodasCategoriasLivros();

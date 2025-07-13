@@ -6,6 +6,7 @@ import { BasicResponseDto } from "../model/dto/BasicResponseDto";
 import { CategoriaLivro } from "../model/entidades/CategoriaLivro";
 @Route("catalogos/categorias_usuario")
 @Tags("Categoria Usuário")
+
 export class CategoriaUsuarioController extends Controller{
     categoriaUsuarioService = CategoriaUsuarioService.getInstance();
 

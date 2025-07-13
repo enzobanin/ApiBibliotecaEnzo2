@@ -7,7 +7,7 @@ export class CategoriaUsuarioService{
 
     private constructor() {}
 
-    public static getInstance(){
+    static getInstance(){
         if (!this.instance) {
             this.instance = new CategoriaUsuarioService();
         }
@@ -21,7 +21,7 @@ export class CategoriaUsuarioService{
     async SelectCategoriaUsuarioPorId(id:number):Promise<boolean>{
         const categoriaExistente = await this.categoriaUsuarioRepository.SelectCategoriaUsuarioPorId(id)
         if(!categoriaExistente){
-            throw new Error("Categoria de Usuário não encontrada");
+            throw new Error("Categoria de Usuário com este ID não encontrada");
         }
         return true;
     }

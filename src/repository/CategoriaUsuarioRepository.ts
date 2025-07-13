@@ -13,7 +13,7 @@ export class CategoriaUsuarioRepository{
         if(!this.instance){
             this.instance = new CategoriaUsuarioRepository();
         }
-        return this.instance
+        return this.instance;
     }
     private async CreateTableCategoriaUsuario(){
         const query = `CREATE TABLE IF NOT EXISTS biblioteca.categoria_usuario(
@@ -41,15 +41,15 @@ export class CategoriaUsuarioRepository{
         }
     }
     async SelectCategoriaUsuario():Promise<CategoriaUsuario[]>{
-            const query = `SELECT * FROM biblioteca.categoria_usuario ORDER BY id ASC`;
-            try{
-                const resultado = await executarComandoSQL(query,[]);
-                return resultado.map((r:any)=> new CategoriaUsuario(r.id,r.name));
-            }catch(err){
-                console.log('Não foi possível exibir as categorias');
-                return [];
-            }
+        const query = `SELECT * FROM biblioteca.categoria_usuario ORDER BY id ASC`;
+        try{
+            const resultado = await executarComandoSQL(query,[]);
+            return resultado.map((r:any)=> new CategoriaUsuario(r.id,r.name));
+        }catch(err){
+            console.log('Não foi possível exibir as categorias');
+            return [];
         }
+    }
     async SelectCategoriaUsuarioPorId(id:number):Promise<boolean>{
         const query = `SELECT * FROM biblioteca.categoria_usuario WHERE id = ?`;
         const resultado = await executarComandoSQL(query,[id]);

@@ -60,7 +60,7 @@ import { setupSwagger } from "./config/Swagger";
 
 const app = express();
 
-const PORT = 3040;
+const PORT = 3090;
 
 app.use(express.json());
 
