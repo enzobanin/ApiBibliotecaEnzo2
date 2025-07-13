@@ -47,7 +47,7 @@ export class CategoriaLivroRepository{
             const resultado = await executarComandoSQL(query,[]);
             return resultado.map((r:any)=> new CategoriaLivro(r.id,r.name));
         }catch(err){
-            console.log('Não foi possível exibir as categorias');
+            console.error('Não foi possível exibir as categorias', err);
             return [];
         }
     }
