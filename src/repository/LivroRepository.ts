@@ -118,7 +118,7 @@ export class LivroRepository{
             const isbnRepetido = `SELECT * FROM biblioteca.livro WHERE isbn = ?`;
             const resultado = await executarComandoSQL(isbnRepetido,[livroNovo.isbn]);
             if(resultado.length!==0){
-            throw new Error("Já existe um livro com este ISBN");
+                throw new Error("Já existe um livro com este ISBN");
             }
         }
         const valores = [livroNovo.titulo,livroNovo.autor,livroNovo.editora,

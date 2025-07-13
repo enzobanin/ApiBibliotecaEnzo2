@@ -47,7 +47,7 @@ export class CursoRepository{
             const resultado = await executarComandoSQL(query,[]);
             return resultado.map((r:any)=> new Curso(r.id,r.name));
         }catch(err){
-            console.log('Não foi possível exibir os cursos');
+            console.log('Não foi possível exibir os cursos',err);
             return [];
         }
     }
