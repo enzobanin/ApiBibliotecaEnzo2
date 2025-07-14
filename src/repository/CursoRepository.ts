@@ -60,14 +60,5 @@ export class CursoRepository{
         return false;
        
     }
-    // ListaTodosCurso():Curso[]{
-    //     return this.CursoLista;
-    // }
-    // ListaCursoPorId(id:number):boolean{
-    //     const curso = this.CursoLista.findIndex(c=>c.id === id);
-    //     if(curso!==-1){
-    //         return true;
-    //     }
-    //     return false;
-    // }
+    
 }

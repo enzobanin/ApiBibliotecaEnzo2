@@ -25,14 +25,4 @@ export class CursoService{
         }
         return true;
     }
-    // ListaCursos():Curso[]{
-    //     return this.cursoRepository.ListaTodosCurso();
-    // }
-
-    // ProcuraCursoPorId(id:number):boolean{
-    //     if(!this.cursoRepository.ListaCursoPorId(id)){
-    //         throw new Error("Curso não encontrado");
-    //     }
-    //     return true;
-    // }
 }

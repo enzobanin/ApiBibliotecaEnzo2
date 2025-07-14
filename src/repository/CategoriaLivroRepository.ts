@@ -61,14 +61,5 @@ export class CategoriaLivroRepository{
         return false;
        
     }
-    // ListaTodasCategoriasLivros():CategoriaLivro[]{
-    //     return this.CategoriaLivroLista;
-    // }
-    // ListaCategoriaPorId(id:number):boolean{
-    //     const categoria = this.CategoriaLivroLista.findIndex(c=>c.id === id);
-    //     if(categoria!==-1){
-    //         return true;
-    //     }
-    //     return false;
-    // }
+
 }

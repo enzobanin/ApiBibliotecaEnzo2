@@ -59,15 +59,6 @@ export class CategoriaUsuarioRepository{
         return false;
        
     }    
-    // ListaTodosCategoriasUsuario():CategoriaUsuario[]{
-    //     return this.CategoriaUsuarioLista;
-    // }
-    // ListaCategoriaPorId(id:number):boolean{
-    //     const categoria = this.CategoriaUsuarioLista.findIndex(c=>c.id === id);
-    //     if(categoria!==-1){
-    //         return true;
-    //     }
-    //     return false;
-    // }
+    
 
 }

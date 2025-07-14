@@ -25,14 +25,4 @@ export class CategoriaUsuarioService{
         }
         return true;
     }
-    // ListaCategoriaUsuario():CategoriaUsuario[]{
-    //     return this.categoriaUsuarioRepository.ListaTodosCategoriasUsuario();
-    // }
-
-    // ProcuraCategoriaUsuarioPorId(id:number):boolean{
-    //     if(!this.categoriaUsuarioRepository.ListaCategoriaPorId(id)){
-    //         throw new Error("Categoria de Usuário não encontrada");
-    //     }
-    //     return true;
-    // }
 }

@@ -1,10 +1,7 @@
 import { executarComandoSQL } from "../database/mysql";
 import { Emprestimo } from "../model/entidades/Emprestimo";
-import { Estoque } from "../model/entidades/Estoque";
-import { EstoqueRepository } from "./EstoqueRepository";
 export class EmprestimoRepository{
     private static instance: EmprestimoRepository;
-    private estoqueRepository = EstoqueRepository.getInstance();
     private constructor(){
         this.CreateTableEmprestimo();
     }
@@ -35,18 +32,11 @@ export class EmprestimoRepository{
         }
     }
 
-    // RegistraEmprestimo(emp:Emprestimo):void{
-    //     this.EmprestimoLista.push(emp);
-    // }
+    
     async InsertEmprestimo(cpf_usuario:string,isbn_livro:string,
         data_emprestimo:Date,data_devolucao:Date,data_entrega:Date|null,
         dias_atraso:number,suspensao_ate:Date
     ):Promise<Emprestimo>{
-        // const data_emprestimo = new Date();
-        // const data_devolucao = null;
-        // const data_entrega = null;
-        // const dias_atraso = 0;
-        // const suspensao_ate = null;
 
         const resultado = await executarComandoSQL(
             `INSERT INTO biblioteca.emprestimo(cpf_usuario,isbn_livro,
@@ -65,9 +55,7 @@ export class EmprestimoRepository{
             )
     }
 
-    // MostraTodosOsEmprestimos():Emprestimo[]{
-    //     return this.EmprestimoLista;
-    // }
+    
     async SelectEmprestimos():Promise<Emprestimo[]>{
         const query = `SELECT * FROM biblioteca.emprestimo ORDER BY id ASC`;
         try{
@@ -82,15 +70,7 @@ export class EmprestimoRepository{
         }
     }
 
-    // RegistraDataDevolucao(id:number):Emprestimo|undefined{
-    //     const devolucao = this.EmprestimoLista.find(e=>e.id === id);
-    //     const hoje : Date = new Date();
-    //     if(devolucao){
-    //         devolucao.data_entrega = hoje; 
-    //         return devolucao;
-    //     }
-    //     throw new Error("Emprestimo não encontrado");
-    // }
+    
 
     async RegistraDataDevolucao(id:number):Promise<Emprestimo|undefined>{
         const query = `SELECT * FROM biblioteca.emprestimo WHERE id = ?`;
@@ -112,11 +92,7 @@ export class EmprestimoRepository{
         await executarComandoSQL(query, [data, id]);
     }
 
-    // VerificaEmprestimosAtivosUsuarios(cpf:string):Emprestimo[]{ // retorna quantos empréstimos ativos o usuário tem
-    //     return this.EmprestimoLista.filter(e=>e.cpf_usuario === cpf
-    //         && e.data_entrega === null
-    //      );
-    // }
+    
 
     async VerificaEmprestimosAtivosUsuarios(cpf_usuario:string):Promise<number>{
         const query = `SELECT COUNT(*) as total FROM biblioteca.emprestimo 
@@ -129,13 +105,7 @@ export class EmprestimoRepository{
     }
 
 
-    // BuscaEmprestimoPorId(id:number):Emprestimo{
-    //     const emp = this.EmprestimoLista.find(e=>e.id === id);
-    //     if(!emp){
-    //         throw new Error("Emprestimo nao encontrado");
-    //     }
-    //     return emp;
-    // }
+    
 
     async BuscaEmprestimoPorId(id:number):Promise<boolean>{
         const query = `SELECT * FROM biblioteca.emprestimo WHERE id = ?`;
@@ -146,9 +116,7 @@ export class EmprestimoRepository{
         return false;
     }
     
-    // BuscaEmprestimoPorUsuario(cpf_usuario:string):Emprestimo[]{
-    //     return this.EmprestimoLista.filter(e=>e.cpf_usuario === cpf_usuario);
-    // }
+    
     async BuscaEmprestimoPorCpf(cpf_usuario:string):Promise<Emprestimo[]>{
         const query = `SELECT * FROM biblioteca.emprestimo WHERE cpf_usuario = ?`;
         const resultado = await executarComandoSQL(query,[cpf_usuario]);
