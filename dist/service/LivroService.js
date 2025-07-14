@@ -72,9 +72,6 @@ class LivroService {
     // }
     async SelectLivroPorISBN(isbn) {
         const livro = await this.livroRepository.SelectLivroPorISBN(isbn);
-        if (!livro) {
-            throw new Error("Livro com este ISBN não encontrado");
-        }
         return livro;
     }
     // ListaLivrosPorISBN(isbn:string):Livro{

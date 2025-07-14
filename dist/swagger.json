@@ -218,6 +218,72 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"EmprestimoEntradaDto": {
+				"properties": {
+					"cpf_usuario": {
+						"type": "string"
+					},
+					"isbn_livro": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"cpf_usuario",
+					"isbn_livro"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Emprestimo": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"cpf_usuario": {
+						"type": "string"
+					},
+					"isbn_livro": {
+						"type": "string"
+					},
+					"data_emprestimo": {
+						"type": "string",
+						"format": "date-time",
+						"nullable": true
+					},
+					"data_devolucao": {
+						"type": "string",
+						"format": "date-time",
+						"nullable": true
+					},
+					"data_entrega": {
+						"type": "string",
+						"format": "date-time",
+						"nullable": true
+					},
+					"dias_atraso": {
+						"type": "number",
+						"format": "double"
+					},
+					"suspensao_ate": {
+						"type": "string",
+						"format": "date-time",
+						"nullable": true
+					}
+				},
+				"required": [
+					"id",
+					"cpf_usuario",
+					"isbn_livro",
+					"data_emprestimo",
+					"data_devolucao",
+					"data_entrega",
+					"dias_atraso",
+					"suspensao_ate"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"Curso": {
 				"properties": {
 					"id": {
@@ -1109,6 +1175,153 @@
 						"required": true,
 						"schema": {
 							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/emprestimos": {
+			"post": {
+				"operationId": "CadastrarEmprestimo",
+				"responses": {
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No content"
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Emprestimos"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/EmprestimoEntradaDto"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "ListaTodosEmprestimos",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Emprestimo"
+									},
+									"type": "array"
+								}
+							}
+						}
+					},
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Emprestimos"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/emprestimos/id/devolucao": {
+			"put": {
+				"operationId": "RegistrarDevolucao",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/Emprestimo"
+										},
+										{
+											"type": "boolean"
+										}
+									]
+								}
+							}
+						}
+					},
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Emprestimos"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
 						}
 					}
 				]

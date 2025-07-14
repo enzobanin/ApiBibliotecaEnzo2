@@ -51,7 +51,9 @@ class LivroRepository {
             const r = resultado[0];
             return new Livro_1.Livro(r.id, r.titulo, r.autor, r.editora, r.edicao, r.isbn, r.categoria_id);
         }
-        return false;
+        else {
+            throw new Error("Livro com este ISBN não encontrado");
+        }
         // throw new Error("Livro com este ISBN não encontrado");
     }
     // BuscaLivroPorISBN(isbn:string):Livro|undefined{ // GET POR ISBN

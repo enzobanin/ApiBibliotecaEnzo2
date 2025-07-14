@@ -20,14 +20,14 @@ class UsuarioRepository {
     }
     async CreateTableUsuario() {
         const query = `CREATE TABLE IF NOT EXISTS biblioteca.usuario(
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            nome VARCHAR(255) NOT NULL,
-            cpf VARCHAR(255) NOT NULL,
-            email VARCHAR(255) NOT NULL,
-            ativo VARCHAR(255) NOT NULL,
-            categoria_id INT NOT NULL,
-            curso_id INT NOT NULL
-            )`;
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        nome VARCHAR(255) NOT NULL,
+        cpf VARCHAR(255) NOT NULL,
+        email VARCHAR(255) NOT NULL,
+        ativo VARCHAR(255) NOT NULL,
+        categoria_id INT NOT NULL,
+        curso_id INT NOT NULL
+        )`;
         try {
             const resultado = await (0, mysql_1.executarComandoSQL)(query, []);
             console.log('Tabela Usuario criada com sucesso: ', resultado);
