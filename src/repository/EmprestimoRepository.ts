@@ -38,12 +38,15 @@ export class EmprestimoRepository{
     // RegistraEmprestimo(emp:Emprestimo):void{
     //     this.EmprestimoLista.push(emp);
     // }
-    async InsertEmprestimo(cpf_usuario:string,isbn_livro:string):Promise<Emprestimo>{
-        const data_emprestimo = new Date();
-        const data_devolucao = null;
-        const data_entrega = null;
-        const dias_atraso = 0;
-        const suspensao_ate = null;
+    async InsertEmprestimo(cpf_usuario:string,isbn_livro:string,
+        data_emprestimo:Date,data_devolucao:Date,data_entrega:Date|null,
+        dias_atraso:number,suspensao_ate:Date
+    ):Promise<Emprestimo>{
+        // const data_emprestimo = new Date();
+        // const data_devolucao = null;
+        // const data_entrega = null;
+        // const dias_atraso = 0;
+        // const suspensao_ate = null;
 
         const resultado = await executarComandoSQL(
             `INSERT INTO biblioteca.emprestimo(cpf_usuario,isbn_livro,
@@ -141,12 +144,15 @@ export class EmprestimoRepository{
     // BuscaEmprestimoPorUsuario(cpf_usuario:string):Emprestimo[]{
     //     return this.EmprestimoLista.filter(e=>e.cpf_usuario === cpf_usuario);
     // }
-    async BuscaEmprestimoPorCpf(cpf_usuario:string):Promise<boolean>{
+    async BuscaEmprestimoPorCpf(cpf_usuario:string):Promise<Emprestimo[]>{
         const query = `SELECT * FROM biblioteca.emprestimo WHERE cpf_usuario = ?`;
         const resultado = await executarComandoSQL(query,[cpf_usuario]);
         if(resultado.length>0){
-            return true;
+             return resultado.map((r:any)=>new Emprestimo(r.id,r.cpf_usuario,
+                r.isbn_livro,r.data_emprestimo,r.data_devolucao,
+                r.data_entrega,r.dias_atraso,r.suspensao_ate
+            ))
         }
-        return false;
+        return resultado;
     }
 }

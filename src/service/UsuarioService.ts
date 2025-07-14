@@ -120,7 +120,7 @@ export class UsuarioService{
     //     }
     //     return usuario;
     // }
-    async SelectUsuarioPorCPF(cpf:string):Promise<Usuario|boolean>{
+    async SelectUsuarioPorCPF(cpf:string):Promise<Usuario>{
         const usuario = await this.usuarioRepository.SelectUsuarioPorCPF(cpf);
         if(!usuario){
             throw new Error("Usuario com este CPF não encontrado");

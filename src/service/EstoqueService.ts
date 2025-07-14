@@ -92,7 +92,7 @@ export class EstoqueService{
     //     return exemplar;
     // }
 
-    async ListaExemplarPorISBN(livro_isbn:string):Promise<EstoqueSaidaDto|boolean>{
+    async ListaExemplarPorISBN(livro_isbn:string):Promise<EstoqueSaidaDto>{
         const exemplar = await this.estoqueRepository.SelectExemplarPorISBN(livro_isbn);
         if(!exemplar){
             throw new Error("Exemplar não encontrado");

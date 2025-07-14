@@ -82,11 +82,8 @@ export class LivroService{
     // editora?: string; categoria_id?: number;}): Livro[] {
     //     return this.livroRepository.FiltrarLivros(query);
     // }
-    async SelectLivroPorISBN(isbn:string):Promise<Livro|boolean>{
+    async SelectLivroPorISBN(isbn:string):Promise<Livro>{
         const livro = await this.livroRepository.SelectLivroPorISBN(isbn);
-        if(!livro){
-            throw new Error("Livro com este ISBN não encontrado");
-        }
         return livro;
     }
     // ListaLivrosPorISBN(isbn:string):Livro{

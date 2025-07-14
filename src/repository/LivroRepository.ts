@@ -50,7 +50,7 @@ export class LivroRepository{
             categoria_id
         )
     }
-    async SelectLivroPorISBN(isbn:string):Promise<Livro|boolean>{
+    async SelectLivroPorISBN(isbn:string):Promise<Livro>{
         const query = `SELECT * FROM biblioteca.livro WHERE isbn = ?`;
         const resultado = await executarComandoSQL(query,[isbn]);
         if(resultado.length>0){
@@ -59,7 +59,9 @@ export class LivroRepository{
                 r.isbn, r.categoria_id
             );
         }
-        return false;
+        else{
+            throw new Error("Livro com este ISBN não encontrado");
+        }
         // throw new Error("Livro com este ISBN não encontrado");
     }
     // BuscaLivroPorISBN(isbn:string):Livro|undefined{ // GET POR ISBN
