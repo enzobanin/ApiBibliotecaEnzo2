@@ -11,6 +11,7 @@ export class Usuario{
     nome:string,
     cpf:string,
     email:string,
+    ativo:'ativo' | 'inativo'|'suspenso',
     categoria_id:number,
     curso_id:number){
         this.id = id;
