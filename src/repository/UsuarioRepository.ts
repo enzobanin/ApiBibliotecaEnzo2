@@ -240,15 +240,16 @@ export class UsuarioRepository{
     //     }
     //     return false;
     // }
-    async VerificaEmailExistente(email:string):Promise<boolean>{
-        const query = `SELECT * FROM biblioteca.usuario
-        WHERE email = ?`;
-        const resultado = await executarComandoSQL(query,[email]);
-        if(resultado.length>0){
-            return true;
-        }
-        return false;
-    }
+    
+    // async VerificaEmailExistente(email:string):Promise<boolean>{
+    //     const query = `SELECT * FROM biblioteca.usuario
+    //     WHERE email = ?`;
+    //     const resultado = await executarComandoSQL(query,[email]);
+    //     if(resultado.length>0){
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
     async ValidaCpf(cpf:string):Promise<boolean>{
         if(cpf.length != 11){
