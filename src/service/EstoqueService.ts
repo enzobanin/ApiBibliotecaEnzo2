@@ -23,12 +23,12 @@ export class EstoqueService{
     //     }
     //     return true;
     // }
-    async VerificaExemplarExistente(livro_isbn:string):Promise<EstoqueSaidaDto>{
+    async VerificaExemplarExistente(livro_isbn:string):Promise<EstoqueSaidaDto|boolean>{
         const isbnRepetido = await this.estoqueRepository.SelectExemplarPorISBN(livro_isbn);
         if(isbnRepetido.livro_isbn === livro_isbn){
             throw new Error("Já existe um exemplar com este ISBN")
         }
-        return isbnRepetido;
+        return false;
     }
 
     // VerificaQuantidade(quantidade:number, quantidade_emprestada:number):void{

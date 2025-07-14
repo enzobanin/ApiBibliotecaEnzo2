@@ -18,7 +18,7 @@ class CategoriaUsuarioService {
     async SelectCategoriaUsuarioPorId(id) {
         const categoriaExistente = await this.categoriaUsuarioRepository.SelectCategoriaUsuarioPorId(id);
         if (!categoriaExistente) {
-            throw new Error("Categoria de Usuário com este ID não encontrada");
+            return false;
         }
         return true;
     }

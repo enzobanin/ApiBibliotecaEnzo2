@@ -120,11 +120,16 @@ export class LivroService{
         if(existeExemp){
             throw new Error("Não será possível deletar o livro, pois há exemplar cadastrado")
         }
-        const deleta = await this.livroRepository.DeleteLivroPorISBN(isbn);
-        if(!deleta){
+        const verificaIsbnExist = await this.livroRepository.SelectLivroPorISBN(isbn);
+        if(!verificaIsbnExist){
             throw new Error("Não foi possível encontrar o livro com este ISBN");
         }
-        return true;
+        const deleta = await this.livroRepository.DeleteLivroPorISBN(isbn);
+        if(deleta){
+            return true;
+        }
+        return false;
+
     }
     // DeleteLivroPorisbn(isbn:string):boolean{
     //     const livro = this.livroRepository.BuscaLivroPorISBN(isbn);

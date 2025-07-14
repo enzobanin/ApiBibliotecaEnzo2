@@ -280,7 +280,7 @@ class UsuarioRepository {
     async VerificaCursoId(curso_id) {
         const verifica = await this.cursoRepository.SelectCursoPorId(curso_id);
         if (!verifica) {
-            throw new Error("Curso não encontrado");
+            return false;
         }
         return true;
     }
@@ -293,7 +293,7 @@ class UsuarioRepository {
     async VerificaCategoriaUsuarioId(categoria_id) {
         const verifica = await this.categoriaUsuarioRepository.SelectCategoriaUsuarioPorId(categoria_id);
         if (!verifica) {
-            throw new Error("Categoria de usuario não encontrado");
+            return false;
         }
         return true;
     }

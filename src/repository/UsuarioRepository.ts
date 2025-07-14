@@ -306,7 +306,7 @@ export class UsuarioRepository{
     async VerificaCursoId(curso_id:number):Promise<boolean>{
         const verifica = await this.cursoRepository.SelectCursoPorId(curso_id);
         if(!verifica){
-            throw new Error("Curso não encontrado");
+            return false;
         }
         return true;
     }
@@ -319,7 +319,7 @@ export class UsuarioRepository{
     async VerificaCategoriaUsuarioId(categoria_id:number):Promise<boolean>{
         const verifica = await this.categoriaUsuarioRepository.SelectCategoriaUsuarioPorId(categoria_id);
         if(!verifica){
-            throw new Error("Categoria de usuario não encontrado");
+           return false;
         }
         return true;
     }

@@ -25,7 +25,7 @@ class EstoqueService {
         if (isbnRepetido.livro_isbn === livro_isbn) {
             throw new Error("Já existe um exemplar com este ISBN");
         }
-        return isbnRepetido;
+        return false;
     }
     // VerificaQuantidade(quantidade:number, quantidade_emprestada:number):void{
     //     if(quantidade < quantidade_emprestada){

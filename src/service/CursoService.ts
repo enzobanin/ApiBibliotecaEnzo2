@@ -21,7 +21,7 @@ export class CursoService{
     async SelectCursoPorId(id:number):Promise<boolean>{
         const categoriaExistente = await this.cursoRepository.SelectCursoPorId(id);
         if(!categoriaExistente){
-            throw new Error("Curso com este ID não encontrado");
+            return false;
         }
         return true;
     }

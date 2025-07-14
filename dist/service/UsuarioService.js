@@ -26,7 +26,11 @@ class UsuarioService {
     //     }
     // }
     async VerificaCurso(curso_id) {
-        this.cursoService.SelectCursoPorId(curso_id);
+        const curso = await this.cursoService.SelectCursoPorId(curso_id);
+        if (!curso) {
+            throw new Error("Curso não encontrado");
+        }
+        return;
     }
     // VerificaCategoria(categoria_id:number):void{
     //     const categoria = this.categoriaUsuarioService.ProcuraCategoriaUsuarioPorId(categoria_id);
@@ -35,7 +39,11 @@ class UsuarioService {
     //     }
     // }
     async VerificaCategoriaUsuario(categoria_id) {
-        this.categoriaUsuarioService.SelectCategoriaUsuarioPorId(categoria_id);
+        const categoria = await this.categoriaUsuarioService.SelectCategoriaUsuarioPorId(categoria_id);
+        if (!categoria) {
+            throw new Error("Categoria de usuario não encontrado");
+        }
+        return;
     }
     // VerificaCpfRepetido(cpf:string):void{
     //     if(this.usuarioRepository.VerificaCpfExistente(cpf)){
@@ -82,8 +90,8 @@ class UsuarioService {
         if (emailExist) {
             throw new Error("Já existe um usuário com este email");
         }
-        await this.VerificaCurso(curso_id);
         await this.VerificaCategoriaUsuario(categoria_id);
+        await this.VerificaCurso(curso_id);
         return this.usuarioRepository.InsertUsuario(nome, cpf, email, categoria_id, curso_id);
     }
     // ListaTodosUsuarios(query:{nome?:string;ativo?:'ativo'|'inativo'|'suspenso';
@@ -124,7 +132,7 @@ class UsuarioService {
     async DeleteUsuarioPorCPF(cpf) {
         //lembrar de não deixar excluir usuário com empréstimo
         const deletar = await this.usuarioRepository.DeleteUsuarioPorCPF(cpf);
-        if (!deletar) {
+        if (deletar) {
             throw new Error("Não foi possível encontrar usuário com este CPF");
         }
         return deletar;
