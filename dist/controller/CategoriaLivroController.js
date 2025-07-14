@@ -37,6 +37,6 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CategoriaLivroController.prototype, "ListarTodasCategorias", null);
 exports.CategoriaLivroController = CategoriaLivroController = __decorate([
-    (0, tsoa_1.Route)("catalogos/categorias_livro"),
+    (0, tsoa_1.Route)("catalogos/categorias-livro"),
     (0, tsoa_1.Tags)("Categoria Livro")
 ], CategoriaLivroController);

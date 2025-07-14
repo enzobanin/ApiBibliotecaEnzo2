@@ -645,7 +645,7 @@ function RegisterRoutes(app) {
         fail: { "in": "res", "name": "400", "required": true, "ref": "BasicResponseDto" },
         success: { "in": "res", "name": "200", "required": true, "ref": "BasicResponseDto" },
     };
-    app.get('/catalogos/categorias_usuario', ...((0, runtime_1.fetchMiddlewares)(CategoriaUsuarioController_1.CategoriaUsuarioController)), ...((0, runtime_1.fetchMiddlewares)(CategoriaUsuarioController_1.CategoriaUsuarioController.prototype.ListarTodasCategorias)), async function CategoriaUsuarioController_ListarTodasCategorias(request, response, next) {
+    app.get('/catalogos/categorias-usuario', ...((0, runtime_1.fetchMiddlewares)(CategoriaUsuarioController_1.CategoriaUsuarioController)), ...((0, runtime_1.fetchMiddlewares)(CategoriaUsuarioController_1.CategoriaUsuarioController.prototype.ListarTodasCategorias)), async function CategoriaUsuarioController_ListarTodasCategorias(request, response, next) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];
         try {
@@ -669,7 +669,7 @@ function RegisterRoutes(app) {
         fail: { "in": "res", "name": "400", "required": true, "ref": "BasicResponseDto" },
         success: { "in": "res", "name": "200", "required": true, "ref": "BasicResponseDto" },
     };
-    app.get('/catalogos/categorias_livro', ...((0, runtime_1.fetchMiddlewares)(CategoriaLivroController_1.CategoriaLivroController)), ...((0, runtime_1.fetchMiddlewares)(CategoriaLivroController_1.CategoriaLivroController.prototype.ListarTodasCategorias)), async function CategoriaLivroController_ListarTodasCategorias(request, response, next) {
+    app.get('/catalogos/categorias-livro', ...((0, runtime_1.fetchMiddlewares)(CategoriaLivroController_1.CategoriaLivroController)), ...((0, runtime_1.fetchMiddlewares)(CategoriaLivroController_1.CategoriaLivroController.prototype.ListarTodasCategorias)), async function CategoriaLivroController_ListarTodasCategorias(request, response, next) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];
         try {

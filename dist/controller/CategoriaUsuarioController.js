@@ -37,6 +37,6 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CategoriaUsuarioController.prototype, "ListarTodasCategorias", null);
 exports.CategoriaUsuarioController = CategoriaUsuarioController = __decorate([
-    (0, tsoa_1.Route)("catalogos/categorias_usuario"),
+    (0, tsoa_1.Route)("catalogos/categorias-usuario"),
     (0, tsoa_1.Tags)("Categoria Usuário")
 ], CategoriaUsuarioController);

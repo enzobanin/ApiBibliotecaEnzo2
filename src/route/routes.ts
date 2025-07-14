@@ -793,7 +793,7 @@ export function RegisterRoutes(app: Router) {
                 fail: {"in":"res","name":"400","required":true,"ref":"BasicResponseDto"},
                 success: {"in":"res","name":"200","required":true,"ref":"BasicResponseDto"},
         };
-        app.get('/catalogos/categorias_usuario',
+        app.get('/catalogos/categorias-usuario',
             ...(fetchMiddlewares<RequestHandler>(CategoriaUsuarioController)),
             ...(fetchMiddlewares<RequestHandler>(CategoriaUsuarioController.prototype.ListarTodasCategorias)),
 
@@ -824,7 +824,7 @@ export function RegisterRoutes(app: Router) {
                 fail: {"in":"res","name":"400","required":true,"ref":"BasicResponseDto"},
                 success: {"in":"res","name":"200","required":true,"ref":"BasicResponseDto"},
         };
-        app.get('/catalogos/categorias_livro',
+        app.get('/catalogos/categorias-livro',
             ...(fetchMiddlewares<RequestHandler>(CategoriaLivroController)),
             ...(fetchMiddlewares<RequestHandler>(CategoriaLivroController.prototype.ListarTodasCategorias)),
 
