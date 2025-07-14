@@ -4,14 +4,15 @@ exports.UsuarioService = void 0;
 const UsuarioRepository_1 = require("../repository/UsuarioRepository");
 const CursoService_1 = require("./CursoService");
 const CategoriaUsuarioService_1 = require("./CategoriaUsuarioService");
+const EmprestimoService_1 = require("./EmprestimoService");
 class UsuarioService {
     static instance;
     usuarioRepository = UsuarioRepository_1.UsuarioRepository.getInstance();
     cursoService = CursoService_1.CursoService.getInstance();
     categoriaUsuarioService = CategoriaUsuarioService_1.CategoriaUsuarioService.getInstance();
-    // private emprestimoService(): EmprestimoService{
-    //     return EmprestimoService.getInstance();
-    // }
+    emprestimoService() {
+        return EmprestimoService_1.EmprestimoService.getInstance();
+    }
     constructor() { }
     static getInstance() {
         if (!this.instance) {
@@ -131,11 +132,17 @@ class UsuarioService {
     // }
     async DeleteUsuarioPorCPF(cpf) {
         //lembrar de não deixar excluir usuário com empréstimo
-        const deletar = await this.usuarioRepository.DeleteUsuarioPorCPF(cpf);
-        if (deletar) {
-            throw new Error("Não foi possível encontrar usuário com este CPF");
+        const usuario = await this.SelectUsuarioPorCPF(cpf);
+        if (usuario) {
+            const empAtivo = await this.emprestimoService().VerificaEmprestimosAtivosPorUsuario(cpf);
+            if (empAtivo === 0) {
+                return await this.usuarioRepository.DeleteUsuarioPorCPF(cpf);
+            }
+            else {
+                throw new Error("Não é possível deletar usuário com empréstimos ativos");
+            }
         }
-        return deletar;
+        return false;
     }
 }
 exports.UsuarioService = UsuarioService;

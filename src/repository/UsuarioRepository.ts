@@ -205,12 +205,11 @@ export class UsuarioRepository{
     //     return false;
     // }
     async DeleteUsuarioPorCPF(cpf:string):Promise<boolean>{
-        // nao pode deletar usuario se tiver emprestimo
         const query = `DELETE FROM biblioteca.usuario 
         WHERE cpf = ?`;
         try{
             const resultado = await executarComandoSQL(query,[cpf]);
-            if(resultado.length>0){
+            if(resultado.affectedRows === 0){
                 return false;
             }
             return true;

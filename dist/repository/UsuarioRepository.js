@@ -182,12 +182,11 @@ class UsuarioRepository {
     //     return false;
     // }
     async DeleteUsuarioPorCPF(cpf) {
-        // nao pode deletar usuario se tiver emprestimo
         const query = `DELETE FROM biblioteca.usuario 
         WHERE cpf = ?`;
         try {
             const resultado = await (0, mysql_1.executarComandoSQL)(query, [cpf]);
-            if (resultado.length > 0) {
+            if (resultado.affectedRows === 0) {
                 return false;
             }
             return true;

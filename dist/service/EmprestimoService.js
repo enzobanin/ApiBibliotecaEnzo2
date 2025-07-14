@@ -5,12 +5,14 @@ const EmprestimoRepository_1 = require("../repository/EmprestimoRepository");
 const UsuarioService_1 = require("./UsuarioService");
 const EstoqueService_1 = require("./EstoqueService");
 const LivroService_1 = require("./LivroService");
+const EstoqueRepository_1 = require("../repository/EstoqueRepository");
 class EmprestimoService {
     static instance;
     emprestimoRepository = EmprestimoRepository_1.EmprestimoRepository.getInstance();
     usuarioService = UsuarioService_1.UsuarioService.getInstance();
     estoqueService = EstoqueService_1.EstoqueService.getInstance();
     livroService = LivroService_1.LivroService.getInstance();
+    estoqueRepository = EstoqueRepository_1.EstoqueRepository.getInstance();
     constructor() { }
     static getInstance() {
         if (!this.instance) {
@@ -191,23 +193,23 @@ class EmprestimoService {
     //     return novoEmprestimo;
     // } 
     async InsereEmprestimo(data) {
-        const { cpf, isbn_livro } = data;
-        if (!cpf || !isbn_livro) {
+        const { cpf_usuario, isbn_livro } = data;
+        if (!cpf_usuario || !isbn_livro) {
             throw new Error("Informações incompletas");
         }
-        await this.VerificaSeCpfExiste(cpf);
-        await this.StatusUsuario(cpf);
+        await this.VerificaSeCpfExiste(cpf_usuario);
+        await this.StatusUsuario(cpf_usuario);
         await this.VerificaExemplarExistente(isbn_livro);
-        await this.VerificaLimitesEmprestimos(cpf);
+        await this.VerificaLimitesEmprestimos(cpf_usuario);
         const hoje = new Date();
-        const prazo = await this.DiasComLivro(cpf, isbn_livro);
+        const prazo = await this.DiasComLivro(cpf_usuario, isbn_livro);
         const dataEmprestimo = hoje;
         const dataDevolucao = new Date();
         dataDevolucao.setDate(hoje.getDate() + prazo);
         const dataEntrega = null;
         const diasAtraso = 0;
         const suspensoAte = new Date();
-        const emp = await this.emprestimoRepository.InsertEmprestimo(cpf, isbn_livro, dataEmprestimo, dataDevolucao, dataEntrega, diasAtraso, suspensoAte);
+        const emp = await this.emprestimoRepository.InsertEmprestimo(cpf_usuario, isbn_livro, dataEmprestimo, dataDevolucao, dataEntrega, diasAtraso, suspensoAte);
         this.CalculandoMultaAposDiasDevolucao(emp);
         await this.AtualizandoQuantidadeAutomatica(emp);
         return emp;
@@ -247,6 +249,7 @@ class EmprestimoService {
             }
             const exemplar = await this.estoqueService.ListaExemplarPorISBN(emprestimo.isbn_livro);
             if (exemplar) {
+                await this.estoqueRepository.AtualizaQuantidadeEmprestada(exemplar.livro_isbn, exemplar.quantidade_emprestada);
                 exemplar.quantidade_emprestada -= 1;
                 if (exemplar.quantidade > exemplar.quantidade_emprestada) {
                     exemplar.status = 'disponivel';

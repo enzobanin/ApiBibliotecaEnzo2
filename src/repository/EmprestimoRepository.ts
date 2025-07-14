@@ -1,10 +1,10 @@
 import { executarComandoSQL } from "../database/mysql";
 import { Emprestimo } from "../model/entidades/Emprestimo";
 import { Estoque } from "../model/entidades/Estoque";
-
+import { EstoqueRepository } from "./EstoqueRepository";
 export class EmprestimoRepository{
     private static instance: EmprestimoRepository;
-
+    private estoqueRepository = EstoqueRepository.getInstance();
     private constructor(){
         this.CreateTableEmprestimo();
     }
@@ -102,9 +102,14 @@ export class EmprestimoRepository{
                 r.dias_atraso,r.suspensao_ate
             )
             e.data_entrega = new Date();
+            await this.AtualizaDataEntrega(id,e.data_entrega)
             return e;
         }
         return resultado;
+    }
+    async AtualizaDataEntrega(id: number, data: Date): Promise<void> {
+        const query = `UPDATE biblioteca.emprestimo SET data_entrega = ? WHERE id = ?`;
+        await executarComandoSQL(query, [data, id]);
     }
 
     // VerificaEmprestimosAtivosUsuarios(cpf:string):Emprestimo[]{ // retorna quantos empréstimos ativos o usuário tem

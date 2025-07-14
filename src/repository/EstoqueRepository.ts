@@ -160,7 +160,7 @@ export class EstoqueRepository{
         const query = `DELETE FROM biblioteca.estoque WHERE livro_isbn = ?`;
         try{
             const resultado = await executarComandoSQL(query,[livro_isbn]);
-            if(resultado.length>0){
+            if(resultado.affectedRows === 0){
                 return false;
             }
             return true;
@@ -169,6 +169,11 @@ export class EstoqueRepository{
             return false;
         }
     }
+    async AtualizaQuantidadeEmprestada(isbn: string, novaQtd: number): Promise<void> {
+        const query = `UPDATE biblioteca.estoque SET quantidade_emprestada = ? WHERE isbn = ?`;
+        await executarComandoSQL(query, [novaQtd, isbn]);
+    }
+
     // RemoveExemplarPorISBN(isbn:string):Estoque|undefined{
     //     const deletar = this.EstoqueLista.find(e=>e.livro_isbn===isbn);
     //     if(deletar){

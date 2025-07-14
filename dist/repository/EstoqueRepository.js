@@ -146,7 +146,7 @@ class EstoqueRepository {
         const query = `DELETE FROM biblioteca.estoque WHERE livro_isbn = ?`;
         try {
             const resultado = await (0, mysql_1.executarComandoSQL)(query, [livro_isbn]);
-            if (resultado.length > 0) {
+            if (resultado.affectedRows === 0) {
                 return false;
             }
             return true;
@@ -155,6 +155,10 @@ class EstoqueRepository {
             console.error("Não foi possível deletar exemplar ", err);
             return false;
         }
+    }
+    async AtualizaQuantidadeEmprestada(isbn, novaQtd) {
+        const query = `UPDATE biblioteca.estoque SET quantidade_emprestada = ? WHERE isbn = ?`;
+        await (0, mysql_1.executarComandoSQL)(query, [novaQtd, isbn]);
     }
 }
 exports.EstoqueRepository = EstoqueRepository;

@@ -167,16 +167,14 @@ export class LivroRepository{
         const query = `DELETE FROM biblioteca.livro WHERE isbn = ?`;
         try{
             const resultado = await executarComandoSQL(query, [isbn]);
-            if(resultado.length>0){
+            if(resultado.affectedRows === 0){
                 return false;
             }
             return true;
         }catch(err){
             console.error("Não foi possível deletar livro ", err);
             return false;
-        }
-        
-        
+        }  
     }
     // DeletaLivroPorISBN(isbn:string):boolean{
     //     const PosISBN = this.LivroLista.findIndex(l=>l.isbn===isbn);

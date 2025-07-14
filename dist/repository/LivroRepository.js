@@ -149,7 +149,7 @@ class LivroRepository {
         const query = `DELETE FROM biblioteca.livro WHERE isbn = ?`;
         try {
             const resultado = await (0, mysql_1.executarComandoSQL)(query, [isbn]);
-            if (resultado.length > 0) {
+            if (resultado.affectedRows === 0) {
                 return false;
             }
             return true;

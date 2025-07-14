@@ -2,16 +2,16 @@ import { Usuario } from "../model/entidades/Usuario";
 import { UsuarioRepository } from "../repository/UsuarioRepository";
 import { CursoService } from "./CursoService";
 import { CategoriaUsuarioService } from "./CategoriaUsuarioService";
-// import { EmprestimoService } from "./EmprestimoService";
+import { EmprestimoService } from "./EmprestimoService";
 import { UsuarioDto } from "../model/dto/UsuarioDto";
 export class UsuarioService{
     private static instance : UsuarioService;
     private usuarioRepository = UsuarioRepository.getInstance();
     private cursoService = CursoService.getInstance();
     private categoriaUsuarioService = CategoriaUsuarioService.getInstance();
-    // private emprestimoService(): EmprestimoService{
-    //     return EmprestimoService.getInstance();
-    // }
+    private emprestimoService(): EmprestimoService{
+        return EmprestimoService.getInstance();
+    }
 
     private constructor() {}
 
@@ -143,12 +143,18 @@ export class UsuarioService{
     // }
     async DeleteUsuarioPorCPF(cpf:string):Promise<boolean>{
         //lembrar de não deixar excluir usuário com empréstimo
-        const deletar = await this.usuarioRepository.DeleteUsuarioPorCPF(cpf);
-        if(deletar){
-            throw new Error("Não foi possível encontrar usuário com este CPF");
+        const usuario = await this.SelectUsuarioPorCPF(cpf)
+        if(usuario){
+            const empAtivo = await this.emprestimoService().VerificaEmprestimosAtivosPorUsuario(cpf);
+                if(empAtivo===0){
+                    return await this.usuarioRepository.DeleteUsuarioPorCPF(cpf);
+                }else{
+                    throw new Error("Não é possível deletar usuário com empréstimos ativos");
+                }
+            }
+            return false;
         }
-        return deletar;
-    }
+        
     // DeleteUsuarioPorCpf(cpf:string){
     //     const usuario = this.ListaUsuarioPorCpf(cpf);
     //     if(usuario){

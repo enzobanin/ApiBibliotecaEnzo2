@@ -3,8 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.EmprestimoRepository = void 0;
 const mysql_1 = require("../database/mysql");
 const Emprestimo_1 = require("../model/entidades/Emprestimo");
+const EstoqueRepository_1 = require("./EstoqueRepository");
 class EmprestimoRepository {
     static instance;
+    estoqueRepository = EstoqueRepository_1.EstoqueRepository.getInstance();
     constructor() {
         this.CreateTableEmprestimo();
     }
@@ -83,9 +85,14 @@ class EmprestimoRepository {
             const r = resultado[0];
             const e = new Emprestimo_1.Emprestimo(r.id, r.cpf_usuario, r.isbn_livro, r.data_emprestimo, r.data_devolucao, r.data_entrega, r.dias_atraso, r.suspensao_ate);
             e.data_entrega = new Date();
+            await this.AtualizaDataEntrega(id, e.data_entrega);
             return e;
         }
         return resultado;
+    }
+    async AtualizaDataEntrega(id, data) {
+        const query = `UPDATE biblioteca.emprestimo SET data_entrega = ? WHERE id = ?`;
+        await (0, mysql_1.executarComandoSQL)(query, [data, id]);
     }
     // VerificaEmprestimosAtivosUsuarios(cpf:string):Emprestimo[]{ // retorna quantos empréstimos ativos o usuário tem
     //     return this.EmprestimoLista.filter(e=>e.cpf_usuario === cpf
