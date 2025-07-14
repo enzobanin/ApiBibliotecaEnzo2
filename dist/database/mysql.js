@@ -24,10 +24,3 @@ function executarComandoSQL(query, valores) {
         });
     });
 }
-// mysqlConnection.connect((err)=>{
-//     if(err){
-//         console.error('Erro ao conectar ao bando de dados:', err);
-//         throw err;
-//     }
-//     console.log('Conexão bem-sucedida com o bando de dados MySQL');
-// })

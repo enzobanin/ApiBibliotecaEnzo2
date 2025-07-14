@@ -32,9 +32,6 @@ class LivroRepository {
             console.error('Erro ao criar tabela livro: ', err);
         }
     }
-    // InsereLivro(livro:Livro):void{ // POST
-    //     this.LivroLista.push(livro);
-    // }
     async InsertLivro(titulo, autor, editora, edicao, isbn, categoria_id) {
         const resultado = await (0, mysql_1.executarComandoSQL)(`INSERT INTO biblioteca.livro(titulo,autor,editora,
         edicao,isbn,categoria_id)
@@ -54,11 +51,7 @@ class LivroRepository {
         else {
             throw new Error("Livro com este ISBN não encontrado");
         }
-        // throw new Error("Livro com este ISBN não encontrado");
     }
-    // BuscaLivroPorISBN(isbn:string):Livro|undefined{ // GET POR ISBN
-    //     return this.LivroLista.find(l=>l.isbn===isbn);
-    // }
     async SelectLivroFiltros(filtros) {
         let query = `SELECT * FROM biblioteca.livro`;
         const condicoes = [];
@@ -85,16 +78,6 @@ class LivroRepository {
         const resultado = await (0, mysql_1.executarComandoSQL)(query, valores);
         return resultado.map((r) => new Livro_1.Livro(r.id, r.titulo, r.autor, r.editora, r.edicao, r.isbn, r.categoria_id));
     }
-    //     FiltrarLivros(query: {titulo?: string; autor?: string;
-    //     editora?: string; categoria_id?: number;}): Livro[] {
-    //     return this.LivroLista.filter((livro) => {
-    //       if (query.titulo && !livro.titulo.toLowerCase().includes(query.titulo.toLowerCase())) return false;
-    //       if (query.autor && !livro.autor.toLowerCase().includes(query.autor.toLowerCase())) return false;
-    //       if (query.editora && !livro.editora.toLowerCase().includes(query.editora.toLowerCase())) return false;
-    //       if (query.categoria_id && livro.categoria_id !== query.categoria_id) return false;
-    //       return true;
-    //     });
-    //   }
     async UpdateLivroPorISBN(isbn, livroNovo) {
         const livroAtual = `UPDATE biblioteca.livro SET
         titulo = ?,autor = ?,editora = ?,edicao = ?,
@@ -124,27 +107,6 @@ class LivroRepository {
             return;
         }
     }
-    // AtualizaLivroPorISBN(isbn: string, livroNovo:Livro):boolean{
-    //     const livroAntigo = this.BuscaLivroPorISBN(isbn);
-    //     if(livroAntigo){
-    //         livroAntigo.autor = livroNovo.autor;
-    //         livroAntigo.categoria_id = livroNovo.categoria_id;
-    //         livroAntigo.edicao = livroNovo.edicao;
-    //         livroAntigo.editora = livroNovo.editora;
-    //         livroAntigo.titulo = livroNovo.titulo;
-    //         const jaExisteLivroISBN= this.BuscaLivroPorISBN(livroNovo.isbn);
-    //         if(livroAntigo.isbn === livroNovo.isbn){
-    //             return true;
-    //         }
-    //         if(jaExisteLivroISBN){
-    //             throw new Error("Não é possível atualizar o ISBN, pois já existe um livro com este ISBN");
-    //         }else{
-    //             livroAntigo.isbn = livroNovo.isbn;
-    //         }
-    //         return true;
-    //     }
-    //     return false;
-    // }
     async DeleteLivroPorISBN(isbn) {
         const query = `DELETE FROM biblioteca.livro WHERE isbn = ?`;
         try {
@@ -159,14 +121,6 @@ class LivroRepository {
             return false;
         }
     }
-    // DeletaLivroPorISBN(isbn:string):boolean{
-    //     const PosISBN = this.LivroLista.findIndex(l=>l.isbn===isbn);
-    //     if(PosISBN!==-1){
-    //         this.LivroLista.splice(PosISBN,1);
-    //         return true;
-    //     }
-    //     return false;
-    // }
     async SelectLivroPorId(id) {
         const query = `SELECT * FROM biblioteca.livro WHERE id = ?`;
         const resultado = await (0, mysql_1.executarComandoSQL)(query, [id]);
@@ -176,13 +130,6 @@ class LivroRepository {
         }
         throw new Error("Livro com este ID não encontrado");
     }
-    // BuscaLivroPorId(id:number):Livro|boolean{ 
-    //     const livro = this.LivroLista.find(l=>l.id === id);
-    //      if (!livro){
-    //     return false; // vai retornar false pois nao encontrou o livro e ele pode ser cadastrado normalmente
-    // }
-    // return true; // se encontrou o livro, o service vai lancar um erro
-    // }
     async ExisteCombinacaoAutEditEdic(autor, editora, edicao) {
         const query = `SELECT * FROM biblioteca.livro WHERE
         autor = ? and editora = ? and edicao = ?`;

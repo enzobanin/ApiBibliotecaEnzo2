@@ -40,11 +40,3 @@ exports.CategoriaLivroController = CategoriaLivroController = __decorate([
     (0, tsoa_1.Route)("catalogos/categorias_livro"),
     (0, tsoa_1.Tags)("Categoria Livro")
 ], CategoriaLivroController);
-// export function ListaTodasCategorias(req:Request, res:Response){
-//     // try {
-//     //     res.status(200).json(categoriaLivroService.ListaCategoriaLivros());
-//     // }catch(e:unknown){
-//     //     res.status(400).json({status:"Error",
-//     //         message:(e as Error).message})
-//     // }
-// }

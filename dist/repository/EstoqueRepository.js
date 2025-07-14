@@ -31,9 +31,6 @@ class EstoqueRepository {
             console.error('Erro ao criar tabela estoque: ', err);
         }
     }
-    // InsereExemplar(exemplar:Estoque):void{ 
-    //     this.EstoqueLista.push(exemplar);
-    // }
     async InsertEstoque(livro_isbn, quantidade, quantidade_emprestada) {
         const status = quantidade === quantidade_emprestada ? 'emprestado' : 'disponivel';
         const resultado = await (0, mysql_1.executarComandoSQL)(`INSERT INTO biblioteca.estoque(livro_isbn,quantidade,
@@ -56,9 +53,6 @@ class EstoqueRepository {
             return [];
         }
     }
-    // ExibeExemplares():Estoque[]{ 
-    //     return this.EstoqueLista.filter(e => e.status === 'disponivel');
-    // }
     async SelectExemplarPorISBN(livro_isbn) {
         const query = `SELECT * FROM biblioteca.estoque WHERE livro_isbn = ?`;
         const resultado = await (0, mysql_1.executarComandoSQL)(query, [livro_isbn]);
@@ -75,13 +69,6 @@ class EstoqueRepository {
         }
         return resultado;
     }
-    // ExibeExemplarPorISBN(isbn:string):Estoque|undefined{
-    //     const exemplar = this.EstoqueLista.find(e=>e.livro_isbn === isbn);
-    //     if(exemplar){
-    //         return exemplar;
-    //     }
-    //     return;
-    // }
     async UpdateDisponibilidadePorISBN(livro_isbn, exemplarNovo) {
         const exemplarAtual = `UPDATE biblioteca.estoque SET
         quantidade = ?, quantidade_emprestada = ?
@@ -123,26 +110,7 @@ class EstoqueRepository {
             return;
         }
     }
-    // AtualizaDisponibilidadePorISBN(isbn:string,ExemplarNovo:Estoque):Estoque|undefined{
-    //     const ExemplarAtual = this.EstoqueLista.find(e=>e.livro_isbn===isbn);
-    //     if(ExemplarAtual){
-    //         ExemplarAtual.quantidade = ExemplarNovo.quantidade;
-    //         if(ExemplarNovo.quantidade < ExemplarNovo.quantidade_emprestada){
-    //             throw new Error("Quantidade emprestada não pode ser maior que a quantidade total");
-    //         }
-    //         ExemplarAtual.quantidade_emprestada = ExemplarNovo.quantidade_emprestada;
-    //         if(ExemplarAtual.quantidade === ExemplarAtual.quantidade_emprestada){
-    //             ExemplarAtual.status = 'emprestado';
-    //         }
-    //         else{
-    //             ExemplarAtual.status = 'disponivel';
-    //         }
-    //         return ExemplarAtual;
-    //     }
-    //     return;
-    // }
     async DeleteExemplarPorISBN(livro_isbn) {
-        //lembrar de verificar pois não pode deletar se há empréstimos
         const query = `DELETE FROM biblioteca.estoque WHERE livro_isbn = ?`;
         try {
             const resultado = await (0, mysql_1.executarComandoSQL)(query, [livro_isbn]);

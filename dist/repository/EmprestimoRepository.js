@@ -3,10 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.EmprestimoRepository = void 0;
 const mysql_1 = require("../database/mysql");
 const Emprestimo_1 = require("../model/entidades/Emprestimo");
-const EstoqueRepository_1 = require("./EstoqueRepository");
 class EmprestimoRepository {
     static instance;
-    estoqueRepository = EstoqueRepository_1.EstoqueRepository.getInstance();
     constructor() {
         this.CreateTableEmprestimo();
     }
@@ -35,15 +33,7 @@ class EmprestimoRepository {
             console.error('Erro ao criar tabela emprestimo: ', err);
         }
     }
-    // RegistraEmprestimo(emp:Emprestimo):void{
-    //     this.EmprestimoLista.push(emp);
-    // }
     async InsertEmprestimo(cpf_usuario, isbn_livro, data_emprestimo, data_devolucao, data_entrega, dias_atraso, suspensao_ate) {
-        // const data_emprestimo = new Date();
-        // const data_devolucao = null;
-        // const data_entrega = null;
-        // const dias_atraso = 0;
-        // const suspensao_ate = null;
         const resultado = await (0, mysql_1.executarComandoSQL)(`INSERT INTO biblioteca.emprestimo(cpf_usuario,isbn_livro,
             data_emprestimo,data_devolucao,data_entrega,
             dias_atraso,suspensao_ate)
@@ -55,9 +45,6 @@ class EmprestimoRepository {
         console.log('Emprestimo inserido com sucesso: ', resultado);
         return new Emprestimo_1.Emprestimo(resultado.insertId, cpf_usuario, isbn_livro, data_emprestimo, data_devolucao, data_entrega, dias_atraso, suspensao_ate);
     }
-    // MostraTodosOsEmprestimos():Emprestimo[]{
-    //     return this.EmprestimoLista;
-    // }
     async SelectEmprestimos() {
         const query = `SELECT * FROM biblioteca.emprestimo ORDER BY id ASC`;
         try {
@@ -69,15 +56,6 @@ class EmprestimoRepository {
             return [];
         }
     }
-    // RegistraDataDevolucao(id:number):Emprestimo|undefined{
-    //     const devolucao = this.EmprestimoLista.find(e=>e.id === id);
-    //     const hoje : Date = new Date();
-    //     if(devolucao){
-    //         devolucao.data_entrega = hoje; 
-    //         return devolucao;
-    //     }
-    //     throw new Error("Emprestimo não encontrado");
-    // }
     async RegistraDataDevolucao(id) {
         const query = `SELECT * FROM biblioteca.emprestimo WHERE id = ?`;
         const resultado = await (0, mysql_1.executarComandoSQL)(query, [id]);
@@ -94,11 +72,6 @@ class EmprestimoRepository {
         const query = `UPDATE biblioteca.emprestimo SET data_entrega = ? WHERE id = ?`;
         await (0, mysql_1.executarComandoSQL)(query, [data, id]);
     }
-    // VerificaEmprestimosAtivosUsuarios(cpf:string):Emprestimo[]{ // retorna quantos empréstimos ativos o usuário tem
-    //     return this.EmprestimoLista.filter(e=>e.cpf_usuario === cpf
-    //         && e.data_entrega === null
-    //      );
-    // }
     async VerificaEmprestimosAtivosUsuarios(cpf_usuario) {
         const query = `SELECT COUNT(*) as total FROM biblioteca.emprestimo 
         WHERE cpf_usuario = ? and data_entrega is null`;
@@ -108,13 +81,6 @@ class EmprestimoRepository {
         }
         return 0;
     }
-    // BuscaEmprestimoPorId(id:number):Emprestimo{
-    //     const emp = this.EmprestimoLista.find(e=>e.id === id);
-    //     if(!emp){
-    //         throw new Error("Emprestimo nao encontrado");
-    //     }
-    //     return emp;
-    // }
     async BuscaEmprestimoPorId(id) {
         const query = `SELECT * FROM biblioteca.emprestimo WHERE id = ?`;
         const resultado = await (0, mysql_1.executarComandoSQL)(query, [id]);
@@ -123,9 +89,6 @@ class EmprestimoRepository {
         }
         return false;
     }
-    // BuscaEmprestimoPorUsuario(cpf_usuario:string):Emprestimo[]{
-    //     return this.EmprestimoLista.filter(e=>e.cpf_usuario === cpf_usuario);
-    // }
     async BuscaEmprestimoPorCpf(cpf_usuario) {
         const query = `SELECT * FROM biblioteca.emprestimo WHERE cpf_usuario = ?`;
         const resultado = await (0, mysql_1.executarComandoSQL)(query, [cpf_usuario]);
