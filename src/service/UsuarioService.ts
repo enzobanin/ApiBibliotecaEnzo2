@@ -3,7 +3,7 @@ import { UsuarioRepository } from "../repository/UsuarioRepository";
 import { CursoService } from "./CursoService";
 import { CategoriaUsuarioService } from "./CategoriaUsuarioService";
 // import { EmprestimoService } from "./EmprestimoService";
-
+import { UsuarioDto } from "../model/dto/UsuarioDto";
 export class UsuarioService{
     private static instance : UsuarioService;
     private usuarioRepository = UsuarioRepository.getInstance();
@@ -119,7 +119,7 @@ export class UsuarioService{
         }
         return usuario;
     }
-    async UpdateUsuarioPorCPF(cpf:string, usuarioNovo:Usuario):Promise<Usuario>{
+    async UpdateUsuarioPorCPF(cpf:string, usuarioNovo:UsuarioDto):Promise<Usuario>{
         const usuario = await this.usuarioRepository.UpdateUsuarioPorCPF(cpf,usuarioNovo);
         if(!usuario){
             throw new Error("Não foi possível atualizar o usuário")

@@ -2,6 +2,7 @@ import { Usuario } from "../model/entidades/Usuario";
 import { CursoRepository } from "./CursoRepository";
 import { CategoriaUsuarioRepository } from "./CategoriaUsuarioRepository";
 import { executarComandoSQL } from "../database/mysql";
+import { UsuarioDto } from "../model/dto/UsuarioDto";
 
 export class UsuarioRepository{
     private static instance : UsuarioRepository;
@@ -152,7 +153,7 @@ export class UsuarioRepository{
     //     return false;
     // }
 
-    async UpdateUsuarioPorCPF(cpf:string,usuarioNovo:Usuario):Promise<Usuario|undefined>{
+    async UpdateUsuarioPorCPF(cpf:string,usuarioNovo:UsuarioDto):Promise<Usuario|undefined>{
         const usuarioAtual = `UPDATE biblioteca.usuario SET
         nome = ?, cpf = ?, email = ?, categoria_id = ?, curso_id = ?
         WHERE cpf = ?`;
