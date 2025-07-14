@@ -38,9 +38,10 @@ export class UsuarioRepository{
     // InsereUsuario(usuario:Usuario):void{
     //     this.UsuarioLista.push(usuario);
     // }
-    async InsertUsuario(nome:string,cpf:string,email:string,ativo:'ativo',
+    async InsertUsuario(nome:string,cpf:string,email:string,
         categoria_id:number,curso_id:number
     ):Promise<Usuario>{
+        const ativo ='ativo'
         const resultado = await executarComandoSQL(
             `INSERT INTO biblioteca.usuario(
             nome,cpf,email,ativo,categoria_id,curso_id)
@@ -241,15 +242,15 @@ export class UsuarioRepository{
     //     return false;
     // }
     
-    // async VerificaEmailExistente(email:string):Promise<boolean>{
-    //     const query = `SELECT * FROM biblioteca.usuario
-    //     WHERE email = ?`;
-    //     const resultado = await executarComandoSQL(query,[email]);
-    //     if(resultado.length>0){
-    //         return true;
-    //     }
-    //     return false;
-    // }
+    async VerificaEmailExistente(email:string):Promise<boolean>{
+        const query = `SELECT * FROM biblioteca.usuario
+        WHERE email = ?`;
+        const resultado = await executarComandoSQL(query,[email]);
+        if(resultado.length>0){
+            return true;
+        }
+        return false;
+    }
 
     async ValidaCpf(cpf:string):Promise<boolean>{
         if(cpf.length != 11){

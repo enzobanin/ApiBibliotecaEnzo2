@@ -1,6 +1,5 @@
 import { EstoqueEntradaDto } from "../model/dto/EstoqueEntradaDto";
 import { EstoqueSaidaDto } from "../model/dto/EstoqueSaidaDto";
-import { Estoque } from "../model/entidades/Estoque";
 import { EstoqueRepository } from "../repository/EstoqueRepository";
 import { LivroService } from "./LivroService";
 

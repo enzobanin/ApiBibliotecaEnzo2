@@ -32,6 +32,7 @@ export class LivroService{
     async VerificaCategoria(categoria_id:number):Promise<void>{
         this.categoriaLivroService.SelectCategoriaLivroPorId(categoria_id);
     }
+
     async InsertLivro(data:any):Promise<Livro>{
         const{titulo, autor, editora, edicao,isbn, categoria_id} = data;
         if(!titulo||!autor||!editora||!edicao||!isbn||!categoria_id){
@@ -75,7 +76,7 @@ export class LivroService{
         editora?:string;
         categoria_id?:number; 
     }):Promise<Livro[]>{
-        return this.livroRepository.SelectLivroFiltros(filtros);
+        return await this.livroRepository.SelectLivroFiltros(filtros);
     }
     // ListaLivrosFiltrados(query: {titulo?: string; autor?: string;
     // editora?: string; categoria_id?: number;}): Livro[] {
