@@ -4,7 +4,7 @@ import { Body,Controller,Delete,Get,Path,Post,Put,Query,Res,
  } from "tsoa";
 import { BasicResponseDto } from "../model/dto/BasicResponseDto";
 import { CategoriaUsuario } from "../model/entidades/CategoriaUsuario";
-@Route("catalogos/categorias_usuario")
+@Route("catalogos/categorias-usuario")
 @Tags("Categoria Usuário")
 
 export class CategoriaUsuarioController extends Controller{

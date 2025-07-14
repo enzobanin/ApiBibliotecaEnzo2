@@ -4,7 +4,7 @@ import { Body,Controller,Delete,Get,Path,Post,Put,Query,Res,
  } from "tsoa";
 import { BasicResponseDto } from "../model/dto/BasicResponseDto";
 import { CategoriaLivro } from "../model/entidades/CategoriaLivro";
-@Route("catalogos/categorias_livro")
+@Route("catalogos/categorias-livro")
 @Tags("Categoria Livro")
 export class CategoriaLivroController extends Controller{
     categoriaLivroService = CategoriaLivroService.getInstance();
