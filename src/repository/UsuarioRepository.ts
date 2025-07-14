@@ -27,7 +27,7 @@ export class UsuarioRepository{
             email VARCHAR(255) NOT NULL,
             ativo VARCHAR(255) NOT NULL,
             categoria_id INT NOT NULL,
-            curso_id INT NOT NULL,
+            curso_id INT NOT NULL
             )`;
             try{
                 const resultado = await executarComandoSQL(query,[]);

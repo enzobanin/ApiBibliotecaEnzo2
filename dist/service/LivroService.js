@@ -64,7 +64,7 @@ class LivroService {
     //     return NovoLivro;
     // }
     async SelectLivrosFiltrados(filtros) {
-        return this.livroRepository.SelectLivroFiltros(filtros);
+        return await this.livroRepository.SelectLivroFiltros(filtros);
     }
     // ListaLivrosFiltrados(query: {titulo?: string; autor?: string;
     // editora?: string; categoria_id?: number;}): Livro[] {

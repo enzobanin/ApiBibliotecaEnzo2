@@ -3,6 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RegisterRoutes = RegisterRoutes;
 const runtime_1 = require("@tsoa/runtime");
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+const UsuarioController_1 = require("./../controller/UsuarioController");
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 const LivroController_1 = require("./../controller/LivroController");
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 const EstoqueController_1 = require("./../controller/EstoqueController");
@@ -14,15 +16,14 @@ const CategoriaUsuarioController_1 = require("./../controller/CategoriaUsuarioCo
 const CategoriaLivroController_1 = require("./../controller/CategoriaLivroController");
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 const models = {
-    "LivroDto": {
+    "UsuarioDto": {
         "dataType": "refObject",
         "properties": {
-            "titulo": { "dataType": "string", "required": true },
-            "autor": { "dataType": "string", "required": true },
-            "editora": { "dataType": "string", "required": true },
-            "edicao": { "dataType": "string", "required": true },
-            "isbn": { "dataType": "string", "required": true },
+            "nome": { "dataType": "string", "required": true },
+            "cpf": { "dataType": "string", "required": true },
+            "email": { "dataType": "string", "required": true },
             "categoria_id": { "dataType": "double", "required": true },
+            "curso_id": { "dataType": "double", "required": true },
         },
         "additionalProperties": false,
     },
@@ -32,6 +33,33 @@ const models = {
         "properties": {
             "message": { "dataType": "string", "required": true },
             "object": { "dataType": "any", "required": true },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Usuario": {
+        "dataType": "refObject",
+        "properties": {
+            "id": { "dataType": "double", "required": true },
+            "nome": { "dataType": "string", "required": true },
+            "cpf": { "dataType": "string", "required": true },
+            "email": { "dataType": "string", "required": true },
+            "ativo": { "dataType": "union", "subSchemas": [{ "dataType": "enum", "enums": ["ativo"] }, { "dataType": "enum", "enums": ["inativo"] }, { "dataType": "enum", "enums": ["suspenso"] }], "required": true },
+            "categoria_id": { "dataType": "double", "required": true },
+            "curso_id": { "dataType": "double", "required": true },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "LivroDto": {
+        "dataType": "refObject",
+        "properties": {
+            "titulo": { "dataType": "string", "required": true },
+            "autor": { "dataType": "string", "required": true },
+            "editora": { "dataType": "string", "required": true },
+            "edicao": { "dataType": "string", "required": true },
+            "isbn": { "dataType": "string", "required": true },
+            "categoria_id": { "dataType": "double", "required": true },
         },
         "additionalProperties": false,
     },
@@ -106,6 +134,135 @@ function RegisterRoutes(app) {
     //  NOTE: If you do not see routes for all of your controllers in this file, then you might not have informed tsoa of where to look
     //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
     // ###########################################################################################################
+    const argsUsuarioController_CadastrarUsuario = {
+        dto: { "in": "body", "name": "dto", "required": true, "ref": "UsuarioDto" },
+        fail: { "in": "res", "name": "400", "required": true, "ref": "BasicResponseDto" },
+        success: { "in": "res", "name": "201", "required": true, "ref": "BasicResponseDto" },
+    };
+    app.post('/usuarios', ...((0, runtime_1.fetchMiddlewares)(UsuarioController_1.UsuarioController)), ...((0, runtime_1.fetchMiddlewares)(UsuarioController_1.UsuarioController.prototype.CadastrarUsuario)), async function UsuarioController_CadastrarUsuario(request, response, next) {
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        let validatedArgs = [];
+        try {
+            validatedArgs = templateService.getValidatedArgs({ args: argsUsuarioController_CadastrarUsuario, request, response });
+            const controller = new UsuarioController_1.UsuarioController();
+            await templateService.apiHandler({
+                methodName: 'CadastrarUsuario',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+            });
+        }
+        catch (err) {
+            return next(err);
+        }
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    const argsUsuarioController_ListaTodosUsuarios = {
+        fail: { "in": "res", "name": "400", "required": true, "ref": "BasicResponseDto" },
+        success: { "in": "res", "name": "201", "required": true, "ref": "BasicResponseDto" },
+        nome: { "in": "query", "name": "nome", "dataType": "string" },
+        ativo: { "in": "query", "name": "ativo", "dataType": "union", "subSchemas": [{ "dataType": "enum", "enums": ["ativo"] }, { "dataType": "enum", "enums": ["inativo"] }, { "dataType": "enum", "enums": ["suspenso"] }] },
+        categoria_id: { "in": "query", "name": "categoria_id", "dataType": "double" },
+        curso_id: { "in": "query", "name": "curso_id", "dataType": "double" },
+    };
+    app.get('/usuarios', ...((0, runtime_1.fetchMiddlewares)(UsuarioController_1.UsuarioController)), ...((0, runtime_1.fetchMiddlewares)(UsuarioController_1.UsuarioController.prototype.ListaTodosUsuarios)), async function UsuarioController_ListaTodosUsuarios(request, response, next) {
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        let validatedArgs = [];
+        try {
+            validatedArgs = templateService.getValidatedArgs({ args: argsUsuarioController_ListaTodosUsuarios, request, response });
+            const controller = new UsuarioController_1.UsuarioController();
+            await templateService.apiHandler({
+                methodName: 'ListaTodosUsuarios',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+            });
+        }
+        catch (err) {
+            return next(err);
+        }
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    const argsUsuarioController_ListaUsuarioPorCPF = {
+        fail: { "in": "res", "name": "400", "required": true, "ref": "BasicResponseDto" },
+        success: { "in": "res", "name": "201", "required": true, "ref": "BasicResponseDto" },
+        cpf: { "in": "query", "name": "cpf", "required": true, "dataType": "string" },
+    };
+    app.get('/usuarios/cpf', ...((0, runtime_1.fetchMiddlewares)(UsuarioController_1.UsuarioController)), ...((0, runtime_1.fetchMiddlewares)(UsuarioController_1.UsuarioController.prototype.ListaUsuarioPorCPF)), async function UsuarioController_ListaUsuarioPorCPF(request, response, next) {
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        let validatedArgs = [];
+        try {
+            validatedArgs = templateService.getValidatedArgs({ args: argsUsuarioController_ListaUsuarioPorCPF, request, response });
+            const controller = new UsuarioController_1.UsuarioController();
+            await templateService.apiHandler({
+                methodName: 'ListaUsuarioPorCPF',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+            });
+        }
+        catch (err) {
+            return next(err);
+        }
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    const argsUsuarioController_AtualizaUsuarioPorCpf = {
+        fail: { "in": "res", "name": "400", "required": true, "ref": "BasicResponseDto" },
+        success: { "in": "res", "name": "201", "required": true, "ref": "BasicResponseDto" },
+        cpf: { "in": "query", "name": "cpf", "required": true, "dataType": "string" },
+        dto: { "in": "body", "name": "dto", "required": true, "ref": "UsuarioDto" },
+    };
+    app.put('/usuarios/cpf', ...((0, runtime_1.fetchMiddlewares)(UsuarioController_1.UsuarioController)), ...((0, runtime_1.fetchMiddlewares)(UsuarioController_1.UsuarioController.prototype.AtualizaUsuarioPorCpf)), async function UsuarioController_AtualizaUsuarioPorCpf(request, response, next) {
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        let validatedArgs = [];
+        try {
+            validatedArgs = templateService.getValidatedArgs({ args: argsUsuarioController_AtualizaUsuarioPorCpf, request, response });
+            const controller = new UsuarioController_1.UsuarioController();
+            await templateService.apiHandler({
+                methodName: 'AtualizaUsuarioPorCpf',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+            });
+        }
+        catch (err) {
+            return next(err);
+        }
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    const argsUsuarioController_DeletaUsuarioPorCPF = {
+        fail: { "in": "res", "name": "400", "required": true, "ref": "BasicResponseDto" },
+        success: { "in": "res", "name": "201", "required": true, "ref": "BasicResponseDto" },
+        cpf: { "in": "query", "name": "cpf", "required": true, "dataType": "string" },
+    };
+    app.delete('/usuarios/cpf', ...((0, runtime_1.fetchMiddlewares)(UsuarioController_1.UsuarioController)), ...((0, runtime_1.fetchMiddlewares)(UsuarioController_1.UsuarioController.prototype.DeletaUsuarioPorCPF)), async function UsuarioController_DeletaUsuarioPorCPF(request, response, next) {
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        let validatedArgs = [];
+        try {
+            validatedArgs = templateService.getValidatedArgs({ args: argsUsuarioController_DeletaUsuarioPorCPF, request, response });
+            const controller = new UsuarioController_1.UsuarioController();
+            await templateService.apiHandler({
+                methodName: 'DeletaUsuarioPorCPF',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+            });
+        }
+        catch (err) {
+            return next(err);
+        }
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     const argsLivroController_CadastrarLivro = {
         dto: { "in": "body", "name": "dto", "required": true, "ref": "LivroDto" },
         fail: { "in": "res", "name": "400", "required": true, "ref": "BasicResponseDto" },
