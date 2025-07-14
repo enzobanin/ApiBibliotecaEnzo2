@@ -20,22 +20,22 @@ export class UsuarioRepository{
         return this.instance;
     }
     private async CreateTableUsuario(){
-            const query = `CREATE TABLE IF NOT EXISTS biblioteca.usuario(
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            nome VARCHAR(255) NOT NULL,
-            cpf VARCHAR(255) NOT NULL,
-            email VARCHAR(255) NOT NULL,
-            ativo VARCHAR(255) NOT NULL,
-            categoria_id INT NOT NULL,
-            curso_id INT NOT NULL
-            )`;
-            try{
-                const resultado = await executarComandoSQL(query,[]);
-                console.log('Tabela Usuario criada com sucesso: ', resultado);
-            }catch(err){
-                console.error('Erro ao criar tabela usuario: ', err);
-            }
+        const query = `CREATE TABLE IF NOT EXISTS biblioteca.usuario(
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        nome VARCHAR(255) NOT NULL,
+        cpf VARCHAR(255) NOT NULL,
+        email VARCHAR(255) NOT NULL,
+        ativo VARCHAR(255) NOT NULL,
+        categoria_id INT NOT NULL,
+        curso_id INT NOT NULL
+        )`;
+        try{
+            const resultado = await executarComandoSQL(query,[]);
+            console.log('Tabela Usuario criada com sucesso: ', resultado);
+        }catch(err){
+            console.error('Erro ao criar tabela usuario: ', err);
         }
+    }
     // InsereUsuario(usuario:Usuario):void{
     //     this.UsuarioLista.push(usuario);
     // }
