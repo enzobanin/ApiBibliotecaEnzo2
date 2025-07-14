@@ -1,5 +1,6 @@
 import { executarComandoSQL } from "../database/mysql";
 import { Emprestimo } from "../model/entidades/Emprestimo";
+import { Estoque } from "../model/entidades/Estoque";
 
 export class EmprestimoRepository{
     private static instance: EmprestimoRepository;
@@ -37,12 +38,46 @@ export class EmprestimoRepository{
     // RegistraEmprestimo(emp:Emprestimo):void{
     //     this.EmprestimoLista.push(emp);
     // }
-    
+    async InsertEmprestimo(cpf_usuario:string,isbn_livro:string):Promise<Emprestimo>{
+        const data_emprestimo = new Date();
+        const data_devolucao = null;
+        const data_entrega = null;
+        const dias_atraso = 0;
+        const suspensao_ate = null;
+
+        const resultado = await executarComandoSQL(
+            `INSERT INTO biblioteca.emprestimo(cpf_usuario,isbn_livro,
+            data_emprestimo,data_devolucao,data_entrega,
+            dias_atraso,suspensao_ate)
+            VALUES 
+            (?, ?, ?, ?, ?, ?, ?);
+            `,
+            [cpf_usuario,isbn_livro,data_emprestimo,data_devolucao,
+                data_entrega,dias_atraso,suspensao_ate
+            ]);
+            console.log('Emprestimo inserido com sucesso: ', resultado);
+            return new Emprestimo(resultado.insertId,cpf_usuario,
+                isbn_livro,data_emprestimo,data_devolucao,data_entrega,
+                dias_atraso,suspensao_ate
+            )
+    }
 
     // MostraTodosOsEmprestimos():Emprestimo[]{
     //     return this.EmprestimoLista;
     // }
-
+    async SelectEmprestimos():Promise<Emprestimo[]>{
+        const query = `SELECT * FROM biblioteca.emprestimo ORDER BY id ASC`;
+        try{
+            const resultado = await executarComandoSQL(query,[]);
+            return resultado.map((r:any)=>new Emprestimo(r.id,r.cpf_usuario,
+                r.isbn_livro,r.data_emprestimo,r.data_devolucao,
+                r.data_entrega,r.dias_atraso,r.suspensao_ate
+            ))
+        }catch(err){
+            console.log('Não foi possível exibir os emprestimos',err);
+            return [];
+        }
+    }
 
     // RegistraDataDevolucao(id:number):Emprestimo|undefined{
     //     const devolucao = this.EmprestimoLista.find(e=>e.id === id);
@@ -54,12 +89,36 @@ export class EmprestimoRepository{
     //     throw new Error("Emprestimo não encontrado");
     // }
 
+    async RegistraDataDevolucao(id:number):Promise<Emprestimo|undefined>{
+        const query = `SELECT * FROM biblioteca.emprestimo WHERE id = ?`;
+        const resultado = await executarComandoSQL(query,[id]);
+        if(resultado.length>0){
+            const r = resultado[0];
+            const e = new Emprestimo(r.id,r.cpf_usuario,r.isbn_livro,
+                r.data_emprestimo,r.data_devolucao,r.data_entrega,
+                r.dias_atraso,r.suspensao_ate
+            )
+            e.data_entrega = new Date();
+            return e;
+        }
+        return resultado;
+    }
 
     // VerificaEmprestimosAtivosUsuarios(cpf:string):Emprestimo[]{ // retorna quantos empréstimos ativos o usuário tem
     //     return this.EmprestimoLista.filter(e=>e.cpf_usuario === cpf
     //         && e.data_entrega === null
     //      );
     // }
+
+    async VerificaEmprestimosAtivosUsuarios(cpf_usuario:string):Promise<number>{
+        const query = `SELECT COUNT(*) as total FROM biblioteca.emprestimo 
+        WHERE cpf_usuario = ? and data_entrega is null`;
+        const resultado = await executarComandoSQL(query,[cpf_usuario]);
+        if(resultado.length>0){
+            return resultado[0].total
+        }
+        return 0;
+    }
 
 
     // BuscaEmprestimoPorId(id:number):Emprestimo{
@@ -69,8 +128,25 @@ export class EmprestimoRepository{
     //     }
     //     return emp;
     // }
+
+    async BuscaEmprestimoPorId(id:number):Promise<boolean>{
+        const query = `SELECT * FROM biblioteca.emprestimo WHERE id = ?`;
+        const resultado = await executarComandoSQL(query,[id]);
+        if(resultado.length>0){
+            return true;
+        }
+        return false;
+    }
     
     // BuscaEmprestimoPorUsuario(cpf_usuario:string):Emprestimo[]{
     //     return this.EmprestimoLista.filter(e=>e.cpf_usuario === cpf_usuario);
     // }
+    async BuscaEmprestimoPorCpf(cpf_usuario:string):Promise<boolean>{
+        const query = `SELECT * FROM biblioteca.emprestimo WHERE cpf_usuario = ?`;
+        const resultado = await executarComandoSQL(query,[cpf_usuario]);
+        if(resultado.length>0){
+            return true;
+        }
+        return false;
+    }
 }
